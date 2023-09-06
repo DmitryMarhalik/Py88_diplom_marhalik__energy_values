@@ -1,0 +1,15 @@
+{% extends 'evop/basis.html' %}
+
+{% block page %}
+    <h2 align="center">All categories</h2>
+    <ul class="list-articles">
+        {% for f in foods %}
+            <ul>
+                <li><a style="font-size: large"
+                       href="{% url 'show_food' f.pk %}">{{ f.name }} &nbsp&nbsp&nbsp
+                       category: {{ f.category.name }}</a>
+            </ul>
+        {% endfor %}
+    </ul>
+{% endblock %}
+

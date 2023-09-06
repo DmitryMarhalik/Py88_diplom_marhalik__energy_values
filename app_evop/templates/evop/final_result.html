@@ -1,0 +1,35 @@
+{% extends 'evop/basis.html' %}
+
+{% block page %}
+    {% if not message %}
+        <h1 align="center">Your result:</h1>
+        <table cellpadding="5px" border="3rem solid" align="center">
+            <tr class="tr">
+                <th>nutrients and kcal</th>
+                <th>total amount, gr</th>
+            </tr>
+            {% for name, value in energy_values.items %}
+                <tr class="tr2">
+                    <td>{{ name }}</td>
+                    <td>{{ value }} </td>
+                </tr>
+            {% endfor %}
+        </table><br>
+        <table cellpadding="10px" border="3rem solid" align="center">
+            <tr class="tr">
+                <th>products or dishes</th>
+                <th>number of uses</th>
+
+            </tr>
+            {% for name,count in count_product.items %}
+                <tr class="tr2">
+                <td>{{ name }}</td>
+                <td>{{ count }} times</td>
+                </tr>
+            {% endfor %}
+        </table><br>
+    {% else %}
+        <h1>{{ message }}</h1>
+    {% endif %}
+{% endblock %}
+

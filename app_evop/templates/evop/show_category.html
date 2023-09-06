@@ -1,0 +1,11 @@
+{% extends 'evop/basis.html' %}
+
+{% block page %}
+    <h2 align="center">{{ title }}</h2>
+    <ul>
+        {% for f in foods %}
+            <li><h2>{{ f.name }}</h2>
+        {% endfor %}
+    </ul>
+{% endblock %}
+

@@ -1,0 +1,17 @@
+{% extends 'evop/basis.html' %}
+{% block page %}
+    {% if username %}
+        <h1 align="center" style="color: green">Hello, {{ username }}!</h1>
+
+    {% elif food %}
+        <h1 align="center" style="color: green">Succes added {{ food }} product!</h1>
+    {% elif feedbackname%}
+        <h1 align="center" style="color: green">{{ feedbackname }} , the message has been send successfully.</h1>
+    {% elif reg_user %}
+          <h1  align="center" style="color: green">Hello, {{ reg_user }}! You have been successfully registered. </h1>
+    {% elif intake %}
+         <h1 align="center" style="color: green">Succes added intake {{ intake }}!</h1>
+    {% endif %}
+    <a style="font-size: small" href="{% url 'home' %}">⬅ Go back homepage</a>
+{% endblock %}
+

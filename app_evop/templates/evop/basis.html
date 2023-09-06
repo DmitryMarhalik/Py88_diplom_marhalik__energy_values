@@ -1,0 +1,109 @@
+{% load static %}
+{% load app_evop_tags %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>{{ title }}</title>
+    <link type="text/css" href="{% static 'evop/css/styles.css' %}" rel="stylesheet"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="shortcut icon" href="{% static 'evop/images/page.png' %}" type="image/x-icon"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+<table class="table-page" border=0 cellpadding="0" cellspacing="0">
+    <tr>
+        <td>
+            {% block mainmenu %}
+                <div class="header">
+                    <ul id="mainmenu" class="mainmenu">
+                        <li class="logo"><a href="{% url 'home' %}">
+                            <div class="logo"></div>
+                        </a></li>
+                        {% for t in tabs %}
+                            <li><a href="{% url t.url_name %}">{{ t.title }}</a></li>
+                        {% endfor %}
+                        {% if request.user.is_authenticated %}
+                            <li class="last">{{ user.username }} ✔ | ✖ <a href="{% url 'sign_out' %}">Exit</a></li>
+                        {% else %}
+                            <li class="last">
+                                <a href="{% url 'sign_up' %}">Sign Up 👤 </a> |
+                                <a href="{% url 'sign_in' %}">Sign In 🔑</a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                    <div class="clear"></div>
+                </div>
+            {% endblock mainmenu %}
+            <table class="table-content" border=0 cellpadding="0" cellspacing="0">
+                <tr>
+                    <!-- Sidebar left -->
+                    <td class="left-chapters" style="vertical-align: top">
+                        <ul id="leftchapters">
+                            {% if cat_selected == 'all_foods' %}
+                                <li class="all_cats">All categories</li>
+                            {% else %}
+                                <li><a class="all_cats"  href="{% url 'all_foods' %}">All categories</a></li>
+                            {% endif %}
+
+                            {% show_categories cat_selected=cat_selected %}
+
+                            <li class="share">
+                                <p style="font-style: normal">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                                    ⬇ Telegram Bot ⬇</p>
+                                <a class="share-yt" href="https://t.me/CalcEvopBot" target="_blank" rel="nofollow"></a>
+                            </li>
+                        </ul>
+                    </td>
+                    <!-- End Sidebar'а -->
+                    <td style="vertical-align: top" class="content">
+                        <!-- Block page -->
+                        <div class="content-text">
+                            {% block page %}
+                            {% endblock %}
+                            <!-- End block page -->
+                            <!-- Pagination -->
+                            {% if page_obj.has_other_pages %}
+                                <nav class="list-pages">
+                                    <ul>
+                                        {% if page_obj.has_previous %}
+                                            <li class="page-num">
+                                                <a href="?page={{ page_obj.previous_page_number }}">&lt;</a>
+                                            </li>
+                                        {% endif %}
+                                        {% for p in paginator.page_range %}
+                                            {% if page_obj.number == p %}
+                                                <li class="page-num page-num-selected">{{ p }}</li>
+                                            {% elif p >= page_obj.number|add:-2 and p <= page_obj.number|add:2 %}
+                                                <li class="page-num">
+                                                    <a href="?page={{ p }}">{{ p }}</a>
+                                                </li>
+                                            {% endif %}
+                                        {% endfor %}
+
+                                        {% if page_obj.has_next %}
+                                            <li class="page-num">
+                                                <a href="?page={{ page_obj.next_page_number }}">&gt;</a>
+                                            </li>
+                                        {% endif %}
+                                    </ul>
+                                </nav>
+                            {% endif %}
+                        </div>
+                        <!-- End pagination -->
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <!-- Footer -->
+    <tr>
+        <td>
+            <div id="footer">
+                <p>dmitrymarhalik@gmail.com.</p>
+            </div>
+        </td>
+    </tr>
+</table>
+<!-- End Footer-->
+</body>
+</html>
