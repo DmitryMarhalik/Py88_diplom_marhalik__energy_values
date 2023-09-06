@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.utils.safestring import mark_safe
 
-from .models import *
+from app_evop.models import Food, Category, Intake
 
 
 class FoodAdmin(admin.ModelAdmin):
@@ -19,8 +19,6 @@ class FoodAdmin(admin.ModelAdmin):
         else:
             return mark_safe(f'<img src="/media/{instance.image}" style ="max-width:40px">')
 
-
-# 'image_food/%Y/%m/%d'
 
 class CategoryAdmin(admin.ModelAdmin):
     list_display = ('id', 'name')

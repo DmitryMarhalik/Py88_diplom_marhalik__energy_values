@@ -1,4 +1,4 @@
-from .models import Category
+# from .models import Category
 
 tabs = [{'title': 'Add Food 🍟', 'url_name': 'add_food'},
         {'title': 'Intake 📅', 'url_name': 'intake'},
@@ -10,8 +10,9 @@ tabs = [{'title': 'Add Food 🍟', 'url_name': 'add_food'},
 class ContextMixin:
 
     def get_user_context(self, **kwargs):
+        print('mixin', {**kwargs})
         context = kwargs
-        categories = Category.objects.all()
+        # categories = Category.objects.all()
         menu = tabs.copy()
         if not self.request.user.is_authenticated:
             del menu[:3]

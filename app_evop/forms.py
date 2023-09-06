@@ -2,8 +2,7 @@ from captcha.fields import CaptchaField
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 
-from .models import *
-import math
+from app_evop.models import Food, Intake, User
 
 
 class AddFoodForm(forms.ModelForm):
@@ -15,10 +14,6 @@ class AddFoodForm(forms.ModelForm):
     class Meta:
         model = Food
         fields = ['name', 'bar_code', 'proteins', 'fats', 'carbohydrates', 'kcal', 'category', 'image']
-        # widgets = {
-        #     'name': forms.TextInput(attrs={'class': 'form-control'}),
-        #     'image': forms.FileInput(attrs={'class': 'form-control'}),
-        # }
 
 
 class IntakeForm(forms.ModelForm):
