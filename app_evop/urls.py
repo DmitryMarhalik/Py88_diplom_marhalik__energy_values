@@ -1,5 +1,5 @@
 from django.urls import path
-from django.views.decorators.cache import cache_page
+# from django.views.decorators.cache import cache_page
 
 from app_evop.views import (HomePage, AddFood, AddIntake, AllFoods, CalculetionResult, SignUp, SignIn,
                             ShowCategory, FeedBack, show_food, success, sign_out_user)
