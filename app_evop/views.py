@@ -14,7 +14,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.conf import settings
 
 from app_evop.forms import IntakeForm, AddFoodForm, CalculationResultForm, RegisterUserForm, FeedbackForm
-from app_evop.models import Food, Intake, Category
+from app_evop.models import Food, Intake
 from app_evop.utils import ContextMixin, tabs
 
 
