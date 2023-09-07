@@ -24,7 +24,7 @@ class CategoryAdmin(admin.ModelAdmin):
     list_display = ('id', 'name')
     list_display_links = ('id', 'name')
     search_fields = ('name',)
-    prepopulated_fields = {"slug": ("name",)}
+    prepopulated_fields = {"slug": ("name",)} # auto add slug when add name
 
 
 class IntakeAdmin(admin.ModelAdmin):

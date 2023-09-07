@@ -6,9 +6,6 @@ register = template.Library()
 
 @register.inclusion_tag('evop/list_categories.html')
 def show_categories(cat_selected=0):
-    # if not sort:
-    #     cats = Category.objects.all()
-    # else:
-    cats = Category.objects.all()
 
+    cats = Category.objects.all()
     return {"categories": cats, "cat_selected": cat_selected}
