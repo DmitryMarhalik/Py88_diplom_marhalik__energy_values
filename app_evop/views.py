@@ -116,7 +116,7 @@ class CalculetionResult(ContextMixin, FormView):
     def post(self, request, *args, **kwargs):
         context = self.get_user_context()
         days = request.POST.get('days')
-        energy_values, count_of_products, message = intakes_between_days(self, request, days)
+        energy_values, count_of_products, message = intakes_between_days(request, days)
         context = {'tabs': context['tabs'], 'categories': context['categories'],
                    'title': 'Final calculation',
                    'energy_values': energy_values,
@@ -156,10 +156,9 @@ class FeedBack(ContextMixin, FormView):  # Formview не привязано к �
                       email,
                       [settings.EMAIL_HOST_USER]
                       )
-        except BadHeaderError:  # BadHeaderError, чтобы предотвратить вставку злоумышленниками
-            # дополнительных заголовков
-            # электронной почты. Если обнаружен “плохой заголовок”,
-            # то представление вернет клиенту HttpResponse с текстом “Incorrect header found”.
+        except BadHeaderError:  #  BadHeaderError, чтобы предотвратить вставку злоумышленниками
+                                #  дополнительных заголовков электронной почты. Если обнаружен “плохой заголовок”,
+                                #  то представление вернет клиенту HttpResponse с текстом “Incorrect header found”.
             return HttpResponse('Incorrect header found')
         return redirect('success', args={'feedback': name})
 

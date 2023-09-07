@@ -5,10 +5,10 @@ from django.utils import timezone
 from app_evop.models import Intake
 
 
-def intakes_between_days(self, request, days):
+def intakes_between_days(request, days):
     days_ago = timezone.now() - timedelta(days=int(days))
     all_intake_products = (Intake.objects.values('food__name', 'food__proteins', 'food__fats', 'food__carbohydrates',
-                                                 'food__kcal', 'gram').filter(user_id=self.request.user.id,
+                                                 'food__kcal', 'gram').filter(user_id=request.user.id,
                                                                               time__gte=days_ago))  # Queryset
     message = None
     if not all_intake_products:

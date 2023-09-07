@@ -8,6 +8,7 @@ from app_evop.views import pageNotFound
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('app_evop.urls')),
+    path('api/', include('api_evop.urls')),
     path('captcha/', include('captcha.urls'))
 ]
 

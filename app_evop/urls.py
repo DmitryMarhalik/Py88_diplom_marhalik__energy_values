@@ -10,7 +10,6 @@ urlpatterns = [
     # path('all-foods/', cache_page(60 * 15)(AllFoods.as_view()), name='all_foods'),
     path('all-foods/',AllFoods.as_view(), name='all_foods'),
     path('add-food/', AddFood.as_view(), name='add_food'),
-    # path('succsess-add-food/<str:food>/', success_add_food, name='success_add_food'),
     path('food/<int:food_id>/', show_food, name='show_food'),
     path('intake/', AddIntake.as_view(), name='intake'),
     path('caclulation', CalculetionResult.as_view(), name='calculation_result'),
