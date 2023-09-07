@@ -1,5 +1,5 @@
 {% load static %}
-{% load app_evop_tags %}
+{#{% load app_evop_tags %}#}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -42,11 +42,15 @@
                             {% if cat_selected == 'all_foods' %}
                                 <li class="all_cats">All categories</li>
                             {% else %}
-                                <li><a class="all_cats"  href="{% url 'all_foods' %}">All categories</a></li>
+                                <li><a class="all_cats" href="{% url 'all_foods' %}">All categories</a></li>
                             {% endif %}
-
-                            {% show_categories cat_selected=cat_selected %}
-
+                            {% for c in categories %}
+                                {% if c.slug == cat_selected %}
+                                    <li class="selected">{{ c.name }}</li>
+                                {% else %}
+                                    <li><a href="{{ c.get_absolute_url }}">{{ c.name }}</a></li>
+                                {% endif %}
+                            {% endfor %}
                             <li class="share">
                                 <p style="font-style: normal">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
                                     ⬇ Telegram Bot ⬇</p>
