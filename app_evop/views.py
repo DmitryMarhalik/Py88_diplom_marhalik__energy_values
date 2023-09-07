@@ -1,7 +1,3 @@
-from collections import Counter
-from datetime import timedelta
-
-from django.utils import timezone
 from django.contrib.auth import logout
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.views import LoginView
@@ -10,12 +6,12 @@ from django.http import HttpResponseNotFound, HttpResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy, reverse
 from django.views.generic import ListView, CreateView, FormView
-from django.contrib.auth.mixins import LoginRequiredMixin
 from django.conf import settings
 
 from app_evop.forms import IntakeForm, AddFoodForm, CalculationResultForm, RegisterUserForm, FeedbackForm
-from app_evop.models import Food, Intake
+from app_evop.models import Food
 from app_evop.utils import ContextMixin, tabs, categories
+from app_evop.calculation_user_intakes import intakes_between_days
 
 
 class HomePage(ContextMixin, ListView):
@@ -74,7 +70,6 @@ class ShowCategory(ContextMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        print(context)
         user_context = self.get_user_context(title='Category : ' + str(context['foods'][0].category.name),
                                              cat_selected=context['foods'][0].category.slug)
         context.update(user_context)
@@ -85,7 +80,7 @@ class ShowCategory(ContextMixin, ListView):
         return Food.objects.filter(category__slug=cat_slug, be_confirmed=True).order_by('-id')
 
 
-class AddIntake(LoginRequiredMixin, ContextMixin, CreateView):
+class AddIntake(ContextMixin, CreateView):
     form_class = IntakeForm
     template_name = 'evop/intake.html'
 
@@ -108,48 +103,29 @@ class AddIntake(LoginRequiredMixin, ContextMixin, CreateView):
         return reverse('success', args=[{'intake': intake}])
 
 
-class CalculetionResult(ContextMixin, ListView):
-    paginate_by = 10
+class CalculetionResult(ContextMixin, FormView):
+    template_name = 'evop/calculation_result.html'
+    form_class = CalculationResultForm
 
-    def get(self, request, *args, **kwargs):
-        form = CalculationResultForm
-        context = self.get_user_context(title='Calculation')
-        return render(request, 'evop/calculation_result.html',
-                      context={'form': form, 'title': context['title'], 'tabs': context['tabs'],
-                               'categories': context['categories']})
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user_context = self.get_user_context(title='Calculation')
+        context.update(user_context)
+        return context
 
     def post(self, request, *args, **kwargs):
-        context = self.get_user_context(title='Calculation')
+        context = self.get_user_context()
         days = request.POST.get('days')
-        days_ago = timezone.now() - timedelta(days=int(days))
-        all_intake_product = (Intake.objects.values('food__name', 'food__proteins', 'food__fats',
-                                                    'food__carbohydrates', 'food__kcal', 'gram').
-                              filter(user_id=self.request.user.id, time__gte=days_ago))  # Queryset
-        message = None
-        if not all_intake_product:
-            message = 'You have not consumed anything for a given period of time.'
-            return render(request, 'evop/final_result.html',
-                          context={'tabs': context['tabs'],  'categories': context['categories'],
-                                   'title': 'No result', 'message': message})
-        else:
-            count_of_product = dict(
-                Counter(all_intake_product.values_list('food__name')))  # {('chips',): 1,('water',):1}
-            counts_of_products = dict(
-                sorted({k[0]: v for k, v in count_of_product.items()}.items()))  # {'chips': 1, 'water': 1}
-            proteins, fats, carbohydrates, kcal, gram = 0, 0, 0, 0, 0
-            for energy_value in all_intake_product:
-                proteins += float(energy_value['food__proteins']) * (float(energy_value['gram'] / 100))
-                fats += float(energy_value['food__fats']) * (float(energy_value['gram'] / 100))
-                carbohydrates += float(energy_value['food__carbohydrates']) * (float(energy_value['gram'] / 100))
-                kcal += float(energy_value['food__kcal']) * (float(energy_value['gram'] / 100))
-            dict_energy_values = {'proteins': round(proteins, 1), 'fats': round(fats, 1),
-                                  'carbohydrates': round(carbohydrates, 1), 'kcal': round(kcal, 1)}
-            return render(request, 'evop/final_result.html',
-                          context={'tabs': context['tabs'], 'categories': context['categories'],
-                                   'title': 'Final calculation',
-                                   'energy_values': dict_energy_values,
-                                   'count_product': counts_of_products, 'message': message
-                                   })
+        energy_values, count_of_products, message = intakes_between_days(self, request, days)
+        context = {'tabs': context['tabs'], 'categories': context['categories'],
+                   'title': 'Final calculation',
+                   'energy_values': energy_values,
+                   'count_product': count_of_products, 'message': message
+                   }
+        if not count_of_products:
+            context['title'] = 'No result'
+        return render(request, 'evop/final_result.html',
+                      context=context)
 
 
 class FeedBack(ContextMixin, FormView):  # Formview не привязано к модели

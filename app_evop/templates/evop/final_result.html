@@ -1,5 +1,4 @@
 {% extends 'evop/basis.html' %}
-
 {% block page %}
     {% if not message %}
         <h1 align="center">Your result:</h1>
@@ -19,12 +18,11 @@
             <tr class="tr">
                 <th>products or dishes</th>
                 <th>number of uses</th>
-
             </tr>
             {% for name,count in count_product.items %}
                 <tr class="tr2">
-                <td>{{ name }}</td>
-                <td>{{ count }} times</td>
+                    <td>{{ name }}</td>
+                    <td>{{ count }} times</td>
                 </tr>
             {% endfor %}
         </table><br>
