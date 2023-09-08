@@ -24,14 +24,13 @@ class HomePage(ContextMixin, ListView):
         user_context = self.get_user_context(title='Main page')  # in ContexMixin add title
         # return context(dict) with tabs, title,cat_selected --> add to super().context
         # context = dict(list(context.items()) + list(user_context.items())) #or
-        print(user_context)
         context.update(user_context)
         return context
 
 
 class AllFoods(ContextMixin, ListView):
     paginate_by = 5
-    # model = Food
+    model = Food
     template_name = 'evop/all_foods.html'
     context_object_name = 'foods'
 
@@ -58,7 +57,7 @@ class AddFood(ContextMixin, CreateView):
     def get_success_url(self, **kwargs):
         context = super().get_context_data(**kwargs)
         food = context.get('food').name
-        return reverse('success', args=[{'food': food}])
+        return reverse('success', args=[f'food {food}'])
 
 
 class ShowCategory(ContextMixin, ListView):
@@ -100,7 +99,7 @@ class AddIntake(ContextMixin, CreateView):
     def get_success_url(self, **kwargs):
         context = super().get_context_data(**kwargs)
         intake = context.get('intake').food.name
-        return reverse('success', args=[{'intake': intake}])
+        return reverse('success', args=[f'intake {intake}'])
 
 
 class CalculetionResult(ContextMixin, FormView):
@@ -131,7 +130,6 @@ class CalculetionResult(ContextMixin, FormView):
 class FeedBack(ContextMixin, FormView):  # Formview не привязано к модели
     form_class = FeedbackForm
     template_name = 'evop/feedback.html'
-
     # success_url = reverse_lazy('success_send_message')
 
     def get_context_data(self, *, object_list=None, **kwargs):
@@ -147,8 +145,8 @@ class FeedBack(ContextMixin, FormView):  # Formview не привязано к �
 
     def form_valid(self, form):
         email = form.cleaned_data.get('email')
-        name = form.cleaned_data.get("name")
-        content = form.cleaned_data.get("content")
+        name = form.cleaned_data.get('name')
+        content = form.cleaned_data.get('content')
         message = f'name: {name}\nemail: {email}\nmessage: {content}'
         try:
             send_mail('EVOP site',
@@ -160,7 +158,7 @@ class FeedBack(ContextMixin, FormView):  # Formview не привязано к �
                                 #  дополнительных заголовков электронной почты. Если обнаружен “плохой заголовок”,
                                 #  то представление вернет клиенту HttpResponse с текстом “Incorrect header found”.
             return HttpResponse('Incorrect header found')
-        return redirect('success', args={'feedback': name})
+        return redirect('success', args=f'feedbackname {name}')
 
 
 class SignIn(ContextMixin, LoginView):
@@ -175,14 +173,13 @@ class SignIn(ContextMixin, LoginView):
 
     def get_success_url(self, **kwargs):
         username = self.request.user.username
-        return reverse('success', args=[{'name': username}])
+        return reverse('success', args=[f'username {username}'])
         # return redirect('home')
 
 
 class SignUp(ContextMixin, CreateView):
     form_class = RegisterUserForm
     template_name = 'evop/sign_up.html'
-
     # success_url = reverse_lazy('success_registration_user')
 
     def get_context_data(self, *, object_list=None, **kwargs):
@@ -194,14 +191,12 @@ class SignUp(ContextMixin, CreateView):
     def get_success_url(self, **kwargs):
         context = super().get_context_data(**kwargs)
         username = context.get('user').username
-        return reverse('success', args=[{'reg_user': username}])
+        return reverse('success', args=[f'reg_user {username}'])
 
-    # def form_valid(self, form):                   #для автоматического входа при регистрации
+    # def form_valid(self, form):        #для автоматического входа при регистрации
     #     user=form.save()
     #     login(self.request, user)
     #     return redirect('home')
-    #     username=self.request.user.username
-    #     return reverse('success_registration_user',kwargs={'name': username})
 
 
 def sign_out_user(request):
@@ -209,29 +204,19 @@ def sign_out_user(request):
     return redirect('home')
 
 
-def success(request, args):  # {'name': 'Dima'}
-    arg = args.split(' ').pop()[1:-2]  # 'Dima'}-->Dima
-    if 'name' in args:
-        return render(request, 'evop/success.html', {'tabs': tabs,
-                                                     'username': arg, 'categories': categories})
-    elif 'food' in args:
-        return render(request, 'evop/success.html', {'tabs': tabs,
-                                                     'food': arg, 'categories': categories})
-    elif 'feedback' in args:
-        return render(request, 'evop/success.html', {'tabs': tabs,
-                                                     'feedbackname': arg, 'categories': categories})
-    elif 'reg_user' in args:
-        return render(request, 'evop/success.html', {'tabs': tabs,
-                                                     'reg_user': arg, 'categories': categories})
-    elif 'intake' in args:
-        return render(request, 'evop/success.html', {'tabs': tabs,
-                                                     'intake': arg, 'categories': categories})
-    else:
-        HttpResponse('<h1>Somethink went wrong</h1>')
+def success(request, args):     #  'food 23r3t5 2435t 35t we'
+    keyword = args.split(' ')[:1][0]
+    arg = args.split(' ')[1:]
+    arg = ' '.join(arg)
+    try:
+       return render(request, 'evop/success.html', {'tabs': tabs,
+                                                     keyword: arg, 'categories': categories})
+    except:
+          return HttpResponse('<h1>Somethink went wrong. Go back and try again</h1>')
 
 
 def pageNotFound(request, exception):
-    return HttpResponseNotFound('<h1>404 --> Page Not Found :(</h1>')
+    return HttpResponseNotFound('<h1>404 --> Page Not Found 😔</h1>')
 
 
 def show_food(request, food_id):

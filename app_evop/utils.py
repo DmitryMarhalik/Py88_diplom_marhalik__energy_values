@@ -6,16 +6,16 @@ tabs = [{'title': 'Add Food 🍟', 'url_name': 'add_food'},
         {'title': 'Feedback 📧', 'url_name': 'feedback'},
         ]
 
-no_authtabs = [{'title': 'Feedback 📧', 'url_name': 'feedback'}]
+no_auth_tabs = [{'title': 'Feedback 📧', 'url_name': 'feedback'}]
 categories = Category.objects.all()
 
-class ContextMixin:
 
+class ContextMixin:
     def get_user_context(self, **kwargs):
         context = kwargs
         context['categories'] = categories
         if not self.request.user.is_authenticated:
-            context['tabs'] = no_authtabs
+            context['tabs'] = no_auth_tabs
         else:
             context['tabs'] = tabs
         if 'cat_selected' not in context:
