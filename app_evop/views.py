@@ -75,7 +75,7 @@ class ShowCategory(ContextMixin, ListView):
         return context
 
     def get_queryset(self):
-        cat_slug = self.kwargs['cat_slug']  # list categories(app_evop_tags)c.get_absolute_url<--(models.kwargs)-basis
+        cat_slug = self.kwargs['cat_slug']  # c.get_absolute_url(basis)--(!!get_abs_url.models.kwargs!!)
         return Food.objects.filter(category__slug=cat_slug, be_confirmed=True).order_by('-id')
 
 

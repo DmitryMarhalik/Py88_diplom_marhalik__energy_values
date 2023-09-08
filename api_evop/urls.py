@@ -1,14 +1,19 @@
-from django.urls import path
+from django.urls import path, include
+from rest_framework import routers
 
-from api_evop.views import AllFoodsAPIList, FoodAPIUpdate, FoodAPIDetailView
+from api_evop.views import AllFoodsAPIList, FoodAPIUpdate, FoodAPIDetailView, FoodsViewSet, AddIntakeAPIList
+
+router = routers.DefaultRouter()  # + route *8000:api/
+router.register(r'food', FoodsViewSet)
 
 urlpatterns = [
-    # path('', cache_page(60*60)(HomePage.as_view()), name='home'),
-    # path('', HomePage.as_view(), name='home'),
-    # path('all-foods/', cache_page(60 * 15)(AllFoods.as_view()), name='all_foods'),
-    path('all-foods/', AllFoodsAPIList.as_view(), name='api_all_foods'),
-    path('food/update/<int:pk>', FoodAPIUpdate.as_view(), name='api_putpatch_food'),
-    path('food/detail/<int:pk>', FoodAPIDetailView.as_view(), name='api_allaction_food'),
+    path('all-foods/', AllFoodsAPIList.as_view()),  # GET, POST, HEAD, OPTIONS
+    path('food/update/<int:pk>', FoodAPIUpdate.as_view()),  # PUT, PATCH, OPTIONS;
+    path('food/detail/<int:pk>', FoodAPIDetailView.as_view()),  # GET, PUT, PATCH, DELETE, HEAD, OPTIONS
+    path('add-intake', AddIntakeAPIList.as_view()),  # GET, POST, HEAD, OPTIONS
+    path('', include(router.urls)),  # /food-->GET, POST, HEAD, OPTIONS;
+    # /food/pk -->GET, PUT, PATCH, DELETE, HEAD, OPTIONS
+
     # path('add-food/', AddFood.as_view(), name='add_food'),
     # path('food/<int:food_id>/', show_food, name='show_food'),
     # path('intake/', AddIntake.as_view(), name='intake'),
