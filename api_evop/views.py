@@ -25,11 +25,6 @@ class AllFoodsAPIList(generics.ListCreateAPIView):
     serializer_class = FoodSerializer
     permission_classes = (IsAuthenticatedOrReadOnly,)
 
-    @action(methods=['get'], detail=True)  # foods/pk(cats)/category
-    def category(self, request, pk=None):
-        foods = Food.objects.filter(category_id=pk)
-        return Response({'foods': [food.name for food in foods]})
-
 
 class FoodAPIUpdate(generics.UpdateAPIView):
     queryset = Food.objects.all()

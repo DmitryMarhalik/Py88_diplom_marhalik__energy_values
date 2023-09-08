@@ -10,8 +10,9 @@ urlpatterns = [
     path('all-foods/', AllFoodsAPIList.as_view()),  # GET, POST, HEAD, OPTIONS
     path('food/update/<int:pk>', FoodAPIUpdate.as_view()),  # PUT, PATCH, OPTIONS;
     path('food/detail/<int:pk>', FoodAPIDetailView.as_view()),  # GET, PUT, PATCH, DELETE, HEAD, OPTIONS
-    path('add-intake', AddIntakeAPIList.as_view()),  # GET, POST, HEAD, OPTIONS
-    path('', include(router.urls)),  # /food-->GET, POST, HEAD, OPTIONS;
+    path('add-intake/', AddIntakeAPIList.as_view()),  # GET, POST, HEAD, OPTIONS
+    path('', include(router.urls)),  # ViewSet --> /food-->GET, POST, HEAD, OPTIONS;
+    path('session-auth/', include('rest_framework.urls')),  # ViewSet --> /food-->GET, POST, HEAD, OPTIONS;
     # /food/pk -->GET, PUT, PATCH, DELETE, HEAD, OPTIONS
 
     # path('add-food/', AddFood.as_view(), name='add_food'),
