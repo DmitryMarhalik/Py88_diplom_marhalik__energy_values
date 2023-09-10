@@ -3,11 +3,11 @@ from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAdminUser, I
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework.pagination import PageNumberPagination
 
 from api_evop.permissions import OnlyPostAuthUser
 from api_evop.serializer import FoodSerializer, IntakeSerializer, DaysSerializer
-from app_evop.forms import CalculationResultForm
-from app_evop.models import Food, Intake, Category
+from app_evop.models import Food, Intake
 
 from app_evop.calculation_user_intakes import intakes_between_days
 
@@ -24,10 +24,17 @@ class FoodsViewSet(viewsets.ModelViewSet):
 
 
 # ----------------------------------------------------------------
+class AllFoodsAPIListPagination(PageNumberPagination):
+    page_size = 5
+    page_size_query_param = 'page_size'  # for a get request
+    max_page_size = 1000
+
+
 class AllFoodsAPIList(generics.ListCreateAPIView):
     queryset = Food.objects.all().filter(be_confirmed=True)
     serializer_class = FoodSerializer
     permission_classes = (IsAuthenticatedOrReadOnly,)
+    pagination_class = AllFoodsAPIListPagination
 
 
 class FoodAPIUpdate(generics.UpdateAPIView):
@@ -53,8 +60,6 @@ class AddIntakeAPIList(generics.ListCreateAPIView):
 class CalculationResult(APIView):
     # queryset = Intake.objects.all()
     serializer_class = DaysSerializer
-
-    # form_class = CalculationResultForm
 
     def get(self, request):
         return Response({'Hello'})

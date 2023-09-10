@@ -33,6 +33,13 @@ a.all_cats {
     font-size: medium
 }
 
+p.pmainpage {
+    font-size: 24px;
+    font-family: "URW Gothic";
+    font-style: italic;
+    text-align: left;
+}
+
 p.ptitle {
     font-size: 25px;
     font-style: italic;
@@ -279,14 +286,14 @@ div.button {
     margin: 0 20px 0 0;
 }
 
-.left-chapters ul li.share a.share-yt {
+.left-chapters ul li.share a.share-bot {
     margin: 0 0 20px 30px;
     width: 120%;
     height: 300px;
     background: url('../images/bot.png') no-repeat 0 0
 }
 
-.left-chapters ul li.share a.share-yt:hover {
+.left-chapters ul li.share a.share-bot:hover {
     width: 120%;
     height: 300px;
     background: url('../images/bot.png') no-repeat 0 -2px
