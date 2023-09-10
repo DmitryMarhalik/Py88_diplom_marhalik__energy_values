@@ -15,4 +15,4 @@ class IntakeSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Intake
-        fields = ('food', 'gram','user')
+        fields = ('food', 'gram', 'user', 'time')

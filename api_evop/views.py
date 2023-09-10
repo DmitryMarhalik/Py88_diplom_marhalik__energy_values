@@ -43,4 +43,4 @@ class FoodAPIDetailView(generics.RetrieveUpdateDestroyAPIView):
 class AddIntakeAPIList(generics.ListCreateAPIView):
     queryset = Intake.objects.all()
     serializer_class = IntakeSerializer
-    permission_classes = (OnlyPostAuthUser,)
+    permission_classes = (IsAuthenticated,) #(OnlyPostAythUser)
