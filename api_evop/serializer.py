@@ -16,3 +16,6 @@ class IntakeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Intake
         fields = ('food', 'gram', 'user', 'time')
+
+class DaysSerializer(serializers.Serializer):
+    days = serializers.IntegerField(label='Enter the number of days here',min_value=1)
