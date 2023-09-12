@@ -21,9 +21,7 @@ class HomePage(ContextMixin, ListView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        user_context = self.get_user_context(title='Main page')  # in ContexMixin add title
-        # return context(dict) with tabs, title,cat_selected --> add to super().context
-        # context = dict(list(context.items()) + list(user_context.items())) #or
+        user_context = self.get_user_context(title='Main page')
         context.update(user_context)
         return context
 
@@ -54,11 +52,6 @@ class AddFood(ContextMixin, CreateView):
         context.update(user_context)
         return context
 
-    # def get_success_url(self, **kwargs):
-    #     context = super().get_context_data(**kwargs)
-    #     food = context.get('food').name
-    #     return reverse('success', args=[f'food {food}'])
-
     def form_valid(self, form):
         food = form.cleaned_data.get('name')
         bar_code = form.cleaned_data.get('bar_code')
@@ -86,7 +79,6 @@ class AddFood(ContextMixin, CreateView):
 
 class ShowCategory(ContextMixin, ListView):
     paginate_by = 3
-    # model = Category
     template_name = 'evop/show_category.html'
     context_object_name = 'foods'
     allow_empty = False
@@ -163,10 +155,6 @@ class FeedBack(ContextMixin, FormView):  # Formview не привязано к �
         context.update(user_context)
         return context
 
-    # def get_success_url(self, **kwargs):
-    #     context = super().get_context_data(**kwargs)
-    #     username = self.request.user.username
-    #     return reverse('success_send_message', kwargs={'name': username})
 
     def form_valid(self, form):
         email = form.cleaned_data.get('email')

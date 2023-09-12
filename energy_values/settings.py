@@ -159,7 +159,7 @@ REST_FRAMEWORK = {'DEFAULT_RENDERER_CLASSES':
                   ],
                   'DEFAULT_AUTHENTICATION_CLASSES': [
                       'rest_framework_simplejwt.authentication.JWTAuthentication',
-                      # 'rest_framework.authentication.TokenAuthentication',  # token authentication
+                      'rest_framework.authentication.TokenAuthentication',  # token authentication
                       'rest_framework.authentication.BasicAuthentication',  # session authentication
                       'rest_framework.authentication.SessionAuthentication',  # session authentication
                   ]
@@ -195,3 +195,6 @@ SIMPLE_JWT = {
     'SLIDING_TOKEN_LIFETIME': timedelta(minutes=5),
     'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=1),
 }
+
+
+#sudo lsof -t -i tcp:8000 | xargs kill -9

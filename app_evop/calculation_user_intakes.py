@@ -7,9 +7,9 @@ from app_evop.models import Intake
 
 def intakes_between_days(request, days):
     days_ago = timezone.now() - timedelta(days=int(days))
-    all_intake_products = (Intake.objects.values('food__name', 'food__proteins', 'food__fats', 'food__carbohydrates',
-                                                 'food__kcal', 'gram').filter(user_id=request.user.id,
-                                                                              time__gte=days_ago))  # Queryset
+    all_intake_products = Intake.objects.values('food__name', 'food__proteins', 'food__fats', 'food__carbohydrates',
+                                                'food__kcal', 'gram').filter(user_id=request.user.id,
+                                                                             time__gte=days_ago)
     message = None
     if not all_intake_products:
         message = 'You have not consumed anything for a given period of time.'
@@ -28,4 +28,4 @@ def intakes_between_days(request, days):
             kcal += float(energy_value_product['food__kcal']) * (float(energy_value_product['gram'] / 100))
         total_energy_values = {'proteins': round(proteins, 1), 'fats': round(fats, 1),
                                'carbohydrates': round(carbohydrates, 1), 'kcal': round(kcal, 1)}
-        return total_energy_values, count_of_products, message,
+        return total_energy_values, count_of_products, message

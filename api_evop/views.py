@@ -12,10 +12,18 @@ from app_evop.models import Food, Intake
 from app_evop.calculation_user_intakes import intakes_between_days
 
 
+class AllFoodsAPIListPagination(PageNumberPagination):
+    page_size = 5
+    page_size_query_param = 'page_size'  # for get request in browser adrres
+    max_page_size = 1000
+
+
 # ----------------------------------------------------------------
 class FoodsViewSet(viewsets.ModelViewSet):
-    queryset = Food.objects.all()
+    queryset = Food.objects.all().filter(be_confirmed=True)
     serializer_class = FoodSerializer
+    permission_classes = (IsAuthenticatedOrReadOnly,)
+    pagination_class = AllFoodsAPIListPagination
 
     @action(methods=['get'], detail=True)  # foods/pk(category_id)/category
     def category(self, request, pk=None):
@@ -24,16 +32,10 @@ class FoodsViewSet(viewsets.ModelViewSet):
 
 
 # ----------------------------------------------------------------
-class AllFoodsAPIListPagination(PageNumberPagination):
-    page_size = 5
-    page_size_query_param = 'page_size'  # for a get request in browser adrres
-    max_page_size = 1000
-
-
 class AllFoodsAPIListCreate(generics.ListCreateAPIView):
     queryset = Food.objects.all().filter(be_confirmed=True)
     serializer_class = FoodSerializer
-    permission_classes = (IsAuthenticatedOrReadOnly,)
+    permission_classes = (IsAuthenticated,)
     pagination_class = AllFoodsAPIListPagination
 
 
@@ -50,18 +52,12 @@ class FoodAPIDetailView(generics.RetrieveUpdateDestroyAPIView):
 
 
 # ----------------------------------------------------------------
-
 class AddIntakeAPIList(generics.ListCreateAPIView):
     queryset = Intake.objects.all()
     serializer_class = IntakeSerializer
-    permission_classes = (OnlyPostAuthUser,)  # (IsAuthenticated,)
+    permission_classes = (IsAuthenticated,)
 
-
-class UserIntakes(generics.ListAPIView):
-    queryset = Intake.objects.all()
-    serializer_class = IntakeSerializer
-
-    # model = Intake
+    # model=Intake
 
     def get_queryset(self):
         # queryset = self.model.objects.filter(user_id=self.request.user.id)
