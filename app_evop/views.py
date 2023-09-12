@@ -54,10 +54,34 @@ class AddFood(ContextMixin, CreateView):
         context.update(user_context)
         return context
 
-    def get_success_url(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        food = context.get('food').name
-        return reverse('success', args=[f'food {food}'])
+    # def get_success_url(self, **kwargs):
+    #     context = super().get_context_data(**kwargs)
+    #     food = context.get('food').name
+    #     return reverse('success', args=[f'food {food}'])
+
+    def form_valid(self, form):
+        food = form.cleaned_data.get('name')
+        bar_code = form.cleaned_data.get('bar_code')
+        proteins = form.cleaned_data.get('proteins')
+        fats = form.cleaned_data.get('fats')
+        carbohydrates = form.cleaned_data.get('carbohydrates')
+        kcal = form.cleaned_data.get('kcal')
+        category = form.cleaned_data.get('category')
+        text_message = (f'food: {food}\nbar_code: {bar_code}\nproteins: {proteins}'
+                        f'\nfats: {fats}\ncarbohydrates: {carbohydrates}\nkcal: {kcal}\ncategory: {category}')
+        message = (f'name: {self.request.user.username}\nemail: {self.request.user.email}\n'
+                   f'the proposed product:\n{text_message}')
+        try:
+            send_mail('EVOP site',
+                      message,
+                      self.request.user.email,
+                      [settings.EMAIL_HOST_USER]
+                      )
+        except BadHeaderError:  # BadHeaderError, чтобы предотвратить вставку злоумышленниками
+            #  дополнительных заголовков электронной почты. Если обнаружен “плохой заголовок”,
+            #  то представление вернет клиенту HttpResponse с текстом “Incorrect header found”.
+            return HttpResponse('Incorrect header found')
+        return redirect('success', args=f'food {food}')
 
 
 class ShowCategory(ContextMixin, ListView):
@@ -130,6 +154,7 @@ class CalculetionResult(ContextMixin, FormView):
 class FeedBack(ContextMixin, FormView):  # Formview не привязано к модели
     form_class = FeedbackForm
     template_name = 'evop/feedback.html'
+
     # success_url = reverse_lazy('success_send_message')
 
     def get_context_data(self, *, object_list=None, **kwargs):
@@ -154,9 +179,9 @@ class FeedBack(ContextMixin, FormView):  # Formview не привязано к �
                       email,
                       [settings.EMAIL_HOST_USER]
                       )
-        except BadHeaderError:  #  BadHeaderError, чтобы предотвратить вставку злоумышленниками
-                                #  дополнительных заголовков электронной почты. Если обнаружен “плохой заголовок”,
-                                #  то представление вернет клиенту HttpResponse с текстом “Incorrect header found”.
+        except BadHeaderError:  # BadHeaderError, чтобы предотвратить вставку злоумышленниками
+            #  дополнительных заголовков электронной почты. Если обнаружен “плохой заголовок”,
+            #  то представление вернет клиенту HttpResponse с текстом “Incorrect header found”.
             return HttpResponse('Incorrect header found')
         return redirect('success', args=f'feedbackname {name}')
 
@@ -180,6 +205,7 @@ class SignIn(ContextMixin, LoginView):
 class SignUp(ContextMixin, CreateView):
     form_class = RegisterUserForm
     template_name = 'evop/sign_up.html'
+
     # success_url = reverse_lazy('success_registration_user')
 
     def get_context_data(self, *, object_list=None, **kwargs):
@@ -204,15 +230,15 @@ def sign_out_user(request):
     return redirect('home')
 
 
-def success(request, args):     #  'food 23r3t5 2435t 35t we'
+def success(request, args):  # 'food 23r3t5 2435t 35t we'
     keyword = args.split(' ')[:1][0]
     arg = args.split(' ')[1:]
     arg = ' '.join(arg)
     try:
-       return render(request, 'evop/success.html', {'tabs': tabs,
+        return render(request, 'evop/success.html', {'tabs': tabs,
                                                      keyword: arg, 'categories': categories})
     except:
-          return HttpResponse('<h1>Somethink went wrong. Go back and try again</h1>')
+        return HttpResponse('<h1>Somethink went wrong. Go back and try again</h1>')
 
 
 def pageNotFound(request, exception):

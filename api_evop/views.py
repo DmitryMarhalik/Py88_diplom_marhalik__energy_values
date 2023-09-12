@@ -30,7 +30,7 @@ class AllFoodsAPIListPagination(PageNumberPagination):
     max_page_size = 1000
 
 
-class AllFoodsAPIList(generics.ListCreateAPIView):
+class AllFoodsAPIListCreate(generics.ListCreateAPIView):
     queryset = Food.objects.all().filter(be_confirmed=True)
     serializer_class = FoodSerializer
     permission_classes = (IsAuthenticatedOrReadOnly,)
@@ -57,8 +57,18 @@ class AddIntakeAPIList(generics.ListCreateAPIView):
     permission_classes = (OnlyPostAuthUser,)  # (IsAuthenticated,)
 
 
+class UserIntakes(generics.ListAPIView):
+    queryset = Intake.objects.all()
+    serializer_class = IntakeSerializer
+
+    # model = Intake
+
+    def get_queryset(self):
+        # queryset = self.model.objects.filter(user_id=self.request.user.id)
+        return super().get_queryset().filter(user_id=self.request.user.id)
+
+
 class CalculationResult(APIView):
-    # queryset = Intake.objects.all()
     serializer_class = DaysSerializer
 
     def get(self, request):
