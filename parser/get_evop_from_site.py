@@ -1,9 +1,6 @@
 import requests
 
-
 from lxml import html
-from app_evop.models import Food
-
 
 root_url = 'https://bodymaster.ru/food/tablitsa-kalorijnosti-produktov'
 
@@ -23,22 +20,28 @@ def get_products_from_category(cats_number):
     return products
 
 
-categories = get_all_categories()
-number_categories = [str(num) for num in range(1, len(categories) + 1)]
-categories_with_nums = dict(zip(categories, number_categories))
+cats = get_all_categories()
+number_categories = [str(num) for num in range(1, len(cats) + 1)]
+category = dict(zip(cats, number_categories))
 
-
-seafoods = get_products_from_category(7) + get_products_from_category(16)
-vegetables_fruits_berries = get_products_from_category(5) + get_products_from_category(6)
-drinks = get_products_from_category(17) + get_products_from_category(18)
-eggs_milk_dairy = get_products_from_category(2) + get_products_from_category(3)
-butter_margarine_edible = get_products_from_category(12)
-meat_sausage_products = get_products_from_category(4) + get_products_from_category(11)
-bakery_cereals_pasta = get_products_from_category(1) + get_products_from_category(8) + get_products_from_category(9)
-nuts_mushrooms = get_products_from_category(13) + get_products_from_category(14)
-confectionery_products = get_products_from_category(15)
-legumes = get_products_from_category(10)
-print(legumes)
+seafoods = get_products_from_category(category['Рыба и морепродукты']) + get_products_from_category(
+    category['Икра'])
+vegetables_fruits_berries = get_products_from_category(category['Зелень и овощи']) + get_products_from_category(
+    category['Фрукты и ягоды'])
+drinks = get_products_from_category(category['Алкогольные напитки']) + get_products_from_category(
+    category['Безалкогольные напитки'])
+eggs_milk_dairy = get_products_from_category(category['Яйца']) + get_products_from_category(
+    category['Молочные продукты'])
+butter_margarine_edible = get_products_from_category(category['Масло, маргарин, пищевые жиры'])
+meat_sausage_products = get_products_from_category(category['Мясо, птица']) + get_products_from_category(
+    category['Колбаса и колбасные изделия'])
+bakery_cereals_pasta = get_products_from_category(category['Крупы']) + get_products_from_category(
+    category['Хлеб и хлебобулочные изделия']) + get_products_from_category(category['Мука и мучные изделия'])
+nuts_mushrooms = get_products_from_category(category['Грибы']) + get_products_from_category(
+    category['Орехи, семена, сухофрукты'])
+confectionery_products = get_products_from_category(category['Сладости, торты'])
+legumes = get_products_from_category(category['Орехи, семена, сухофрукты'])
+print(seafoods)
 # other = get_products_from_category()
 # print(nuts_mushrooms)
 # {'Крупы': '1', 'Молочные продукты': '2', 'Яйца': '3', 'Мясо, птица': '4', 'Зелень и овощи': '5', 'Фрукты и ягоды': '6',
@@ -52,5 +55,5 @@ print(legumes)
 
 # //div[@class="content clearfix"]/h3[position()>1 and position()<last()]/text() ---cat
 # //table[@class="bordered with-header"]/tbody/tr[position()>1 and position()<last()]/td/p/text()
-#'Горох зерно', '20,5', '2', '49,5', '298'
+# 'Горох зерно', '20,5', '2', '49,5', '298'
 # f=Food()
