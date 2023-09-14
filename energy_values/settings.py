@@ -33,7 +33,7 @@ INSTALLED_APPS = [
     'api_evop.apps.ApiEvopConfig',
     'rest_framework',
     'rest_framework.authtoken',
-    'djoser'
+    'djoser',
 ]
 
 MIDDLEWARE = [
