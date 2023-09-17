@@ -17,7 +17,7 @@ bot = telebot.TeleBot(os.getenv('TOKEN'))
 @bot.message_handler(commands=["start"])
 def start(message):
     bot.send_message(message.from_user.id, "Please, enter your 'Name' and 'Email' separated by a space.\n"
-                                           "for example:\nmikel your_email@gmail.com")
+                                           "for example:\nmichael your_email@gmail.com")
     bot.register_next_step_handler(message, authentication)
 
 
