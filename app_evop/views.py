@@ -78,7 +78,7 @@ class AddFood(ContextMixin, CreateView):
 
 
 class ShowCategory(ContextMixin, ListView):
-    paginate_by = 3
+    paginate_by = 10
     template_name = 'evop/show_category.html'
     context_object_name = 'foods'
     allow_empty = False

@@ -4,7 +4,7 @@ from django.urls import reverse
 
 
 class Food(models.Model):
-    name = models.CharField(max_length=30, unique=True, db_index=True)
+    name = models.CharField(max_length=100, unique=True, db_index=True)
     bar_code = models.CharField(max_length=14, unique=True, db_index=True, null=True, blank=True)
     image = models.ImageField(upload_to='image_food/%Y/%m/%d', null=True, blank=True)
     proteins = models.DecimalField(max_digits=5, decimal_places=1, null=True, blank=True)

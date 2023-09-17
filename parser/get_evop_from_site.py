@@ -41,9 +41,8 @@ nuts_mushrooms = get_products_from_category(category['Грибы']) + get_produc
     category['Орехи, семена, сухофрукты'])
 confectionery_products = get_products_from_category(category['Сладости, торты'])
 legumes = get_products_from_category(category['Орехи, семена, сухофрукты'])
-print(seafoods)
-# other = get_products_from_category()
-# print(nuts_mushrooms)
+
+
 # {'Крупы': '1', 'Молочные продукты': '2', 'Яйца': '3', 'Мясо, птица': '4', 'Зелень и овощи': '5', 'Фрукты и ягоды': '6',
 #  'Рыба и морепродукты': '7', 'Хлеб и хлебобулочные изделия': '8', 'Мука и мучные изделия': '9', 'Бобовые': '10',
 #  'Колбаса и колбасные изделия': '11', 'Масло, маргарин, пищевые жиры': '12', 'Грибы': '13',
@@ -55,5 +54,3 @@ print(seafoods)
 
 # //div[@class="content clearfix"]/h3[position()>1 and position()<last()]/text() ---cat
 # //table[@class="bordered with-header"]/tbody/tr[position()>1 and position()<last()]/td/p/text()
-# 'Горох зерно', '20,5', '2', '49,5', '298'
-# f=Food()
