@@ -85,33 +85,12 @@ p.link-read-post a {
     text-decoration: none;
 }
 
-/*div.article-panel {*/
-/*    background: #eee;*/
-/*    padding: 5px 10px 5px 10px;*/
-/*    box-sizing: border-box;*/
-/*    overflow: hidden;*/
-/*    color: #555;*/
-/*!*}*!*/
-
-/*div.article-panel p.first {*/
-/*    margin: 0;*/
-/*    float: left;*/
-/*}*/
-
-/*div.article-panel p.last {*/
-/*    margin: 0;*/
-/*    float: right;*/
-/*}*/
 
 ul.list-foods {
     list-style: none;
     margin: 0;
     padding: 0;
 }
-
-/*ul.list-articles li {*/
-/*    border-bottom: 1px solid #ccc;*/
-/*}*/
 
 .table-page {
     width: 100%;
@@ -184,35 +163,6 @@ ul.langitem {
     padding: 0;
     max-width: 300px
 }
-
-/*ul.langitem li {*/
-/*    margin: 10px 0 0 0;*/
-/*    width: 100%;*/
-/*}*/
-
-/*ul.langitem li.image {*/
-/*    margin: 0;*/
-/*    text-align: center;*/
-/*    width: 100%;*/
-/*    height: 250px;*/
-/*    overflow: hidden;*/
-/*}*/
-
-/*ul.langitem li.descr {*/
-/*    color: #777;*/
-/*    height: 170px;*/
-/*    overflow: hidden;*/
-/*}*/
-
-/*ul.langitem li a {*/
-/*    color: #fdc073;*/
-/*    text-decoration: none;*/
-/*    font-size: 20px;*/
-/*}*/
-
-/*ul.langitem li a:hover {*/
-/*    color: #FDA83D;*/
-/*}*/
 
 div.button {
     background: #3F4137;
@@ -305,36 +255,6 @@ div.button {
     box-sizing: border-box;
     background-color: #fcf3e9;
 }
-
-/*ul.breadcrumbs {*/
-/*    margin: 0;*/
-/*    padding: 0;*/
-/*    list-style: none;*/
-/*    font-size: 20px;*/
-/*    font-family: Sans-serif, Arial, Tahoma, serif;*/
-/*}*/
-
-/*ul.breadcrumbs li {*/
-/*    display: inline-block;*/
-/*}*/
-
-/*ul.breadcrumbs li a {*/
-/*    color: #0059b2;*/
-/*    text-decoration: none;*/
-/*}*/
-
-/*ul.breadcrumbs li a:hover {*/
-/*    color: #CC0000;*/
-/*}*/
-
-/*ul.breadcrumbs li:after {*/
-/*    padding: 0 10px 0 10px;*/
-/*    content: "\2192";*/
-/*}*/
-
-/*ul.breadcrumbs li.last:after {*/
-/*    content: "";*/
-/*}*/
 
 ul.control {
     margin: 0;
@@ -438,51 +358,6 @@ ul.lang-list li a:hover {
     color: #fdc073;
 }
 
-/*.topic-subject .topic-line {*/
-/*    border-bottom: 1px solid #CC0000;*/
-/*    margin-top: -16px;*/
-/*}*/
-
-/*.topic-subject .topic-text {*/
-/*    display: inline-block;*/
-/*    font-size: 28px;*/
-/*    color: #777;*/
-/*    padding: 0 10px 0 10px;*/
-/*    margin-left: 30px;*/
-/*    background: #fff;*/
-/*    font-family: Sans-serif, Arial, Tahoma, serif;*/
-/*}*/
-
-/*.list-topic {*/
-/*    margin: 40px 0 60px 0;*/
-/*    font-family: Sans-serif, Arial, Tahoma, serif;*/
-/*}*/
-
-/*.list-topic p {*/
-/*    margin: 0;*/
-/*    font-size: 28px;*/
-/*}*/
-
-/*.list-topic ol {*/
-/*    columns: 2;*/
-/*    -webkit-columns: 2;*/
-/*    column-gap: 40px;*/
-/*}*/
-
-/*.list-topic ol li {*/
-/*    display: list-item;*/
-/*    margin: 10px 10px 0 0;*/
-/*    padding: 0 0 0 10px;*/
-/*}*/
-
-/*.list-topic ol li a {*/
-/*    color: #0059b2;*/
-/*    text-decoration: none;*/
-/*}*/
-
-/*.list-topic ol li a:hover {*/
-/*    color: #CC0000;*/
-/*}*/
 
 .highlight {
     max-width: 350px;
