@@ -1,9 +1,12 @@
 import os
-from datetime import timedelta
 
+from datetime import timedelta
+from dotenv import load_dotenv
 from pathlib import Path
 
 import django.core.cache.backends.filebased
+
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -12,7 +15,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-4ily*v3m%0d%82(i1!^lh$7whp9hnc!y7rt%eupqe0s+rr&1pr'
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -73,9 +76,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'evop',
-        'USER': 'dm',
-        'PASSWORD': '113019',
-        # 'PASSWORD': os.environ.get('pg_password'),
+        'USER': os.getenv('USER_PSQL'),
+        'PASSWORD': os.getenv('PASSWORD_DB'),
         'HOST': '127.0.0.1',
         'PORT': '5432',
     }
@@ -104,7 +106,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Minsk'
 
 USE_I18N = True
 
@@ -125,7 +127,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_HOST_USER = "dmitrymarhalik@gmail.com"
-EMAIL_HOST_PASSWORD = "jkxvdtquvkkjdmcn"
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
 EMAIL_USE_TLS = True
 EMAIL_USE_SSL = False
 SERVER_EMAIL = EMAIL_HOST_USER
@@ -158,7 +160,7 @@ REST_FRAMEWORK = {'DEFAULT_RENDERER_CLASSES':
                       'rest_framework.permissions.AllowAny',
                   ],
                   'DEFAULT_AUTHENTICATION_CLASSES': [
-                      'rest_framework_simplejwt.authentication.JWTAuthentication',
+                      'rest_framework_simplejwt.authentication.JWTAuthentication',  # # jwt-token authentication
                       'rest_framework.authentication.TokenAuthentication',  # token authentication
                       'rest_framework.authentication.BasicAuthentication',  # session authentication
                       'rest_framework.authentication.SessionAuthentication',  # session authentication
@@ -196,5 +198,4 @@ SIMPLE_JWT = {
     'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=1),
 }
 
-
-#sudo lsof -t -i tcp:8000 | xargs kill -9
+# sudo lsof -t -i tcp:8000 | xargs kill -9  --------- reset port

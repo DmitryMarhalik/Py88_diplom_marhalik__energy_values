@@ -8,15 +8,16 @@ root_url = 'https://bodymaster.ru/food/tablitsa-kalorijnosti-produktov'
 def get_all_categories():
     response = requests.get(root_url)
     html_tree = html.fromstring(response.text)
-    cats = html_tree.xpath('//div[@class="content clearfix"]/h3[position()>1]/text()')
+    xpath_request = '//div[@class="content clearfix"]/h3[position()>1]/text()'
+    cats = html_tree.xpath(xpath_request)
     return cats
 
 
 def get_products_from_category(cats_number):
     response = requests.get(root_url)
     html_tree = html.fromstring(response.text)
-    text_request = f'//table[@class="bordered with-header"][{cats_number}]/tbody/tr[position()>1]/td/p/text()[1]'
-    products = html_tree.xpath(text_request)
+    xpath_request = f'//table[@class="bordered with-header"][{cats_number}]/tbody/tr[position()>1]/td/p/text()[1]'
+    products = html_tree.xpath(xpath_request)
     return products
 
 
@@ -40,27 +41,20 @@ bakery_cereals_pasta = get_products_from_category(pars_category['Крупы']) +
 nuts_mushrooms = get_products_from_category(pars_category['Грибы']) + get_products_from_category(
     pars_category['Орехи, семена, сухофрукты'])
 confectionery_products = get_products_from_category(pars_category['Сладости, торты'])
-legumes = get_products_from_category(pars_category['Орехи, семена, сухофрукты'])
+legumes = get_products_from_category(pars_category['Бобовые'])
 
 name_category = [seafoods, vegetables_fruits_berries, butter_margarine_edible, drinks, eggs_milk_dairy,
-                 meat_sausage_products,
-                 bakery_cereals_pasta, nuts_mushrooms, confectionery_products, legumes]
+                 meat_sausage_products, bakery_cereals_pasta, nuts_mushrooms, confectionery_products, legumes]
 number_category = [str(num) for num in range(1, len(name_category) + 1)]
 category_products = dict(zip(number_category, name_category))
-# print(category_products)
 
-# {'seafoods': '1', 'vegetables_fruits_berries': '2', 'butter_margarine_edible': '3', 'drinks':'4', eggs_milk_dairy': '5',
-#  'meat_sausage_products': '6', 'bakery_cereals_pasta': '7', 'nuts_mushrooms': '8', 'confectionery_products': '9',
-#  'legumes': '10'}
+# category_products =
+# {'seafoods': '1', 'vegetables_fruits_berries': '2', 'butter_margarine_edible': '3', 'drinks':'4',
+# eggs_milk_dairy': '5', 'meat_sausage_products': '6', 'bakery_cereals_pasta': '7', 'nuts_mushrooms': '8',
+# 'confectionery_products': '9','legumes': '10'}
 
-# {'Крупы': '1', 'Молочные продукты': '2', 'Яйца': '3', 'Мясо, птица': '4', 'Зелень и овощи': '5', 'Фрукты и ягоды': '6',
-#  'Рыба и морепродукты': '7', 'Хлеб и хлебобулочные изделия': '8', 'Мука и мучные изделия': '9', 'Бобовые': '10',
-#  'Колбаса и колбасные изделия': '11', 'Масло, маргарин, пищевые жиры': '12', 'Грибы': '13',
+# pars_category = {'Крупы': '1', 'Молочные продукты': '2', 'Яйца': '3', 'Мясо, птица': '4', 'Зелень и овощи': '5',
+#  'Фрукты и ягоды': '6','Рыба и морепродукты': '7', 'Хлеб и хлебобулочные изделия': '8', 'Мука и мучные изделия': '9',
+#  'Бобовые': '10','Колбаса и колбасные изделия': '11', 'Масло, маргарин, пищевые жиры': '12', 'Грибы': '13',
 #  'Орехи, семена, сухофрукты': '14', 'Сладости, торты': '15', 'Икра': '16', 'Алкогольные напитки': '17',
 #  'Безалкогольные напитки': '18'}
-
-
-# //div[@class="blog-ul"]/h3 ---категория
-# //div[@class="blog-ul"]/table/tbody/tr[position()>1 and position()<last()]/td/text() ---prod
-# //div[@class="content clearfix"]/h3[position()>1 and position()<last()]/text() ---cat
-# //table[@class="bordered with-header"]/tbody/tr[position()>1 and position()<last()]/td/p/text()

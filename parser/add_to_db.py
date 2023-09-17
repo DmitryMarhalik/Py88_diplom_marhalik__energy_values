@@ -17,14 +17,10 @@ def add_data_to_db(lst, category_id):
          transformation_list(delete_string_xa0xa0(lst))])
 
 
-# category= {'seafoods': '1', 'vegetables_fruits_berries': '2', 'butter_margarine_edible': '3', 'drinks':'4', eggs_milk_dairy': '5',
-#  'meat_sausage_products': '6', 'bakery_cereals_pasta': '7', 'nuts_mushrooms': '8', 'confectionery_products': '9',
-#  'legumes': '10'}
+add_data_to_db(legumes, 10)
+for category_id, list_products in category_products.items():
+    add_data_to_db(list_products, category_id)
 
-# print(d.items())
-# print(bakery_cereals_pasta)
-# print(transformation_list(del_xa0xa0(meat_sausage_products)))
-# add_data_to_db(seafoods, 1)
-add_data_to_db(bakery_cereals_pasta, 7)
-# for category_id, list_products in category_products.items():
-#     add_data_to_db(list_products, category_id)
+# category= {'seafoods': '1', 'vegetables_fruits_berries': '2', 'butter_margarine_edible': '3', 'drinks':'4',
+# eggs_milk_dairy': '5', 'meat_sausage_products': '6', 'bakery_cereals_pasta': '7', 'nuts_mushrooms': '8',
+# 'confectionery_products': '9','legumes': '10'}

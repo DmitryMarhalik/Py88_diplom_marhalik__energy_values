@@ -1,15 +1,22 @@
 {% extends 'evop/basis.html' %}
-
 {% block page %}
-    <h2 align="center">All categories</h2>
-    <ul class="list-foods">
-        {% for f in foods %}
-            <ul>
-                <li><a style="font-size: large"
-                       href="{% url 'show_food' f.pk %}">{{ f.name }} &nbsp&nbsp&nbsp
-                       category: {{ f.category.name }}</a>
-            </ul>
-        {% endfor %}
-    </ul>
+<h2 align="center">All categories</h2>
+<table cellpadding="5px" border="3rem solid" align="center">
+    <tr class="tr">
+        <th>name</th>
+        <th>proteins, gr</th>
+        <th>fats, gr</th>
+        <th>carbohydrates, gr</th>
+        <th>kcal</th>
+    </tr>
+    {% for f in foods %}
+    <tr class="tr2">
+        <td><a style="font-size: large" href="{% url 'show_food' f.pk %}">{{ f.name }}</a></td>
+        <td>{{ f.proteins }}</td>
+        <td>{{ f.fats }}</td>
+        <td>{{ f.carbohydrates }}</td>
+        <td>{{ f.kcal}}</td>
+    </tr>
+    {% endfor %}
+</table>
 {% endblock %}
-

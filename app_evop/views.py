@@ -27,7 +27,7 @@ class HomePage(ContextMixin, ListView):
 
 
 class AllFoods(ContextMixin, ListView):
-    paginate_by = 5
+    paginate_by = 13
     model = Food
     template_name = 'evop/all_foods.html'
     context_object_name = 'foods'
@@ -155,7 +155,6 @@ class FeedBack(ContextMixin, FormView):  # Formview не привязано к �
         context.update(user_context)
         return context
 
-
     def form_valid(self, form):
         email = form.cleaned_data.get('email')
         name = form.cleaned_data.get('name')
@@ -235,4 +234,4 @@ def pageNotFound(request, exception):
 
 def show_food(request, food_id):
     food = Food.objects.get(id=food_id)
-    return HttpResponse(f'food -- >{food.name}')
+    return HttpResponse(f'<p style="text-align: center;font-size: large">Product: {food.name} details page</p>')

@@ -7,6 +7,9 @@ def transformation_list(refactor_list):
             lst = [float(k) for k in lst]
             num = round(((min(lst) + max(lst)) / 2), 2)
             res_list.append(str(num))
+        elif 'следы' in elem:
+            elem = elem.replace('следы', '0')
+            res_list.append(elem)
         elif '-' in elem and elem[0].isdigit() and ',' not in elem:
             lst = elem.split('-')
             lst = [int(k) for k in lst]
