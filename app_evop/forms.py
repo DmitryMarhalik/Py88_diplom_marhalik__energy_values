@@ -52,3 +52,7 @@ class FeedbackForm(forms.Form):
 
 class CalculationResultForm(forms.Form):
     days = forms.IntegerField(label='Enter the number of days here', min_value=1)
+
+
+# class CalculationIndividualKcal(forms.Form):
+#     action = forms.ChoiceField(choices=(("9", "One"),("2", "Two"),("3", "Three"),("4", "Four"),("5", "Five"),))

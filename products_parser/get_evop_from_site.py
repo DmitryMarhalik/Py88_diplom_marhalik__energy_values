@@ -4,26 +4,32 @@ from lxml import html
 
 root_url = 'https://bodymaster.ru/food/tablitsa-kalorijnosti-produktov'
 
+def get_html_elements(text, xpath_request):
+    return html.fromstring(text).xpath(xpath_request)
+
 
 def get_all_categories():
     response = requests.get(root_url)
-    html_tree = html.fromstring(response.text)
-    xpath_request = '//div[@class="content clearfix"]/h3[position()>1]/text()'
-    cats = html_tree.xpath(xpath_request)
+    cats = get_html_elements(response.text, '//div[@class="content clearfix"]/h3[position()>1]/text()')
     return cats
 
 
 def get_products_from_category(cats_number):
     response = requests.get(root_url)
-    html_tree = html.fromstring(response.text)
-    xpath_request = f'//table[@class="bordered with-header"][{cats_number}]/tbody/tr[position()>1]/td/p/text()[1]'
-    products = html_tree.xpath(xpath_request)
+    products = get_html_elements(response.text,
+        f'//table[@class="bordered with-header"][{cats_number}]/tbody/tr[position()>1]/td/p/text()[1]')
     return products
 
 
 cats = get_all_categories()
 numb_categories = [str(num) for num in range(1, len(cats) + 1)]
 pars_category = dict(zip(cats, numb_categories))
+# pars_category = {'Крупы': '1', 'Молочные продукты': '2', 'Яйца': '3', 'Мясо, птица': '4', 'Зелень и овощи': '5',
+#  'Фрукты и ягоды': '6','Рыба и морепродукты': '7', 'Хлеб и хлебобулочные изделия': '8', 'Мука и мучные изделия': '9',
+#  'Бобовые': '10','Колбаса и колбасные изделия': '11', 'Масло, маргарин, пищевые жиры': '12', 'Грибы': '13',
+#  'Орехи, семена, сухофрукты': '14', 'Сладости, торты': '15', 'Икра': '16', 'Алкогольные напитки': '17',
+#  'Безалкогольные напитки': '18'}
+
 
 seafoods = get_products_from_category(pars_category['Рыба и морепродукты']) + get_products_from_category(
     pars_category['Икра'])
@@ -53,8 +59,3 @@ category_products = dict(zip(number_category, name_category))
 # eggs_milk_dairy': '5', 'meat_sausage_products': '6', 'bakery_cereals_pasta': '7', 'nuts_mushrooms': '8',
 # 'confectionery_products': '9','legumes': '10'}
 
-# pars_category = {'Крупы': '1', 'Молочные продукты': '2', 'Яйца': '3', 'Мясо, птица': '4', 'Зелень и овощи': '5',
-#  'Фрукты и ягоды': '6','Рыба и морепродукты': '7', 'Хлеб и хлебобулочные изделия': '8', 'Мука и мучные изделия': '9',
-#  'Бобовые': '10','Колбаса и колбасные изделия': '11', 'Масло, маргарин, пищевые жиры': '12', 'Грибы': '13',
-#  'Орехи, семена, сухофрукты': '14', 'Сладости, торты': '15', 'Икра': '16', 'Алкогольные напитки': '17',
-#  'Безалкогольные напитки': '18'}

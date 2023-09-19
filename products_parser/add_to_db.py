@@ -1,8 +1,6 @@
 import django, os
-from parser.transformaton_data import transformation_list, delete_string_xa0xa0
-from parser.get_evop_from_site import seafoods, vegetables_fruits_berries, butter_margarine_edible, drinks, \
-    eggs_milk_dairy, meat_sausage_products, bakery_cereals_pasta, nuts_mushrooms, confectionery_products, legumes, \
-    category_products
+from products_parser.transformaton_data import transformation_list, delete_string_xa0xa0
+from products_parser.get_evop_from_site import category_products
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "energy_values.settings")
 django.setup()
@@ -17,7 +15,7 @@ def add_data_to_db(lst, category_id):
          transformation_list(delete_string_xa0xa0(lst))])
 
 
-add_data_to_db(legumes, 10)
+# add_data_to_db(legumes, 10)
 for category_id, list_products in category_products.items():
     add_data_to_db(list_products, category_id)
 
