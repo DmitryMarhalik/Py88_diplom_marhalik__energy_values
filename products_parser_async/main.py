@@ -1,6 +1,6 @@
 import asyncio
 
-from product_parser_async.steps import get_all_categories, get_all_products,all_products
+from products_parser_async.steps import get_all_categories, get_all_products,all_products,categories
 import time
 
 
@@ -15,5 +15,7 @@ if __name__ == '__main__':
     current = time.time()
     asyncio.run(main())
     print(time.time() - current)
-    print(all_products)
 
+numb_categories = [str(num) for num in range(1, len(categories) + 1)]
+pars_category = dict(zip(categories, numb_categories))
+print(pars_category)

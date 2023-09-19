@@ -4,13 +4,21 @@ from lxml import html
 
 root_url = 'https://bodymaster.ru/food/tablitsa-kalorijnosti-produktov'
 
+categories = []
+all_products = []
+numb_categories = [str(num) for num in range(1, len(categories) + 1)]
+pars_category = dict(zip(categories, numb_categories))
+
+
+# pars_category ={'Крупы': '1', 'Молочные продукты': '2', 'Яйца': '3', 'Мясо, птица': '4', 'Зелень и овощи': '5', 'Фрукты и ягоды': '6',
+#  'Рыба и морепродукты': '7', 'Хлеб и хлебобулочные изделия': '8', 'Мука и мучные изделия': '9', 'Бобовые': '10',
+#  'Колбаса и колбасные изделия': '11', 'Масло, маргарин, пищевые жиры': '12', 'Грибы': '13',
+#  'Орехи, семена, сухофрукты': '14', 'Сладости, торты': '15', 'Икра': '16', 'Алкогольные напитки': '17',
+#  'Безалкогольные напитки': '18'}
+
 
 def get_html_elements(text, xpath_request):
     return html.fromstring(text).xpath(xpath_request)
-
-
-categories = []
-all_products = []
 
 
 async def get_all_categories():
@@ -28,18 +36,6 @@ async def get_all_products():
             products = get_html_elements(text,
                         f'//table[@class="bordered with-header"]/tbody/tr[position()>1]/td/p/text()[1]')
             all_products.extend(products)
-
-
-# numb_categories = [str(num) for num in range(1, len(categories) + 1)]
-# pars_category = dict(zip(categories, numb_categories))
-#
-
-# pars_category ={'Крупы': '1', 'Молочные продукты': '2', 'Яйца': '3', 'Мясо, птица': '4', 'Зелень и овощи': '5', 'Фрукты и ягоды': '6',
-#  'Рыба и морепродукты': '7', 'Хлеб и хлебобулочные изделия': '8', 'Мука и мучные изделия': '9', 'Бобовые': '10',
-#  'Колбаса и колбасные изделия': '11', 'Масло, маргарин, пищевые жиры': '12', 'Грибы': '13',
-#  'Орехи, семена, сухофрукты': '14', 'Сладости, торты': '15', 'Икра': '16', 'Алкогольные напитки': '17',
-#  'Безалкогольные напитки': '18'}
-
 
 # seafoods = get_products_from_category(pars_category['Рыба и морепродукты']) + get_products_from_category(
 #     pars_category['Икра'])
