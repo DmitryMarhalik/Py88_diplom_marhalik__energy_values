@@ -2,7 +2,7 @@ from django.urls import path
 
 # from django.views.decorators.cache import cache_page
 
-from app_evop.views import (HomePage, AddFood, AddIntake, AllFoods, CalculetionResult, SignUp, SignIn,
+from app_evop.views import (HomePage, AddFood, AddIntake, AllFoods, CalculetionResult, UserKcalNorma, SignUp, SignIn,
                             ShowCategory, FeedBack, show_food, success, sign_out_user)
 
 urlpatterns = [
@@ -14,6 +14,7 @@ urlpatterns = [
     path('food/<int:food_id>/', show_food, name='show_food'),
     path('intake/', AddIntake.as_view(), name='intake'),
     path('caclulation/', CalculetionResult.as_view(), name='calculation_result'),
+    path('caclulation_kcal/', UserKcalNorma.as_view(), name='calculation_norma_kcal'),
     path('sign-up/', SignUp.as_view(), name='sign_up'),
     path('sign-in/', SignIn.as_view(), name='sign_in'),
     path('sign-out/', sign_out_user, name='sign_out'),

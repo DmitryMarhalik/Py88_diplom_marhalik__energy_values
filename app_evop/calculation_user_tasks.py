@@ -29,3 +29,7 @@ def intakes_between_days(request, days):
         total_energy_values = {'proteins': round(proteins, 1), 'fats': round(fats, 1),
                                'carbohydrates': round(carbohydrates, 1), 'kcal': round(kcal, 1)}
         return total_energy_values, count_of_products, message
+
+
+def calculate_norma_kcal(height,weight,age,activity):
+    pass

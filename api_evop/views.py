@@ -9,7 +9,7 @@ from api_evop.permissions import OnlyPostAuthUser
 from api_evop.serializer import FoodSerializer, IntakeSerializer, DaysSerializer
 from app_evop.models import Food, Intake
 
-from app_evop.calculation_user_intakes import intakes_between_days
+from app_evop.calculation_user_tasks import intakes_between_days
 
 
 class AllFoodsAPIListPagination(PageNumberPagination):
