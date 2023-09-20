@@ -55,14 +55,14 @@ class CalculationResultForm(forms.Form):
 
 
 class CalculationIndividualKcalForm(forms.Form):
-    choices = (("MIN", "minimal"),
-               ("WEAK", "weak"),
-               ("MID", "middle"),
-               ("HEAVY", "heavy"),
-               ("EXTR", "extreme"),)
+    choices = (("MIN", "Minimal"),
+               ("WEAK", "Weak"),
+               ("MID", "Middle"),
+               ("HEAVY", "Heavy"),
+               ("EXTR", "Extreme"),)
 
-    gender=forms.ChoiceField(choices=(('Male', 'male'),('Female','female'),))
-    height = forms.IntegerField(label='Your height in cm', min_value=10)
-    weight = forms.IntegerField(label='Your weight in kg', min_value=20)
-    age = forms.IntegerField(label='Your full years', min_value=20)
-    activity = forms.ChoiceField(label='Choose your physical activity', choices=choices)
+    gender = forms.ChoiceField(label='gender', choices=(('MALE', 'Male'), ('FEMALE', 'Female'),))
+    height = forms.IntegerField(label='height (cm)', min_value=10)
+    weight = forms.IntegerField(label='weight (kg)', min_value=20)
+    age = forms.IntegerField(label='full years', min_value=20)
+    activity = forms.ChoiceField(label='activity', choices=choices)

@@ -31,5 +31,20 @@ def intakes_between_days(request, days):
         return total_energy_values, count_of_products, message
 
 
-def calculate_norma_kcal(height,weight,age,activity):
-    pass
+def get_activity_ratio(activity):
+    ratio = {'MIN': 1.2,
+             'WEAK': 1.375,
+             'MID': 1.55,
+             'HEAVY': 1.7,
+             'EXTR': 1.9}
+    return ratio[activity]
+
+
+def get_individual_norm_kcal(gender, height, weight, age, activity):
+    activity_ratio = get_activity_ratio(activity)
+    if gender == 'MALE':
+        user_norm = (10 * weight + 6.25 * height - 5 * age + 5) * activity_ratio
+        return round(user_norm, 1)
+    else:
+        user_norm = (10 * weight + 6.25 * height - 5 * age - 161) * activity_ratio
+        return round(user_norm, 1)

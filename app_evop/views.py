@@ -12,7 +12,7 @@ from app_evop.forms import IntakeForm, AddFoodForm, CalculationResultForm, Regis
     CalculationIndividualKcalForm
 from app_evop.models import Food
 from app_evop.utils import ContextMixin, tabs, categories
-from app_evop.calculation_user_tasks import intakes_between_days
+from app_evop.calculation_user_tasks import intakes_between_days, get_individual_norm_kcal
 
 
 class HomePage(ContextMixin, ListView):
@@ -120,31 +120,28 @@ class AddIntake(ContextMixin, CreateView):
 
 
 class UserKcalNorma(ContextMixin, FormView):
-    template_name = 'evop/individual_kcal_norma.html'
+    template_name = 'evop/individual_kcal_norm.html'
     form_class = CalculationIndividualKcalForm
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        user_context = self.get_user_context(title='Individual norma kcal')
+        user_context = self.get_user_context(title='Individual norm kcal')
         context.update(user_context)
         return context
 
     def post(self, request, *args, **kwargs):
         context = self.get_user_context()
+        gender = request.POST.get('gender')
         height = request.POST.get('height')
         weight = request.POST.get('weight')
         age = request.POST.get('age')
         activity = request.POST.get('activity')
-        # energy_values, count_of_products, message = intakes_between_days(request, days)
+        user_norm_kcal = get_individual_norm_kcal(gender, float(height), float(weight), float(age), activity)
         context = {'tabs': context['tabs'], 'categories': context['categories'],
                    'title': 'Individual norma kcal ',
-                   # 'energy_values': energy_values,
-                   # 'count_product': count_of_products, 'message': message
+                   'user_kcal': user_norm_kcal, 'user_name': request.user.username
                    }
-        # if not count_of_products:
-        #     context['title'] = 'No result'
-        return render(request, 'evop/final_result_kcal.html',
-                      context=context)
+        return render(request, 'evop/final_result_kcal.html', context=context)
 
 
 class CalculetionResult(ContextMixin, FormView):
@@ -168,8 +165,7 @@ class CalculetionResult(ContextMixin, FormView):
                    }
         if not count_of_products:
             context['title'] = 'No result'
-        return render(request, 'evop/final_result.html',
-                      context=context)
+        return render(request, 'evop/final_result.html', context=context)
 
 
 class FeedBack(ContextMixin, FormView):  # Formview не привязано к модели

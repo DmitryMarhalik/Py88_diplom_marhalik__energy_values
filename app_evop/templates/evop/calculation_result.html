@@ -1,18 +1,19 @@
 {% extends 'evop/basis.html' %}
-
 {% block page %}
 <p class="head">Enter the number of days for which you want to calculate the result</p>
 <p class="ptitle">{{ title }}:</p>
-<form method="post">
-    <!--        <div class="form-ror">-->
-    <!--            {% csrf_token %}-->
-    <!--            {{ form.as_p }}-->
-    <!--        </div>-->
-    <!--        -->
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="form-error">{{ f.errors }}</div>
     {% for f in form %}
     <p style="font-size: 22px"><label class="form-label">{{f.label}}: </label>{{ f }}</p>
-    <div class="form-error">{{ f.errors }}</div>
     {% endfor %}
     <button class="form-button" type="submit">Accept</button>
 </form>
 {% endblock %}
+
+<!--        <div class="form-ror">-->
+<!--            {% csrf_token %}-->
+<!--            {{ form.as_p }}-->
+<!--        </div>-->
+<!--        -->

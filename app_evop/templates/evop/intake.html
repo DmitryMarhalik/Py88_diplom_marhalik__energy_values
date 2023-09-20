@@ -1,14 +1,14 @@
 {% extends 'evop/basis.html' %}
 {% block page %}
-    <p class="head">Select the consumed product and its quantity in grams</p>
-    <p class="ptitle">{{ title }}:</p>
-    <form action="{% url 'intake' %}" method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        <div class="form-error">{{ form.non_field_errors }}</div>
-        {% for f in form %}
-            <p style="font-size: 22px"><label class="form-label" for="{{ f.id_for_label }}">{{ f.name }}: </label>{{ f }}</p>
-            <div class="form-error">{{ f.errors }}</div>
-        {% endfor %}
-        <button class="form-button" type="submit">Accept</button>
-    </form>
+<p class="head">Select the consumed product and its quantity in grams</p>
+<p class="ptitle">{{ title }}:</p>
+<form action="{% url 'intake' %}" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="form-error">{{ form.non_field_errors }}</div>
+    {% for f in form %}
+    <p style="font-size: 22px"><label class="form-label" for=>{{ f.name }}: </label>{{ f }}</p>
+    <div class="form-error">{{ f.errors }}</div>
+    {% endfor %}
+    <button class="form-button" type="submit">Accept</button>
+</form>
 {% endblock %}
