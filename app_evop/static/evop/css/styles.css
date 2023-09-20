@@ -420,9 +420,10 @@ ul.lang-list li a:hover {
     background-color: #085d08;
     color: antiquewhite;
     min-width: 200px;
-    min-height: 35px;
-    font-size: 21px;
+    min-height: 38px;
+    font-size: 22px;
     border-radius: 5%;
+    padding: 8px;
 }
 
 .list-pages {
