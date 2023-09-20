@@ -4,6 +4,7 @@ from lxml import html
 
 root_url = 'https://bodymaster.ru/food/tablitsa-kalorijnosti-produktov'
 
+
 def get_html_elements(text, xpath_request):
     return html.fromstring(text).xpath(xpath_request)
 
@@ -17,9 +18,23 @@ def get_all_categories():
 def get_products_from_category(cats_number):
     response = requests.get(root_url)
     products = get_html_elements(response.text,
-        f'//table[@class="bordered with-header"][{cats_number}]/tbody/tr[position()>1]/td/p/text()[1]')
+                                 f'//table[@class="bordered with-header"][{cats_number}]/tbody/tr[position()>1]/td/p/text()[1]')
     return products
 
+
+def get_first_dishes():
+    response = requests.get(
+        'https://health-diet.ru/base_of_meals/meals_21242/?utm_source=leftMenu&utm_medium=base_of_meals')
+    name_dish = get_html_elements(response.text,
+         '//table[@class="uk-table mzr-tc-group-table uk-table-hover uk-table-striped uk-table-condensed"]/'
+                                  'tbody/tr/td/a/text()')
+    evop_dish = get_html_elements(response.text,
+        '//table[@class="uk-table mzr-tc-group-table uk-table-hover uk-table-striped uk-table-condensed"]/'
+                                  'tbody/tr/td[@class="uk-text-right"]/text()')
+    return name_dish, evop_dish
+
+
+name_first_dishes, evop_first_dishes = get_first_dishes()
 
 cats = get_all_categories()
 numb_categories = [str(num) for num in range(1, len(cats) + 1)]
@@ -58,4 +73,3 @@ category_products = dict(zip(number_category, name_category))
 # {'seafoods': '1', 'vegetables_fruits_berries': '2', 'butter_margarine_edible': '3', 'drinks':'4',
 # eggs_milk_dairy': '5', 'meat_sausage_products': '6', 'bakery_cereals_pasta': '7', 'nuts_mushrooms': '8',
 # 'confectionery_products': '9','legumes': '10'}
-

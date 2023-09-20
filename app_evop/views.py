@@ -79,7 +79,7 @@ class AddFood(ContextMixin, CreateView):
 
 
 class ShowCategory(ContextMixin, ListView):
-    paginate_by = 10
+    paginate_by = 13
     template_name = 'evop/show_category.html'
     context_object_name = 'foods'
     allow_empty = False
@@ -93,7 +93,7 @@ class ShowCategory(ContextMixin, ListView):
 
     def get_queryset(self):
         cat_slug = self.kwargs['cat_slug']  # c.get_absolute_url(basis)--(!!get_abs_url.models.kwargs!!)
-        return Food.objects.filter(category__slug=cat_slug, be_confirmed=True).order_by('-id')
+        return Food.objects.filter(category__slug=cat_slug, be_confirmed=True).order_by('name')
 
 
 class AddIntake(ContextMixin, CreateView):

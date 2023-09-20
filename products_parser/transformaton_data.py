@@ -45,3 +45,18 @@ def delete_string_xa0xa0(list_products):
         else:
             refactor_list.append(value)
     return refactor_list
+
+
+def transformation_evop_dishes(evop_list):
+    res_list, finlist = [], []
+    for elem in evop_list:
+        elem = elem.translate(str.maketrans({',': '.', 'г': ''}))
+        res_list.append(elem)
+    for i in res_list:
+        if 'кКал' in i:
+            i = i.replace('кКал', '')
+            finlist.append(i)
+        else:
+            finlist.append(i)
+    finlist=[finlist[i:i + 4] for i in range(0, len(finlist), 4)]
+    return finlist
