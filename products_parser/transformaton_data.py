@@ -66,7 +66,6 @@ def transformation_evop_dishes(evop_list):
     return res_list
 #
 # The third parameter in the mapping table describes characters that you want to remove from the string:
-#
 # txt = "Good night Sam!"
 # x = "mSa"
 # y = "eJo"

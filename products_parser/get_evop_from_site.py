@@ -2,7 +2,9 @@ import requests
 
 from lxml import html
 
-root_url = 'https://bodymaster.ru/food/tablitsa-kalorijnosti-produktov'
+from products_parser.settings import root_products_url, root_second_dishes, root_first_dishes, xpath_name_first_dishes, \
+    xpath_categories, xpath_name_second_dishes, xpath_evop_second_dishes, xpath_evop_first_dishes, root_salads, \
+    xpath_salads_name, xpath_evop_salads
 
 
 def get_html_elements(text, xpath_request):
@@ -10,18 +12,20 @@ def get_html_elements(text, xpath_request):
 
 
 def get_all_categories():
-    response = requests.get(root_url)
-    cats = get_html_elements(response.text, '//div[@class="content clearfix"]/h3[position()>1]/text()')
-    return cats
+    response = requests.get(root_products_url)
+    categories = get_html_elements(response.text, xpath_categories)
+    return categories
 
 
 def get_products_from_category(cats_number):
-    response = requests.get(root_url)
+    response = requests.get(root_products_url)
     products = get_html_elements(response.text,
-                                 f'//table[@class="bordered with-header"][{cats_number}]/tbody/tr[position()>1]/td/p/text()[1]')
+                                 f'//table[@class="bordered with-header"][{cats_number}]/'
+                                 f'tbody/tr[position()>1]/td/p/text()[1]')
     return products
 
 
+#
 cats = get_all_categories()
 numb_categories = [str(num) for num in range(1, len(cats) + 1)]
 pars_category = dict(zip(cats, numb_categories))
@@ -61,18 +65,15 @@ category_products = dict(zip(number_category, name_category))
 # eggs_milk_dairy': '5', 'meat_sausage_products': '6', 'bakery_cereals_pasta': '7', 'nuts_mushrooms': '8',
 # 'confectionery_products': '9','legumes': '10'}
 
-##################################################################################################################
-
-def get_first_dishes():
-    response = requests.get(
-        'https://health-diet.ru/base_of_meals/meals_21242/?utm_source=leftMenu&utm_medium=base_of_meals')
-    name_dish = get_html_elements(response.text,
-                                  '//table[@class="uk-table mzr-tc-group-table uk-table-hover uk-table-striped uk-table-condensed"]/'
-                                  'tbody/tr/td/a/text()')
-    evop_dish = get_html_elements(response.text,
-                                  '//table[@class="uk-table mzr-tc-group-table uk-table-hover uk-table-striped uk-table-condensed"]/'
-                                  'tbody/tr/td[@class="uk-text-right"]/text()')
+# ##################################################################################################################
+def get_dishes(url, xpath_name, xpath_evop):
+    response = requests.get(url)
+    name_dish = get_html_elements(response.text, xpath_name)
+    evop_dish = get_html_elements(response.text, xpath_evop)
     return name_dish, evop_dish
 
 
-name_first_dishes, evop_first_dishes = get_first_dishes()
+names_first_dishes, evop_first_dishes = get_dishes(root_first_dishes, xpath_name_first_dishes, xpath_evop_first_dishes)
+names_second_dishes, evop_second_dishes = get_dishes(root_second_dishes, xpath_name_second_dishes,
+                                                     xpath_evop_second_dishes)
+name_salads, evop_salads = get_dishes(root_salads, xpath_salads_name, xpath_evop_salads)

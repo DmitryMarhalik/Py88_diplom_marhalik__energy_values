@@ -36,7 +36,7 @@ class Category(models.Model):
 
     class Meta:
         verbose_name_plural = 'Categories'
-        ordering = ('id', 'name',)
+        ordering = ('name',)
 
 
 class Intake(models.Model):

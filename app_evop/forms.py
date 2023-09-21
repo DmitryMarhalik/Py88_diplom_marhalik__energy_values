@@ -55,11 +55,11 @@ class CalculationResultForm(forms.Form):
 
 
 class CalculationIndividualKcalForm(forms.Form):
-    choices = (("MIN", "Minimal"),
-               ("WEAK", "Weak"),
-               ("MID", "Middle"),
-               ("HEAVY", "Heavy"),
-               ("EXTR", "Extreme"),)
+    choices = (("MIN", "minimal"),
+               ("WEAK", "weak"),
+               ("MID", "middle"),
+               ("HEAVY", "heavy"),
+               ("EXTR", "extreme"),)
 
     gender = forms.ChoiceField(label='gender', choices=(('MALE', 'Male'), ('FEMALE', 'Female'),))
     height = forms.IntegerField(label='height (cm)', min_value=10)
