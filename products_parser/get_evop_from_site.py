@@ -22,20 +22,6 @@ def get_products_from_category(cats_number):
     return products
 
 
-def get_first_dishes():
-    response = requests.get(
-        'https://health-diet.ru/base_of_meals/meals_21242/?utm_source=leftMenu&utm_medium=base_of_meals')
-    name_dish = get_html_elements(response.text,
-         '//table[@class="uk-table mzr-tc-group-table uk-table-hover uk-table-striped uk-table-condensed"]/'
-                                  'tbody/tr/td/a/text()')
-    evop_dish = get_html_elements(response.text,
-        '//table[@class="uk-table mzr-tc-group-table uk-table-hover uk-table-striped uk-table-condensed"]/'
-                                  'tbody/tr/td[@class="uk-text-right"]/text()')
-    return name_dish, evop_dish
-
-
-name_first_dishes, evop_first_dishes = get_first_dishes()
-
 cats = get_all_categories()
 numb_categories = [str(num) for num in range(1, len(cats) + 1)]
 pars_category = dict(zip(cats, numb_categories))
@@ -69,7 +55,24 @@ name_category = [seafoods, vegetables_fruits_berries, butter_margarine_edible, d
 number_category = [str(num) for num in range(1, len(name_category) + 1)]
 category_products = dict(zip(number_category, name_category))
 
+
 # category_products =
 # {'seafoods': '1', 'vegetables_fruits_berries': '2', 'butter_margarine_edible': '3', 'drinks':'4',
 # eggs_milk_dairy': '5', 'meat_sausage_products': '6', 'bakery_cereals_pasta': '7', 'nuts_mushrooms': '8',
 # 'confectionery_products': '9','legumes': '10'}
+
+##################################################################################################################
+
+def get_first_dishes():
+    response = requests.get(
+        'https://health-diet.ru/base_of_meals/meals_21242/?utm_source=leftMenu&utm_medium=base_of_meals')
+    name_dish = get_html_elements(response.text,
+                                  '//table[@class="uk-table mzr-tc-group-table uk-table-hover uk-table-striped uk-table-condensed"]/'
+                                  'tbody/tr/td/a/text()')
+    evop_dish = get_html_elements(response.text,
+                                  '//table[@class="uk-table mzr-tc-group-table uk-table-hover uk-table-striped uk-table-condensed"]/'
+                                  'tbody/tr/td[@class="uk-text-right"]/text()')
+    return name_dish, evop_dish
+
+
+name_first_dishes, evop_first_dishes = get_first_dishes()

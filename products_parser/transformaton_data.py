@@ -50,13 +50,26 @@ def delete_string_xa0xa0(list_products):
 def transformation_evop_dishes(evop_list):
     res_list, finlist = [], []
     for elem in evop_list:
-        elem = elem.translate(str.maketrans({',': '.', 'г': ''}))
+        off = ',г'
+        push = '. '
+        delete_letters = 'кКал'
+        table_trslt = str.maketrans(off, push, delete_letters)
+        elem = elem.translate(table_trslt)
         res_list.append(elem)
-    for i in res_list:
-        if 'кКал' in i:
-            i = i.replace('кКал', '')
-            finlist.append(i)
-        else:
-            finlist.append(i)
-    finlist=[finlist[i:i + 4] for i in range(0, len(finlist), 4)]
-    return finlist
+    # for i in res_list:
+    #     if 'кКал' in i:
+    #         i = i.replace('кКал', '')
+    #         finlist.append(i)
+    #     else:
+    #         finlist.append(i)
+    res_list = [res_list[i:i + 4] for i in range(0, len(res_list), 4)]
+    return res_list
+#
+# The third parameter in the mapping table describes characters that you want to remove from the string:
+#
+# txt = "Good night Sam!"
+# x = "mSa"
+# y = "eJo"
+# z = "odnght"
+# mytable = str.maketrans(x, y, z)
+# print(txt.translate(mytable))  ----> G i Joe!
