@@ -56,7 +56,6 @@ class AddIntakeAPIList(generics.ListCreateAPIView):
     queryset = Intake.objects.all()
     serializer_class = IntakeSerializer
     permission_classes = (IsAuthenticated,)
-
     # model=Intake
 
     def get_queryset(self):
