@@ -28,7 +28,7 @@ def add_products_to_db(lst, category_id):
 # 'confectionery_products': '9','legumes': '10'}
 
 ####################################################################################################################
-def add_dishes_to_db(dict_dishes, category_id):
+def add_to_db(dict_dishes, category_id):
     Food.objects.bulk_create([Food(name=name, proteins=float(value[1]), fats=float(value[2]),
                                    carbohydrates=float(value[3]), kcal=float(value[0]), category_id=category_id)
                               for name, value in dict_dishes.items()])
@@ -39,7 +39,7 @@ for category_id, list_products in category_products.items():
 
 for dishes in (make_dict_dishes(names_first_dishes, evop_first_dishes),
                make_dict_dishes(names_second_dishes, evop_second_dishes),):
-    add_dishes_to_db(dishes, 11)
+    add_to_db(dishes, 11)
 
-add_dishes_to_db(make_dict_dishes(name_salads,evop_salads),12)
+add_to_db(make_dict_dishes(name_salads,evop_salads),12)
 ####################################################################################################################

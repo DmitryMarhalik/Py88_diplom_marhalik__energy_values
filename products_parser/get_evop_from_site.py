@@ -2,7 +2,7 @@ import requests
 
 from lxml import html
 
-from products_parser.settings import root_products_url, root_second_dishes, root_first_dishes, xpath_name_first_dishes, \
+from products_parser.configuration import root_products_url, root_second_dishes, root_first_dishes, xpath_name_first_dishes, \
     xpath_categories, xpath_name_second_dishes, xpath_evop_second_dishes, xpath_evop_first_dishes, root_salads, \
     xpath_salads_name, xpath_evop_salads
 

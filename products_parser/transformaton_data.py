@@ -64,7 +64,7 @@ def transformation_evop_dishes(evop_list):
     #         finlist.append(i)
     res_list = [res_list[i:i + 4] for i in range(0, len(res_list), 4)]
     return res_list
-#
+
 # The third parameter in the mapping table describes characters that you want to remove from the string:
 # txt = "Good night Sam!"
 # x = "mSa"
