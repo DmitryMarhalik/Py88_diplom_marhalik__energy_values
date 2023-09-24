@@ -67,7 +67,7 @@ class CalculationResult(APIView):
     serializer_class = DaysSerializer
 
     def get(self, request):
-        return Response({'Hello'})
+        return Response({f'Hello,{request.user.username}!'})
 
     def post(self, request):
         days = request.data['days']

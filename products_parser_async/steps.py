@@ -5,10 +5,9 @@ from lxml import html
 root_url = 'https://bodymaster.ru/food/tablitsa-kalorijnosti-produktov'
 
 categories = []
-all_products = []
-numb_categories = [str(num) for num in range(1, len(categories) + 1)]
-pars_category = dict(zip(categories, numb_categories))
-
+products = []
+# numb_categories = [str(num) for num in range(1, len(categories) + 1)]
+# pars_category = dict(zip(categories, numb_categories))
 
 # pars_category ={'Крупы': '1', 'Молочные продукты': '2', 'Яйца': '3', 'Мясо, птица': '4', 'Зелень и овощи': '5', 'Фрукты и ягоды': '6',
 #  'Рыба и морепродукты': '7', 'Хлеб и хлебобулочные изделия': '8', 'Мука и мучные изделия': '9', 'Бобовые': '10',
@@ -27,6 +26,7 @@ async def get_all_categories():
             text = await response.text()
             cats = get_html_elements(text, '//div[@class="content clearfix"]/h3[position()>1]/text()')
             categories.extend(cats)
+            return categories
 
 
 async def get_all_products():
@@ -34,8 +34,20 @@ async def get_all_products():
         async with session.get(root_url) as response:
             text = await response.text()
             products = get_html_elements(text,
-                        f'//table[@class="bordered with-header"]/tbody/tr[position()>1]/td/p/text()[1]')
-            all_products.extend(products)
+                                     f'//table[@class="bordered with-header"]/tbody/tr[position()>1]/td/p/text()[1]')
+            products.extend(products)
+            return products
+
+
+# async def get_products(cats_number):
+#     async with aiohttp.ClientSession() as session:
+#         async with session.get(root_url) as response:
+#             text = await response.text()
+#             products = get_html_elements(text,
+#                                      f'//table[@class="bordered with-header"][{cats_number}]/tbody/tr[position()>1]/td/p/text()[1]')
+#             products.extend(products)
+#             return products
+
 
 # seafoods = get_products_from_category(pars_category['Рыба и морепродукты']) + get_products_from_category(
 #     pars_category['Икра'])
