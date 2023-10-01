@@ -17,6 +17,7 @@ urlpatterns = [
 
     path('', include(router.urls)),  # ViewSet --> /food  -->GET, POST, HEAD, OPTIONS;
                                                  # /food/pk  -->GET, PUT, PATCH, DELETE, HEAD, OPTIONS
+
     path('auth-session/', include('rest_framework.urls')),  # /login /logout
     path('auth-token/', include('djoser.urls')),  # token-djoser http://127.0.0.1:8000/api/auth-token/users/--registr
 

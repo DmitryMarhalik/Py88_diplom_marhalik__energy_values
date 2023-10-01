@@ -28,7 +28,9 @@ class FoodsViewSet(viewsets.ModelViewSet):
     @action(methods=['get'], detail=True)  # foods/pk(category_id)/category
     def category(self, request, pk=None):
         foods = Food.objects.filter(category_id=pk)
-        return Response({'foods': [food.name for food in foods]})
+        return Response({'foods: ([proteins], [fats], [carbohydrates], [kcal], [image])':
+                             [f'{food.name}: ([{food.proteins}], [{food.fats}], [{food.carbohydrates}]; '
+                              f'[{food.kcal}], [{food.image}])' for food in foods]})
 
 
 # ----------------------------------------------------------------
@@ -56,6 +58,7 @@ class AddIntakeAPIList(generics.ListCreateAPIView):
     queryset = Intake.objects.all()
     serializer_class = IntakeSerializer
     permission_classes = (IsAuthenticated,)
+
     # model=Intake
 
     def get_queryset(self):
