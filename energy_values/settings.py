@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'djoser',
+    'drf_spectacular',
 ]
 
 MIDDLEWARE = [
@@ -164,7 +165,8 @@ REST_FRAMEWORK = {'DEFAULT_RENDERER_CLASSES':
                       'rest_framework.authentication.TokenAuthentication',  # token authentication
                       'rest_framework.authentication.BasicAuthentication',  # session authentication
                       'rest_framework.authentication.SessionAuthentication',  # session authentication
-                  ]
+                  ],
+                  'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
                   }
 
 SIMPLE_JWT = {
@@ -197,5 +199,13 @@ SIMPLE_JWT = {
     'SLIDING_TOKEN_LIFETIME': timedelta(minutes=5),
     'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=1),
 }
+SPECTACULAR_SETTINGS = {
+    "TITLE": "Energy values API",  # название проекта
+    "DESCRIPTION": "This is dis",
+    "VERSION": "1.0.0",  # версия проекта
+    "SERVE_INCLUDE_SCHEMA": False,  # исключить эндпоинт /schema
+    "SWAGGER_UI_SETTINGS": {"filter": True, },  # включить поиск по тегам
 
+    "COMPONENT_SPLIT_REQUEST": True
+}
 # sudo lsof -t -i tcp:8000 | xargs kill -9  --------- reset port
