@@ -205,7 +205,7 @@ SPECTACULAR_SETTINGS = {
                    "but also immediately test them in action, send any request and get an answer.",
     "VERSION": "1.0.0",  # версия проекта
     "SERVE_INCLUDE_SCHEMA": False,  # исключить эндпоинт /schema
-    "SWAGGER_UI_SETTINGS": {"filter": True, },  # включить поиск по тегам
+    "SWAGGER_UI_SETTINGS": {"filter": True, 'deepLinking': True,},  # включить поиск по тегам
     "CONTACT": {"name": "Dmitry Marhalik", "email": "dmitrymarhalik@gmail.com"},
     "COMPONENT_SPLIT_REQUEST": True
 }
