@@ -200,11 +200,12 @@ SIMPLE_JWT = {
     'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=1),
 }
 SPECTACULAR_SETTINGS = {
-    "TITLE": "Energy values API",  # название проекта
+    "TITLE": "Energy values of products(EVOP) API",  # название проекта
     "DESCRIPTION": "This is dis",
     "VERSION": "1.0.0",  # версия проекта
     "SERVE_INCLUDE_SCHEMA": False,  # исключить эндпоинт /schema
     "SWAGGER_UI_SETTINGS": {"filter": True, },  # включить поиск по тегам
+    "CONTACT": {"name":"Dmitry Marhalik","email":"dmitrymarhalik@gmail.com"},
 
     "COMPONENT_SPLIT_REQUEST": True
 }
