@@ -21,7 +21,6 @@ class AllFoodsAPIListPagination(PageNumberPagination):
 
 
 # ----------------------------------------------------------------
-
 @extend_schema_view(
     retrieve=extend_schema(
         summary="Viewing a food by id"),
