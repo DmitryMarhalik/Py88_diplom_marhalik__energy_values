@@ -7,6 +7,10 @@ from dotenv import load_dotenv
 from telebot import types
 from collections import Counter
 
+import smtplib
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+
 load_dotenv()
 connection = psycopg2.connect(user=os.getenv('PSQL_NAME'), database="evop",
                               host="127.0.0.1", port="5432", password=os.getenv('PSQL_PASSWORD'))
@@ -16,7 +20,7 @@ bot = telebot.TeleBot(os.getenv('TOKEN'))
 
 @bot.message_handler(commands=["start"])
 def start(message):
-    bot.send_message(message.from_user.id, "Please, enter your 'Name' and 'Email' separated by a space.\n"
+    bot.send_message(message.from_user.id, "Please, enter your 'Name' and 'E-mail' separated by a space.\n"
                                            "for example:\nmichael your_email@gmail.com")
     bot.register_next_step_handler(message, authentication)
 
@@ -33,8 +37,19 @@ def show_menu(message):
     button_3 = types.KeyboardButton("Enter intake")
     button_4 = types.KeyboardButton("Calculation result")
     markup.add(button_1, button_2, button_3, button_4, row_width=1)
-    bot.send_message(message.from_user.id, f"Successful authorization, {name}! Please, choice the operation",
+    bot.send_message(message.from_user.id, f"Successful authorization, {name}! Please, choice the operation  ⬇",
                      reply_markup=markup)
+    bot.register_next_step_handler(message, on_click)
+
+
+def show_return_menu(message):
+    markup = types.ReplyKeyboardMarkup()
+    button_1 = types.KeyboardButton("View all products")
+    button_2 = types.KeyboardButton("Add a product")
+    button_3 = types.KeyboardButton("Enter intake")
+    button_4 = types.KeyboardButton("Calculation result")
+    markup.add(button_1, button_2, button_3, button_4, row_width=1)
+    bot.send_message(message.from_user.id, 'Please, choice the operation  ⬇', reply_markup=markup)
     bot.register_next_step_handler(message, on_click)
 
 
@@ -49,23 +64,33 @@ def authentication(message):
         if user_id:
             show_menu(message)
     except Exception:
-        bot.send_message(message.from_user.id, "Incorrect input name or email address."
-                                               " Please, enter your name and password separated by a space")
+        bot.send_message(message.from_user.id, "Incorrect input name or e-mail address. "
+                                               "Please, enter your name and e-mail separated by a space")
         bot.register_next_step_handler(message, authentication)
 
 
 @bot.message_handler()
 def on_click(message):
     if message.text == "View all products":
-        postgres_insert_query = """select bar_code,name from app_evop_food order by name"""
-        cursor.execute(postgres_insert_query, (message.from_user.id,))
-        allbarcode_products = cursor.fetchall()
-        connection.commit()
-        bot.send_message(message.from_user.id, "The database contains the following "
-                                               "products and their barcodes: ⬇")
-        for product in allbarcode_products:
-            bot.send_message(message.from_user.id, f"{product[1]} ➡ "
-                                                   f"barcode: '{product[0]}'")
+        markup = types.ReplyKeyboardMarkup()
+        button_1 = types.KeyboardButton("🐟 Seafoods")
+        button_2 = types.KeyboardButton("🍅 Vegetables, Fruits and Berries")
+        button_3 = types.KeyboardButton("🧈 Butter, Margarine, Edible Fats")
+        button_4 = types.KeyboardButton("🥃 Drinks")
+        button_5 = types.KeyboardButton("🥚 Eggs, Milk and Dairy")
+        button_6 = types.KeyboardButton("🥩 Meat and Sausage Products")
+        button_7 = types.KeyboardButton("🍞 Bakery , Cereals, Pasta")
+        button_8 = types.KeyboardButton("🍄 Nuts and Mushrooms")
+        button_9 = types.KeyboardButton("🎂 Confectionery Products")
+        button_10 = types.KeyboardButton("🥜 Legumes")
+        button_11 = types.KeyboardButton("🍝 Dishes")
+        button_12 = types.KeyboardButton("🥗 Salads")
+        button_13 = types.KeyboardButton("↩ Return home")
+        markup.add(button_1, button_2, button_3, button_4, button_5, button_6, button_7, button_8,
+                   button_9, button_10, button_11, button_12, button_13, row_width=1)
+        bot.send_message(message.from_user.id, "Please, select category of products  ⬇",
+                         reply_markup=markup)
+        bot.register_next_step_handler(message, on_click_category)
     elif message.text == "Add a product":
         bot.send_message(message.from_user.id, "All categories ⬇")
         postgres_insert_query = """select id, name from app_evop_category order by name"""
@@ -79,12 +104,16 @@ def on_click(message):
                          "and no more than one digit after the decimal point>\n"
                          "1⃣ 🆔 Select the category id of the product to be added.\n"
                          "2⃣ 📝 And then, enter name of product, barcode, protein, fat, carbohydrate, kcal, category id\n"
-                         "per 100 grams separated by a space. For example:\n'potato 16237272 232.4 3233 367 834 4'  ⬇")
+                         "per 100 grams separated by a comma.\n"
+                         "3⃣ 🅾 If the barcode is unknown, then enter the digit 0. For example:\n"
+                         "Куриный суп по-индийски, 16237272 (or 0), 232.4,3233, 367, 834, 4'  ⬇")
         bot.register_next_step_handler(message, add_product)
     elif message.text == "Enter intake":
         bot.send_message(message.from_user.id, "❗<The entered energy values should be no more than 9999"
                                                " and no more than one digit after the decimal point>\n"
-                                               "Enter your product and product quantity in grams by a space.  ⬇")
+                                               "Enter your product(the exact name of the product can be found "
+                                               "at www.evop.com)  and product quantity in grams separated by a comma. "
+                                               "For example:\n'Помидоры черри, 250'  ⬇")
         bot.register_next_step_handler(message, intake)
     elif message.text == "Calculation result":
         bot.send_message(message.from_user.id, "📅 For what time period to calculate the result? "
@@ -94,9 +123,33 @@ def on_click(message):
         bot.send_message(message.from_user.id, "Something went wrong")
 
 
+def on_click_category(message):
+    if message.text == '↩ Return home':
+        show_return_menu(message)
+    else:
+        try:
+            keyword = {'🐟 Seafoods': '1', '🍅 Vegetables, Fruits and Berries': '2',
+                       '🧈 Butter, Margarine, Edible Fats': '3', '🥃 Drinks': '4', '🥚 Eggs, Milk and Dairy': '5',
+                       '🥩 Meat and Sausage Products': '6', '🍞 Bakery , Cereals, Pasta': '7',
+                       '🍄 Nuts and Mushrooms': '8', '🎂 Confectionery Products': '9',
+                       '🥜 Legumes': '10', '🍝 Dishes': '11', '🥗 Salads': '12'}
+            bot.send_message(message.from_user.id, f"{message.text} products: ⬇")
+            postgres_insert_query = """select name from app_evop_food where app_evop_food.category_id = %s order by name"""
+            cursor.execute(postgres_insert_query, (keyword[message.text],))
+            seafoods_product = cursor.fetchall()
+            connection.commit()
+            for name in seafoods_product:
+                bot.send_message(message.from_user.id, f"{name[0]}")
+            show_return_menu(message)
+        except Exception:
+            bot.send_message(message.from_user.id, "Something went wrong")
+            show_return_menu(message)
+
+
 def add_product(message):
     try:
-        product_name, bar_code, protein, fat, carbohydrate, kcal, category_id = message.text.split(" ")
+        product_name, bar_code, protein, fat, carbohydrate, kcal, category_id = message.text.split(",")
+        bar_code = None if int(bar_code) == 0 else bar_code
         postgres_insert_query = """INSERT INTO app_evop_food (name, bar_code, proteins, fats, 
                                 carbohydrates, kcal, be_confirmed, category_id) VALUES (%s,%s,%s,%s,%s,%s,%s,%s)"""
         be_confirmed = "False"
@@ -104,19 +157,31 @@ def add_product(message):
                                                float(fat), float(carbohydrate), float(kcal), be_confirmed, category_id))
         connection.commit()
         bot.send_message(message.from_user.id, "Product added successfully!")
+
+        smtp_server = smtplib.SMTP("smtp.gmail.com", 587)
+        smtp_server.starttls()
+        smtp_server.login(os.getenv('ADMIN_EMAIL'), os.getenv("EMAIL_ADMIN_PASSWORD"))
+        text_message = (
+            f'from :{name}, e-mail: {email}\nfood: {product_name}\nbar_code: {bar_code}\nproteins: {protein}'
+            f'\nfats: {fat}\ncarbohydrates: {carbohydrate}\nkcal: {kcal}\ncategory: {category_id}')
+        msg = MIMEMultipart()
+        msg["Subject"] = "food from user EVOP-tg-bot 📧"
+        msg.attach(MIMEText(text_message, "plain"))
+        smtp_server.sendmail(f'{email}', os.getenv('ADMIN_EMAIL'), msg.as_string())
+        smtp_server.quit()
     except Exception:
         bot.send_message(message.from_user.id, "Incorrect input product. Please, try again")
 
 
 def intake(message):
     try:
-        product_name, gram = message.text.split(" ")
+        product_name, gram = message.text.split(",")
         postgres_insert_query2 = """select app_evop_food.id from app_evop_food where app_evop_food.name = %s"""
-        cursor.execute(postgres_insert_query2, (product_name,))
+        cursor.execute(postgres_insert_query2, (product_name.strip(),))
         food_id = cursor.fetchone()[0]
         current_time = datetime.now()
         postgres_insert_query3 = """INSERT INTO app_evop_intake (user_id, food_id, gram, time) VALUES (%s,%s,%s,%s)"""
-        cursor.execute(postgres_insert_query3, (user_id, int(food_id), float(gram), current_time))
+        cursor.execute(postgres_insert_query3, (user_id, int(food_id), float(gram.strip()), current_time))
         connection.commit()
         bot.send_message(message.from_user.id, "The intake added!")
     except Exception:

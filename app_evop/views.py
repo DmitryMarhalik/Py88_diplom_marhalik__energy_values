@@ -138,7 +138,7 @@ class UserKcalNorma(ContextMixin, FormView):
         activity = request.POST.get('activity')
         user_norm_kcal = get_individual_norm_kcal(gender, float(height), float(weight), float(age), activity)
         context = {'tabs': context['tabs'], 'categories': context['categories'],
-                   'title': 'Individual norma kcal ',
+                   'title': f'{request.user.username} norma kcal ',
                    'user_kcal': user_norm_kcal, 'user_name': request.user.username
                    }
         return render(request, 'evop/final_result_kcal.html', context=context)
