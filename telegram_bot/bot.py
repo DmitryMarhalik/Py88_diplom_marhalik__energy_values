@@ -37,20 +37,20 @@ def show_menu(message):
     button_3 = types.KeyboardButton("Enter intake")
     button_4 = types.KeyboardButton("Calculation result")
     markup.add(button_1, button_2, button_3, button_4, row_width=1)
-    bot.send_message(message.from_user.id, f"Successful authorization, {name}! Please, choice the operation  ⬇",
-                     reply_markup=markup)
+    bot.send_message(message.from_user.id, "Please, choice the operation  ⬇", reply_markup=markup)
     bot.register_next_step_handler(message, on_click)
 
 
-def show_return_menu(message):
-    markup = types.ReplyKeyboardMarkup()
-    button_1 = types.KeyboardButton("View all products")
-    button_2 = types.KeyboardButton("Add a product")
-    button_3 = types.KeyboardButton("Enter intake")
-    button_4 = types.KeyboardButton("Calculation result")
-    markup.add(button_1, button_2, button_3, button_4, row_width=1)
-    bot.send_message(message.from_user.id, 'Please, choice the operation  ⬇', reply_markup=markup)
-    bot.register_next_step_handler(message, on_click)
+#
+# def show_return_menu(message):
+#     markup = types.ReplyKeyboardMarkup()
+#     button_1 = types.KeyboardButton("View all products")
+#     button_2 = types.KeyboardButton("Add a product")
+#     button_3 = types.KeyboardButton("Enter intake")
+#     button_4 = types.KeyboardButton("Calculation result")
+#     markup.add(button_1, button_2, button_3, button_4, row_width=1)
+#     bot.send_message(message.from_user.id, 'Please, choice the operation  ⬇', reply_markup=markup)
+#     bot.register_next_step_handler(message, on_click)
 
 
 def authentication(message):
@@ -62,6 +62,7 @@ def authentication(message):
         cursor.execute(postgres_insert_query1, (name, email))
         user_id = cursor.fetchone()[0]
         if user_id:
+            bot.send_message(message.from_user.id, f"Successful authorization, {name}!")
             show_menu(message)
     except Exception:
         bot.send_message(message.from_user.id, "Incorrect input name or e-mail address. "
@@ -85,9 +86,9 @@ def on_click(message):
         button_10 = types.KeyboardButton("🥜 Legumes")
         button_11 = types.KeyboardButton("🍝 Dishes")
         button_12 = types.KeyboardButton("🥗 Salads")
-        button_13 = types.KeyboardButton("↩ Return home")
+        button_13 = types.KeyboardButton("↩ Return back")
         markup.add(button_1, button_2, button_3, button_4, button_5, button_6, button_7, button_8,
-                   button_9, button_10, button_11, button_12, button_13, row_width=1)
+                   button_9, button_10, button_11, button_12, button_13, row_width=4)
         bot.send_message(message.from_user.id, "Please, select category of products  ⬇",
                          reply_markup=markup)
         bot.register_next_step_handler(message, on_click_category)
@@ -111,8 +112,8 @@ def on_click(message):
     elif message.text == "Enter intake":
         bot.send_message(message.from_user.id, "❗<The entered energy values should be no more than 9999"
                                                " and no more than one digit after the decimal point>\n"
-                                               "Enter your product(the exact name of the product can be found "
-                                               "at www.evop.com)  and product quantity in grams separated by a comma. "
+                                               "  Enter your product(the exact name of the product can be found "
+                                               "at 'View all product' button🔘)  and product quantity in grams separated by a comma. "
                                                "For example:\n'Помидоры черри, 250'  ⬇")
         bot.register_next_step_handler(message, intake)
     elif message.text == "Calculation result":
@@ -124,8 +125,8 @@ def on_click(message):
 
 
 def on_click_category(message):
-    if message.text == '↩ Return home':
-        show_return_menu(message)
+    if message.text == '↩ Return back':
+        show_menu(message)
     else:
         try:
             keyword = {'🐟 Seafoods': '1', '🍅 Vegetables, Fruits and Berries': '2',
@@ -140,10 +141,10 @@ def on_click_category(message):
             connection.commit()
             for name in seafoods_product:
                 bot.send_message(message.from_user.id, f"{name[0]}")
-            show_return_menu(message)
+            show_menu(message)
         except Exception:
             bot.send_message(message.from_user.id, "Something went wrong")
-            show_return_menu(message)
+            show_menu(message)
 
 
 def add_product(message):
@@ -181,7 +182,7 @@ def intake(message):
         food_id = cursor.fetchone()[0]
         current_time = datetime.now()
         postgres_insert_query3 = """INSERT INTO app_evop_intake (user_id, food_id, gram, time) VALUES (%s,%s,%s,%s)"""
-        cursor.execute(postgres_insert_query3, (user_id, int(food_id), float(gram.strip()), current_time))
+        cursor.execute(postgres_insert_query3, (user_id, int(food_id), float(gram), current_time))
         connection.commit()
         bot.send_message(message.from_user.id, "The intake added!")
     except Exception:
