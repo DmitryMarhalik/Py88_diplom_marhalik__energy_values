@@ -16,8 +16,8 @@ from app_evop.calculation_user_tasks import intakes_between_days, get_individual
 
 
 class HomePage(ContextMixin, ListView):
-    model = Food  # if not ---> HomePage is missing a QuerySet. Define HomePage.model,
-    # HomePage.queryset, or override HomePage.get_queryset().
+    model = Food  #  if not ---> HomePage is missing a QuerySet. Define HomePage.model,
+                  #  HomePage.queryset, or override HomePage.get_queryset().
     template_name = 'evop/main.html'
 
     def get_context_data(self, *, object_list=None, **kwargs):
@@ -65,6 +65,7 @@ class AddFood(ContextMixin, CreateView):
                         f'\nfats: {fats}\ncarbohydrates: {carbohydrates}\nkcal: {kcal}\ncategory: {category}')
         message = (f'name: {self.request.user.username}\nemail: {self.request.user.email}\n'
                    f'the proposed product:\n{text_message}')
+        form.save()
         try:
             send_mail('EVOP site',
                       message,
@@ -75,7 +76,8 @@ class AddFood(ContextMixin, CreateView):
             #  дополнительных заголовков электронной почты. Если обнаружен “плохой заголовок”,
             #  то представление вернет клиенту HttpResponse с текстом “Incorrect header found”.
             return HttpResponse('Incorrect header found')
-        return redirect('success', args=f'food {food}')
+        return render(self.request, 'evop/success.html', {'tabs': tabs,
+                                                          'food': food, 'categories': categories})
 
 
 class ShowCategory(ContextMixin, ListView):
@@ -111,12 +113,14 @@ class AddIntake(ContextMixin, CreateView):
     def form_valid(self, form):
         form.instance.user_id = self.request.user.id
         form.save()
-        return super().form_valid(form)
+        food = form.cleaned_data.get('food')
+        return render(self.request, 'evop/success.html', {'tabs': tabs,
+                                                          'food': food, 'categories': categories})
 
-    def get_success_url(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        intake = context.get('intake').food.name
-        return reverse('success', args=[f'intake {intake}'])
+    # def get_success_url(self, **kwargs):
+    #     context = super().get_context_data(**kwargs)
+    #     intake = context.get('intake').food.name
+    #     return reverse('success', args=[f'intake {intake}'])
 
 
 class UserKcalNorma(ContextMixin, FormView):
@@ -161,11 +165,11 @@ class CalculetionResult(ContextMixin, FormView):
         context = {'tabs': context['tabs'], 'categories': context['categories'],
                    'title': 'Final calculation',
                    'energy_values': energy_values,
-                   'count_product': count_of_products, 'message': message
+                   'count_product': count_of_products, 'message': message, 'name': request.user.username
                    }
         if not count_of_products:
             context['title'] = 'No result'
-        return render(request, 'evop/final_result.html', context=context)
+        return render(request, 'evop/final_result_evop.html', context=context)
 
 
 class FeedBack(ContextMixin, FormView):  # Formview не привязано к модели
@@ -192,10 +196,11 @@ class FeedBack(ContextMixin, FormView):  # Formview не привязано к �
                       [settings.EMAIL_HOST_USER]
                       )
         except BadHeaderError:  # BadHeaderError, чтобы предотвратить вставку злоумышленниками
-            #  дополнительных заголовков электронной почты. Если обнаружен “плохой заголовок”,
-            #  то представление вернет клиенту HttpResponse с текстом “Incorrect header found”.
+            # дополнительных заголовков электронной почты. Если обнаружен “плохой заголовок”,
+            # то представление вернет клиенту HttpResponse с текстом “Incorrect header found”.
             return HttpResponse('Incorrect header found')
-        return redirect('success', args=f'feedbackname {name}')
+        return render(self.request, 'evop/success.html', {'tabs': tabs,
+                                                          'feedbackname': name, 'categories': categories})
 
 
 class SignIn(ContextMixin, LoginView):
@@ -208,6 +213,12 @@ class SignIn(ContextMixin, LoginView):
         context.update(user_context)
         return context
 
+    #
+    # def form_valid(self, form):
+    #     username = self.request.user.username
+    #     print(username)
+    #     return render(self.request, 'evop/success.html', {'tabs': tabs,
+    #                                                       'reg_user': username, 'categories': categories})
     def get_success_url(self, **kwargs):
         username = self.request.user.username
         return reverse('success', args=[f'username {username}'])

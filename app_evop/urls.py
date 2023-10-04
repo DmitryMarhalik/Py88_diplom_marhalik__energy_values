@@ -22,5 +22,4 @@ urlpatterns = [
     path('category/<slug:cat_slug>/', ShowCategory.as_view(), name='category'),
     path('feedback/', FeedBack.as_view(), name='feedback'),
     path('success/<str:args>', success, name='success'),
-
 ]

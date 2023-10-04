@@ -1,13 +1,12 @@
 import os
 import psycopg2
 import telebot
+import smtplib
 
 from datetime import datetime
 from dotenv import load_dotenv
 from telebot import types
 from collections import Counter
-
-import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
