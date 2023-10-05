@@ -1,7 +1,7 @@
 {% extends 'evop/basis.html' %}
 {% block page %}
-    <h1>{{ title }}</h1>
-    <form method="post">
+    <p class="ptitle">{{ title }}</p>
+    <form method="post" action="">
         <div class="form-error">
             {% csrf_token %}
             {{ form.as_p }}

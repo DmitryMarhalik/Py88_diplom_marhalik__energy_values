@@ -1,16 +1,15 @@
 {% extends 'evop/basis.html' %}
 {% block page %}
-<h1>{{ title }}</h1>
+<p class="ptitle">Registration:</p>
 <form method="post">
-            <div class="form-error">
+<!--            <div class="content">-->
                 {% csrf_token %}
-                {{ form.as_p }}
-            </div>
-<!--    {% for f in form %}-->
-<!--    <p><label class="form-label">{{f.label}}: </label>{{ f }}</p>-->
-<!--    <div class="form-error">{{ f.errors }}</div>-->
-<!--    {% endfor %}-->
+<!--                {{ form.as_p }}-->
+<!--            </div>-->
+    {% for f in form %}
+    <p><label class="form-label">{{f.label}}: </label>{{ f }}</p>
+    <div class="form-error">{{ f.errors }}</div>
+    {% endfor %}
     <button class="form-button" type="submit">Accept</button>
 </form>
-
 {% endblock %}

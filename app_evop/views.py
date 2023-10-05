@@ -16,8 +16,8 @@ from app_evop.calculation_user_tasks import intakes_between_days, get_individual
 
 
 class HomePage(ContextMixin, ListView):
-    model = Food  #  if not ---> HomePage is missing a QuerySet. Define HomePage.model,
-                  #  HomePage.queryset, or override HomePage.get_queryset().
+    model = Food  # if not ---> HomePage is missing a QuerySet. Define HomePage.model,
+    #  HomePage.queryset, or override HomePage.get_queryset().
     template_name = 'evop/main.html'
 
     def get_context_data(self, *, object_list=None, **kwargs):
@@ -172,7 +172,7 @@ class CalculetionResult(ContextMixin, FormView):
         return render(request, 'evop/final_result_evop.html', context=context)
 
 
-class FeedBack(ContextMixin, FormView):  # Formview не привязано к модели
+class FeedBack(ContextMixin, FormView):
     form_class = FeedbackForm
     template_name = 'evop/feedback.html'
 
@@ -213,34 +213,29 @@ class SignIn(ContextMixin, LoginView):
         context.update(user_context)
         return context
 
-    #
-    # def form_valid(self, form):
-    #     username = self.request.user.username
-    #     print(username)
+    # def form_valid(self,form, **kwargs):
+    #     requests=self.request
+    #     username = form.cleaned_data.get('username')
     #     return render(self.request, 'evop/success.html', {'tabs': tabs,
-    #                                                       'reg_user': username, 'categories': categories})
+    #                                                       'username': username, 'categories': categories})
     def get_success_url(self, **kwargs):
-        username = self.request.user.username
-        return reverse('success', args=[f'username {username}'])
-        # return redirect('home')
+        return reverse_lazy('home')
 
 
 class SignUp(ContextMixin, CreateView):
     form_class = RegisterUserForm
     template_name = 'evop/sign_up.html'
-
-    # success_url = reverse_lazy('success_registration_user')
+    success_url = reverse_lazy('sign_in')
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         user_context = self.get_user_context(title='Sign Up')
         context.update(user_context)
         return context
-
-    def get_success_url(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        username = context.get('user').username
-        return reverse('success', args=[f'reg_user {username}'])
+    # def get_success_url(self, **kwargs):
+    #     context = super().get_context_data(**kwargs)
+    #     username = context.get('user').username
+    #     return reverse('success', args=[f'reg_user {username}'])
 
     # def form_valid(self, form):        #для автоматического входа при регистрации
     #     user=form.save()
@@ -253,15 +248,16 @@ def sign_out_user(request):
     return redirect('home')
 
 
-def success(request, args):  # 'food 23r3t5 2435t 35t we'
-    keyword = args.split(' ')[:1][0]
-    arg = args.split(' ')[1:]
-    arg = ' '.join(arg)
-    try:
-        return render(request, 'evop/success.html', {'tabs': tabs,
-                                                     keyword: arg, 'categories': categories})
-    except:
-        return HttpResponse('<h1>Somethink went wrong. Go back and try again</h1>')
+# def success(request, args):  # 'food 23r3t5 2435t 35t we'
+#     print(args)
+#     keyword = args.split(' ')[:1][0]
+#     arg = args.split(' ')[1:]
+#     arg = ' '.join(arg)
+#     try:
+#         return render(request, 'evop/success.html', {'tabs': tabs,
+#                                                      keyword: arg, 'categories': categories})
+#     except:
+#         return HttpResponse('<h1>Somethink went wrong. Go back and try again</h1>')
 
 
 def pageNotFound(request, exception):
