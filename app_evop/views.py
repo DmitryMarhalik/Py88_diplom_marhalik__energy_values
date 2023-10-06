@@ -1,18 +1,18 @@
 from django.contrib.auth import logout
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.views import LoginView
-from django.core.mail import send_mail, BadHeaderError
 from django.http import HttpResponseNotFound, HttpResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy, reverse
 from django.views.generic import ListView, CreateView, FormView
-from django.conf import settings
+from django.views.generic.base import TemplateView
 
 from app_evop.forms import IntakeForm, AddFoodForm, CalculationResultForm, RegisterUserForm, FeedbackForm, \
     CalculationIndividualKcalForm
 from app_evop.models import Food
-from app_evop.utils import ContextMixin, tabs, categories
+from app_evop.utils import ContextMixin
 from app_evop.calculation_user_tasks import intakes_between_days, get_individual_norm_kcal
+from app_evop.tasks import send_email_task
 
 
 class HomePage(ContextMixin, ListView):
@@ -54,6 +54,7 @@ class AddFood(ContextMixin, CreateView):
         return context
 
     def form_valid(self, form):
+        context = self.get_user_context()
         food = form.cleaned_data.get('name')
         bar_code = form.cleaned_data.get('bar_code')
         proteins = form.cleaned_data.get('proteins')
@@ -66,18 +67,19 @@ class AddFood(ContextMixin, CreateView):
         message = (f'name: {self.request.user.username}\nemail: {self.request.user.email}\n'
                    f'the proposed product:\n{text_message}')
         form.save()
-        try:
-            send_mail('EVOP site',
-                      message,
-                      self.request.user.email,
-                      [settings.EMAIL_HOST_USER]
-                      )
-        except BadHeaderError:  # BadHeaderError, чтобы предотвратить вставку злоумышленниками
-            #  дополнительных заголовков электронной почты. Если обнаружен “плохой заголовок”,
-            #  то представление вернет клиенту HttpResponse с текстом “Incorrect header found”.
-            return HttpResponse('Incorrect header found')
-        return render(self.request, 'evop/success.html', {'tabs': tabs,
-                                                          'food': food, 'categories': categories})
+        send_email_task.delay(self.request.user.email, message)  # celery
+        # try:
+        #     send_mail('EVOP site',
+        #               message,
+        #               self.request.user.email,
+        #               [settings.EMAIL_HOST_USER]
+        #               )
+        # except BadHeaderError:  # BadHeaderError, чтобы предотвратить вставку злоумышленниками
+        #     #  дополнительных заголовков электронной почты. Если обнаружен “плохой заголовок”,
+        #     #  то представление вернет клиенту HttpResponse с текстом “Incorrect header found”.
+        #     return HttpResponse('Incorrect header found')
+        return render(self.request, 'evop/success.html', {'tabs': context['tabs'],
+                                                          'categories': context['categories'], 'food': food})
 
 
 class ShowCategory(ContextMixin, ListView):
@@ -111,11 +113,13 @@ class AddIntake(ContextMixin, CreateView):
         return context
 
     def form_valid(self, form):
+        context = self.get_user_context()
         form.instance.user_id = self.request.user.id
         form.save()
         food = form.cleaned_data.get('food')
-        return render(self.request, 'evop/success.html', {'tabs': tabs,
-                                                          'food': food, 'categories': categories})
+        return render(self.request, 'evop/success.html', {'tabs': context['tabs'],
+                                                          'title': 'Intake added',
+                                                          'categories': context['categories'], 'intake': food})
 
     # def get_success_url(self, **kwargs):
     #     context = super().get_context_data(**kwargs)
@@ -175,8 +179,7 @@ class CalculetionResult(ContextMixin, FormView):
 class FeedBack(ContextMixin, FormView):
     form_class = FeedbackForm
     template_name = 'evop/feedback.html'
-
-    # success_url = reverse_lazy('success_send_message')
+    success_url = reverse_lazy('send_email')
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -185,22 +188,21 @@ class FeedBack(ContextMixin, FormView):
         return context
 
     def form_valid(self, form):
-        email = form.cleaned_data.get('email')
-        name = form.cleaned_data.get('name')
-        content = form.cleaned_data.get('content')
-        message = f'name: {name}\nemail: {email}\nmessage: {content}'
-        try:
-            send_mail('EVOP site',
-                      message,
-                      email,
-                      [settings.EMAIL_HOST_USER]
-                      )
-        except BadHeaderError:  # BadHeaderError, чтобы предотвратить вставку злоумышленниками
-            # дополнительных заголовков электронной почты. Если обнаружен “плохой заголовок”,
-            # то представление вернет клиенту HttpResponse с текстом “Incorrect header found”.
-            return HttpResponse('Incorrect header found')
-        return render(self.request, 'evop/success.html', {'tabs': tabs,
-                                                          'feedbackname': name, 'categories': categories})
+        form.send_email()
+        return super().form_valid(form)
+        # send_feedback_email_task.delay(self.request,name,user_email, message,tabs,categories)
+
+
+class SendEmail(ContextMixin, TemplateView):
+
+    def get(self, request, *args, **kwargs):
+        context = self.get_user_context(title='Send feedback')
+        context = {'tabs': context['tabs'], 'categories': context['categories'],
+                   'feedbackname': request.user.username
+                   }
+        return render(self.request, 'evop/success.html', context=context)
+
+    # template_name = "evop/success_send_message.html"
 
 
 class SignIn(ContextMixin, LoginView):

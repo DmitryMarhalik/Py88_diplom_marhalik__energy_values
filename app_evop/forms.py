@@ -3,6 +3,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 
 from app_evop.models import Food, Intake, User
+from app_evop.tasks import send_email_task
 
 
 class AddFoodForm(forms.ModelForm):
@@ -28,7 +29,6 @@ class IntakeForm(forms.ModelForm):
 
 
 class RegisterUserForm(UserCreationForm):
-
     class Meta:
         model = User
         fields = ('username', 'email', 'password1', 'password2')
@@ -44,6 +44,17 @@ class FeedbackForm(forms.Form):
     email = forms.EmailField(label='Email')
     content = forms.CharField(label='Content', widget=forms.Textarea(attrs={'cols': 60, 'rows': 10}))
     captcha = CaptchaField()
+
+    def send_email(self):
+        user_email = self.cleaned_data.get('email')
+        name = self.cleaned_data.get('name')
+        content = self.cleaned_data.get('content')
+        message = f'name: {name}\nemail: {user_email}\nmessage: {content}'
+        send_email_task.delay(user_email, message)
+        # send_feedback_email_task.apply_async(args=[user_email,message])
+# Вызов .delay() — это самый быстрый способ отправить сообщение о задаче в Celery. Этот метод является ярлыком для
+# более мощного метода .apply_async(), который дополнительно поддерживает параметры выполнения для точной настройки
+# вашего сообщения о задаче.
 
 
 class CalculationResultForm(forms.Form):

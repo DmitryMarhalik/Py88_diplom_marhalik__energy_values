@@ -3,7 +3,7 @@ from django.urls import path
 # from django.views.decorators.cache import cache_page
 
 from app_evop.views import (HomePage, AddFood, AddIntake, AllFoods, CalculetionResult, UserKcalNorma, SignUp, SignIn,
-                            ShowCategory, FeedBack, show_food, sign_out_user)
+                            ShowCategory, FeedBack, show_food, sign_out_user, SendEmail)
 
 urlpatterns = [
     # path('', cache_page(60*60)(HomePage.as_view()), name='home'),
@@ -21,4 +21,5 @@ urlpatterns = [
     # path('category/<slug:cat_slug>/', cache_page(60 * 15)(ShowCategory.as_view()), name='category'),
     path('category/<slug:cat_slug>/', ShowCategory.as_view(), name='category'),
     path('feedback/', FeedBack.as_view(), name='feedback'),
+    path('success_send_message/',SendEmail.as_view(), name='send_email'),
 ]

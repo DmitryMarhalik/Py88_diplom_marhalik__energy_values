@@ -200,13 +200,18 @@ SIMPLE_JWT = {
     'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=1),
 }
 SPECTACULAR_SETTINGS = {
-    "TITLE": "Energy values of products(EVOP) API",  # название проекта
+    "TITLE": "Energy values of products(EVOP) API",
     "DESCRIPTION": "Here you can not only study all the endpoints of the application,"
                    "but also immediately test them in action, send any request and get an answer.",
     "VERSION": "1.0.0",  # версия проекта
     "SERVE_INCLUDE_SCHEMA": False,  # исключить эндпоинт /schema
-    "SWAGGER_UI_SETTINGS": {"filter": True, 'deepLinking': True,},  # включить поиск по тегам
+    "SWAGGER_UI_SETTINGS": {"filter": True, 'deepLinking': True, },  # включить поиск по тегам
     "CONTACT": {"name": "Dmitry Marhalik", "email": "dmitrymarhalik@gmail.com"},
     "COMPONENT_SPLIT_REQUEST": True
 }
+
+CELERY_BROKER_URL = "redis://localhost:6379"
+CELERY_RESULT_BACKEND = "redis://localhost:6379"
+
+
 # sudo lsof -t -i tcp:8000 | xargs kill -9  --------- reset port
