@@ -10,7 +10,7 @@ from django.views.generic.base import TemplateView
 from app_evop.forms import IntakeForm, AddFoodForm, CalculationResultForm, RegisterUserForm, FeedbackForm, \
     CalculationIndividualKcalForm
 from app_evop.models import Food
-from app_evop.utils import ContextMixin
+from app_evop.utils import ContextMixin,tabs
 from app_evop.calculation_user_tasks import intakes_between_days, get_individual_norm_kcal
 from app_evop.tasks import send_email_task
 
@@ -28,7 +28,7 @@ class HomePage(ContextMixin, ListView):
 
 
 class AllFoods(ContextMixin, ListView):
-    paginate_by = 13
+    paginate_by = 16
     model = Food
     template_name = 'evop/all_foods.html'
     context_object_name = 'foods'
@@ -78,12 +78,12 @@ class AddFood(ContextMixin, CreateView):
         #     #  дополнительных заголовков электронной почты. Если обнаружен “плохой заголовок”,
         #     #  то представление вернет клиенту HttpResponse с текстом “Incorrect header found”.
         #     return HttpResponse('Incorrect header found')
-        return render(self.request, 'evop/success.html', {'tabs': context['tabs'],
+        return render(self.request, 'evop/successful_action.html', {'tabs': context['tabs'],
                                                           'categories': context['categories'], 'food': food})
 
 
 class ShowCategory(ContextMixin, ListView):
-    paginate_by = 13
+    paginate_by = 16
     template_name = 'evop/show_category.html'
     context_object_name = 'foods'
     allow_empty = False
@@ -104,8 +104,6 @@ class AddIntake(ContextMixin, CreateView):
     form_class = IntakeForm
     template_name = 'evop/intake.html'
 
-    # success_url = reverse_lazy('success_add_intake')
-
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         user_context = self.get_user_context(title='Intake')
@@ -117,9 +115,9 @@ class AddIntake(ContextMixin, CreateView):
         form.instance.user_id = self.request.user.id
         form.save()
         food = form.cleaned_data.get('food')
-        return render(self.request, 'evop/success.html', {'tabs': context['tabs'],
-                                                          'title': 'Intake added',
-                                                          'categories': context['categories'], 'intake': food})
+        return render(self.request, 'evop/successful_action.html', {'tabs': context['tabs'],
+                                                                 'title': 'Intake added',
+                                                                 'categories': context['categories'], 'intake': food})
 
     # def get_success_url(self, **kwargs):
     #     context = super().get_context_data(**kwargs)
@@ -152,13 +150,13 @@ class UserKcalNorma(ContextMixin, FormView):
         return render(request, 'evop/final_result_kcal.html', context=context)
 
 
-class CalculetionResult(ContextMixin, FormView):
-    template_name = 'evop/calculation_result.html'
+class CalculetionIntakes(ContextMixin, FormView):
+    template_name = 'evop/calculation_intakes.html'
     form_class = CalculationResultForm
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        user_context = self.get_user_context(title='Calculation')
+        user_context = self.get_user_context(title='Calculation intakes')
         context.update(user_context)
         return context
 
@@ -173,13 +171,13 @@ class CalculetionResult(ContextMixin, FormView):
                    }
         if not count_of_products:
             context['title'] = 'No result'
-        return render(request, 'evop/final_result_evop.html', context=context)
+        return render(request, 'evop/final_result_intake.html', context=context)
 
 
 class FeedBack(ContextMixin, FormView):
     form_class = FeedbackForm
     template_name = 'evop/feedback.html'
-    success_url = reverse_lazy('send_email')
+    success_url = reverse_lazy('successful_send_email')
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -190,7 +188,6 @@ class FeedBack(ContextMixin, FormView):
     def form_valid(self, form):
         form.send_email()
         return super().form_valid(form)
-        # send_feedback_email_task.delay(self.request,name,user_email, message,tabs,categories)
 
 
 class SendEmail(ContextMixin, TemplateView):
@@ -200,9 +197,8 @@ class SendEmail(ContextMixin, TemplateView):
         context = {'tabs': context['tabs'], 'categories': context['categories'],
                    'feedbackname': request.user.username
                    }
-        return render(self.request, 'evop/success.html', context=context)
+        return render(request, 'evop/successful_action.html', context=context)
 
-    # template_name = "evop/success_send_message.html"
 
 
 class SignIn(ContextMixin, LoginView):
@@ -215,11 +211,6 @@ class SignIn(ContextMixin, LoginView):
         context.update(user_context)
         return context
 
-    # def form_valid(self,form, **kwargs):
-    #     requests=self.request
-    #     username = form.cleaned_data.get('username')
-    #     return render(self.request, 'evop/success.html', {'tabs': tabs,
-    #                                                       'username': username, 'categories': categories})
     def get_success_url(self, **kwargs):
         return reverse_lazy('home')
 
