@@ -60,7 +60,20 @@ img {
     max-width: 600px;
     height: auto;
 }
+.leftimg {
+float:left; /* Выравнивание по левому краю */
+margin: 0 20px 7px 10px; /* Отступы вокруг картинки */
+}
 
+.rightimg  {
+float: right; /* Выравнивание по правому краю  */
+margin: 50px 25px 7px 10px; /* Отступы вокруг картинки */
+}
+
+.rightimgmain  {
+float: right; /* Выравнивание по правому краю  */
+margin: 70px 25px 7px 10px; /* Отступы вокруг картинки */
+}
 /*img.img-article-left {*/
 /*    max-width: 300px;*/
 /*    height: auto;*/
@@ -437,6 +450,22 @@ ul.lang-list li a:hover {
     font-size: 22px;
     border-radius: 5%;
     padding: 8px;
+}
+
+.image-button {
+  width: 200px;
+  height:75px;
+  border: none;
+  background-image: url('../images/send3.png');
+    background-color: #fcf3e9;
+  background-size: cover;
+}
+.image-button:hover {
+  opacity: 0.7;
+}
+
+.image-button:active {
+  transform: scale(0.95);
 }
 
 .list-pages {
