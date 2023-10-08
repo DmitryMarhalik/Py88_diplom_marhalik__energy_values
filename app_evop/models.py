@@ -11,7 +11,7 @@ class Food(models.Model):
     fats = models.DecimalField(max_digits=5, decimal_places=1, null=True, blank=True)
     carbohydrates = models.DecimalField(max_digits=5, decimal_places=1, null=True, blank=True)
     kcal = models.DecimalField(max_digits=5, decimal_places=1, null=True, blank=True)
-    category = models.ForeignKey('Category', on_delete=models.PROTECT, null=True, blank=True)
+    category = models.ForeignKey('Category', on_delete=models.SET_NULL, null=True, blank=True)
     be_confirmed = models.BooleanField(default=False, blank=True)
 
     class Meta:
