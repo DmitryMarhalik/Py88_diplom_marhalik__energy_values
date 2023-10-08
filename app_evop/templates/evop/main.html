@@ -1,9 +1,14 @@
 {% extends 'evop/basis.html' %}
 {% block page %}
+{% if request.user.is_authenticated %}
     <p style="text-align: center"><img src="/static/evop/images/evop.jpg"
-                                       alt="evop" width="450" height="450" title="Welcome!">
-    </p>
+                                       alt="evop" width="450" height="450" title="Welcome!"></p>
+    <p style="text-align: center; font-size: 35px">Hello, {{request.user.username}}!</p>
+{%else%}
+    <p style="text-align: center"><img src="/static/evop/images/evop.jpg"
+                                       alt="evop" width="450" height="450" title="Welcome!"></p>
     <p style="text-align: center; font-size: 35px">Hello!</p>
+{% endif %}
     <p class="pmainpage">&nbsp&nbsp&nbsp&nbspOn this site you can calculate the amount of proteins, fats, carbohydrates,
         calories, as well as the number of foods consumed by you for any period of time.
         To do this, you need to <a href="{% url 'sign_up' %}"
@@ -20,4 +25,5 @@
         bot are synchronized.</p>
     <p style="font-style: normal;font-family: 'Comic Sans MS', 'Helvetica'; font-size: large ;color: #2b542c">Enjoy
         using it!</p>
+
 {% endblock %}
