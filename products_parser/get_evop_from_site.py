@@ -77,3 +77,7 @@ names_first_dishes, evop_first_dishes = get_dishes(root_first_dishes, xpath_name
 names_second_dishes, evop_second_dishes = get_dishes(root_second_dishes, xpath_name_second_dishes,
                                                      xpath_evop_second_dishes)
 name_salads, evop_salads = get_dishes(root_salads, xpath_salads_name, xpath_evop_salads)
+
+# name_salads=['Винегрет', 'Винегрет из овощей', 'Винегрет из овощей и фруктов',
+#                                         'Винегрет из овощей, яблок и зелени','Винегрет из перца с картофелем', ...]
+# evop_salads=['130,1 кКал', '1,7 г', '10,3 г', '8,2 г', '176,9 кКал', '1,9 г', '13,9 г', '11,7 г', '137,4 кКал',...]

@@ -1,4 +1,5 @@
 import django, os
+
 from products_parser.transformaton_data import transformation_list, delete_string_xa0xa0, transformation_evop_dishes
 from products_parser.get_evop_from_site import category_products, evop_first_dishes, names_first_dishes, \
     names_second_dishes, evop_second_dishes, name_salads, evop_salads
@@ -10,10 +11,20 @@ from app_evop.models import Food, Category
 
 
 def add_products_to_db(lst, category_id):
-    Food.objects.bulk_create(
-        [Food(name=param[0], proteins=float(param[1]), fats=float(param[2]), carbohydrates=float(param[3]),
-              kcal=float(param[4]), category_id=category_id) for param in
-         transformation_list(delete_string_xa0xa0(lst))])
+    for param in transformation_list(delete_string_xa0xa0(lst)):
+        try:
+            Food.objects.create(name=param[0], proteins=float(param[1]), fats=float(param[2]),
+                                carbohydrates=float(param[3]),
+                                kcal=float(param[4]), category_id=category_id)
+        except django.db.utils.IntegrityError:  # if name in db-->continue
+            continue
+        except Exception:
+            print('Something went wrong')
+    # Food.objects.bulk_create(
+    #     [Food(name=param[0], proteins=float(param[1]), fats=float(param[2]), carbohydrates=float(param[3]),
+    #           kcal=float(param[4]), category_id=category_id) for param in
+    #      transformation_list(delete_string_xa0xa0(lst))])
+
 
 # add_products_to_db(legumes, 10) ----> single category add
 # category= {'seafoods': '1', 'vegetables_fruits_berries': '2', 'butter_margarine_edible': '3', 'drinks':'4',
@@ -22,9 +33,17 @@ def add_products_to_db(lst, category_id):
 
 
 def add_dishes_to_db(dict_dishes, category_id):
-    Food.objects.bulk_create([Food(name=name, proteins=float(value[1]), fats=float(value[2]),
-                                   carbohydrates=float(value[3]), kcal=float(value[0]), category_id=category_id)
-                              for name, value in dict_dishes.items()])
+    for name, value in dict_dishes.items():
+        try:
+            Food.objects.create(name=name, proteins=float(value[1]), fats=float(value[2]),
+                                carbohydrates=float(value[3]), kcal=float(value[0]), category_id=category_id)
+        # Food.objects.bulk_create([Food(name=name, proteins=float(value[1]), fats=float(value[2]),
+        #                               carbohydrates=float(value[3]), kcal=float(value[0]), category_id=category_id
+        #                                                                   for name, value in dict_dishes.items()])
+        except django.db.utils.IntegrityError:  # if name in db-->continue
+            continue
+        except Exception:
+            print('Something went wrong')
 
 
 ####################################################################################################################
@@ -33,6 +52,9 @@ def make_dict_dishes(names, values):
     dict_dishes = dict(zip(names, evop))
     return dict_dishes
 
+
+# dict_dishes={'Борщ': ['57.7 ', '3.8  ', '2.9  ', '4.3  '],'Борщ из свежей 'капусты и картофеля по 1-110':
+#                                                                                  ['36 ', '1  ', '1.1  ', '5.4  '],.}
 
 for category_id, list_products in category_products.items():
     add_products_to_db(list_products, category_id)
