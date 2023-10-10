@@ -68,16 +68,6 @@ class AddFood(ContextMixin, CreateView):
                    f'the proposed product:\n{text_message}')
         form.save()
         send_email_task.delay(self.request.user.email, message)  # celery
-        # try:
-        #     send_mail('EVOP site',
-        #               message,
-        #               self.request.user.email,
-        #               [settings.EMAIL_HOST_USER]
-        #               )
-        # except BadHeaderError:  # BadHeaderError, чтобы предотвратить вставку злоумышленниками
-        #     #  дополнительных заголовков электронной почты. Если обнаружен “плохой заголовок”,
-        #     #  то представление вернет клиенту HttpResponse с текстом “Incorrect header found”.
-        #     return HttpResponse('Incorrect header found')
         return render(self.request, 'evop/successful_action.html', {'tabs': context['tabs'],
                                                           'categories': context['categories'], 'food': food})
 
@@ -100,7 +90,7 @@ class ShowCategory(ContextMixin, ListView):
         return Food.objects.filter(category__slug=cat_slug, be_confirmed=True).order_by('name')
 
 
-class AddIntake(ContextMixin, CreateView):
+class AddIntake(ContextMixin,CreateView):
     form_class = IntakeForm
     template_name = 'evop/intake.html'
 
@@ -225,10 +215,6 @@ class SignUp(ContextMixin, CreateView):
         user_context = self.get_user_context(title='Sign Up')
         context.update(user_context)
         return context
-    # def get_success_url(self, **kwargs):
-    #     context = super().get_context_data(**kwargs)
-    #     username = context.get('user').username
-    #     return reverse('success', args=[f'reg_user {username}'])
 
     # def form_valid(self, form):        #для автоматического входа при регистрации
     #     user=form.save()
@@ -239,18 +225,6 @@ class SignUp(ContextMixin, CreateView):
 def sign_out_user(request):
     logout(request)
     return redirect('home')
-
-
-# def success(request, args):  # 'food 23r3t5 2435t 35t we'
-#     print(args)
-#     keyword = args.split(' ')[:1][0]
-#     arg = args.split(' ')[1:]
-#     arg = ' '.join(arg)
-#     try:
-#         return render(request, 'evop/success.html', {'tabs': tabs,
-#                                                      keyword: arg, 'categories': categories})
-#     except:
-#         return HttpResponse('<h1>Somethink went wrong. Go back and try again</h1>')
 
 
 def pageNotFound(request, exception):

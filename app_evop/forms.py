@@ -43,7 +43,7 @@ class FeedbackForm(forms.Form):
     name = forms.CharField(label='Name', max_length=30)
     email = forms.EmailField(label='Email')
     content = forms.CharField(label='Content', widget=forms.Textarea(attrs={'cols': 60, 'rows': 10}))
-    captcha = CaptchaField()
+    captcha = CaptchaField(label='Solve the task')
 
     def send_email(self):
         user_email = self.cleaned_data.get('email')
@@ -51,7 +51,9 @@ class FeedbackForm(forms.Form):
         content = self.cleaned_data.get('content')
         message = f'name: {name}\nemail: {user_email}\nmessage: {content}'
         send_email_task.delay(user_email, message)
-        # send_feedback_email_task.apply_async(args=[user_email,message])
+
+
+# send_feedback_email_task.apply_async(args=[user_email,message])
 # Вызов .delay() — это самый быстрый способ отправить сообщение о задаче в Celery. Этот метод является ярлыком для
 # более мощного метода .apply_async(), который дополнительно поддерживает параметры выполнения для точной настройки
 # вашего сообщения о задаче.
