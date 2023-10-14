@@ -52,9 +52,7 @@ class FeedbackForm(forms.Form):
         message = f'name: {name}\nemail: {user_email}\nmessage: {content}'
         send_email_task.delay(user_email, message)
         # вызываете.delay() для send_email_task() и передает отправленные данныеф ормы, полученные из.cleaned_data в
-        # качестве аргументов
-
-
+                                                                                               # качестве аргументов
 # send_feedback_email_task.apply_async(args=[user_email,message])
 # Вызов .delay() — это самый быстрый способ отправить сообщение о задаче в Celery. Этот метод является ярлыком для
 # более мощного метода .apply_async(), который дополнительно поддерживает параметры выполнения для точной настройки

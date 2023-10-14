@@ -1,6 +1,5 @@
 import os
 from celery.schedules import crontab
-from datetime import datetime
 from datetime import timedelta
 from dotenv import load_dotenv
 from pathlib import Path
@@ -133,12 +132,6 @@ EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
 EMAIL_USE_TLS = True
 EMAIL_USE_SSL = False
 SERVER_EMAIL = EMAIL_HOST_USER
-# DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
-
-#
-# DEFAULT_FROM_EMAIL = None
-# RECIPIENTS_EMAIL=['dmitrymarhalik@gmail.com']
-# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 CAPTCHA_CHALLENGE_FUNCT = 'captcha.helpers.math_challenge'
 CAPTCHA_FONT_SIZE = 40
@@ -221,11 +214,11 @@ CELERY_RESULT_BACKEND = "redis://localhost:6379"
 
 CELERY_BEAT_SCHEDULE = {  # scheduler configuration
     'Update_Products_In_The_DB': {
-        'task': 'app_evop.tasks.update_prod_in_db',
-        'schedule': crontab('04', '20', day_of_month='14',
-                            month_of_year='10')},
+        'task': 'app_evop.tasks.update_products_in_the_db',
+        'schedule': crontab('10', '12', day_of_month='31',
+                            month_of_year='08')},
     'Update_Dishes_In_The_DB': {
-        'task': 'app_evop.tasks.update_dishes_in_db',
+        'task': 'app_evop.tasks.update_dishes_in_the_db',
         'schedule': crontab('01', '12', day_of_month='31',
                             month_of_year='8')}
 }
