@@ -216,7 +216,7 @@ CELERY_BEAT_SCHEDULE = {  # scheduler configuration
     'Update_Products_In_The_DB': {
         'task': 'app_evop.tasks.update_products_in_the_db',
         'schedule': crontab('10', '12', day_of_month='31',
-                            month_of_year='08')},
+                            month_of_year='8')},
     'Update_Dishes_In_The_DB': {
         'task': 'app_evop.tasks.update_dishes_in_the_db',
         'schedule': crontab('01', '12', day_of_month='31',
