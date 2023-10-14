@@ -60,11 +60,6 @@ number_category = [str(num) for num in range(1, len(name_category) + 1)]
 category_products = dict(zip(number_category, name_category))
 
 
-# category_products =
-# {'seafoods': '1', 'vegetables_fruits_berries': '2', 'butter_margarine_edible': '3', 'drinks':'4',
-# eggs_milk_dairy': '5', 'meat_sausage_products': '6', 'bakery_cereals_pasta': '7', 'nuts_mushrooms': '8',
-# 'confectionery_products': '9','legumes': '10'}
-
 # ##################################################################################################################
 def get_dishes(url, xpath_name, xpath_evop):
     response = requests.get(url)

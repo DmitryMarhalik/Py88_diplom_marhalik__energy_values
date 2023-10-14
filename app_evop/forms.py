@@ -51,6 +51,8 @@ class FeedbackForm(forms.Form):
         content = self.cleaned_data.get('content')
         message = f'name: {name}\nemail: {user_email}\nmessage: {content}'
         send_email_task.delay(user_email, message)
+        # вызываете.delay() для send_email_task() и передает отправленные данныеф ормы, полученные из.cleaned_data в
+        # качестве аргументов
 
 
 # send_feedback_email_task.apply_async(args=[user_email,message])

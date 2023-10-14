@@ -1,5 +1,6 @@
 import os
-
+from celery.schedules import crontab
+from datetime import datetime
 from datetime import timedelta
 from dotenv import load_dotenv
 from pathlib import Path
@@ -213,5 +214,19 @@ SPECTACULAR_SETTINGS = {
 CELERY_BROKER_URL = "redis://localhost:6379"
 CELERY_RESULT_BACKEND = "redis://localhost:6379"
 
+# CELERY_ACCEPT_CONTENT = ['application/json']
+# CELERY_TASK_SERIALIZER = 'json'
+# CELERY_RESULT_SERIALIZER = 'json'
+# CELERY_TIMEZONE = 'Africa/Nairobi'
 
+CELERY_BEAT_SCHEDULE = {  # scheduler configuration
+    'Update_Products_In_The_DB': {
+        'task': 'app_evop.tasks.update_prod_in_db',
+        'schedule': crontab('04', '20', day_of_month='14',
+                            month_of_year='10')},
+    'Update_Dishes_In_The_DB': {
+        'task': 'app_evop.tasks.update_dishes_in_db',
+        'schedule': crontab('01', '12', day_of_month='31',
+                            month_of_year='8')}
+}
 # sudo lsof -t -i tcp:8000 | xargs kill -9  --------- reset port
