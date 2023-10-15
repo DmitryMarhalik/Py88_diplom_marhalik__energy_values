@@ -217,11 +217,10 @@ CELERY_RESULT_SERIALIZER = 'json'
 CELERY_BEAT_SCHEDULE = {  # scheduler configuration
     'Update_Products_In_The_DB': {
         'task': 'app_evop.tasks.update_products_in_the_db',
-        'schedule': crontab()},
+        'schedule': crontab(hour='1')},
     'Update_Dishes_In_The_DB': {
         'task': 'app_evop.tasks.update_dishes_in_the_db',
-        'schedule': crontab('01', '12', day_of_month='31',
-                            month_of_year='8')}
+        'schedule': crontab()}
 }
 CELERY_RESULT_BACKEND = 'django-db'
 CELERY_CACHE_BACKEND = 'default'

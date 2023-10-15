@@ -24,6 +24,8 @@ def send_email_task(user_email, message):
                   )
     except BadHeaderError:
         return HttpResponse('Incorrect header found')
+
+
 # BadHeaderError, чтобы предотвратить вставку злоумышленниками
 # дополнительных заголовков электронной почты. Если обнаружен “плохой заголовок”,
 # то представление вернет клиенту HttpResponse с текстом “Incorrect header found”.
@@ -31,12 +33,14 @@ def send_email_task(user_email, message):
 ################################################################################################################
 @shared_task()
 def update_products_in_the_db():
-    # added_products =[]
+    added_products = []
     for category_id, list_products in products_by_category.items():
-        # added_products=add_products_to_db(list_products, category_id)
-        # if new_products:
-            # added_products.append(new_products + [f'category:{category_id}'])
-        return add_products_to_db(list_products, category_id)
+        new_products = add_products_to_db(list_products, category_id)
+        if new_products:
+            added_products.extend(new_products)
+    return added_products
+
+
 # products_by_category = {'1': ['Бычок', '17,5', '2', '-', '88', 'Вобла', '18', '2,8', '-', '95', 'Горбуша', '20,5',.],
 # '2': ['Облепиха','1.2', '5.4',' 5.7', '82.0', '2']....
 
@@ -47,11 +51,16 @@ def update_products_in_the_db():
 ################################################################################################################
 @shared_task()
 def update_dishes_in_the_db():
-    for dishes in (make_dict_dishes(names_first_dishes, evop_first_dishes),
-                   make_dict_dishes(names_second_dishes, evop_second_dishes)):
-        add_dishes_to_db(dishes, Category.objects.get(name='🍝 Dishes').id)
-    add_dishes_to_db(make_dict_dishes(name_salads, evop_salads), Category.objects.get(name='🥗 Salads').id)
-    return 'Dishes have been successfully updated in the database'
+    # for dishes in (make_dict_dishes(names_first_dishes, evop_first_dishes),
+    #                make_dict_dishes(names_second_dishes, evop_second_dishes)):
+    added_dishes = (add_dishes_to_db(make_dict_dishes(names_first_dishes, evop_first_dishes),
+                             Category.objects.get(name='🍝 Dishes').id) +
+                    add_dishes_to_db(make_dict_dishes(names_second_dishes, evop_second_dishes),
+                             Category.objects.get(name='🍝 Dishes').id) +
+                    add_dishes_to_db(make_dict_dishes(name_salads, evop_salads),
+                             Category.objects.get(name='🥗 Salads').id))
+    return added_dishes
+    # return 'Dishes have been successfully updated in the database'
 # name_salads(first or second dishes)=['Винегрет', 'Винегрет из овощей', 'Винегрет из овощей и фруктов',
 #                                         'Винегрет из овощей, яблок и зелени','Винегрет из перца с картофелем', ...]
 # evop_salads(first or second dishes)=['130,1 кКал', '1,7 г', '10,3 г', '8,2 г', '176,9 кКал', '1,9 г', '13,9 г',
