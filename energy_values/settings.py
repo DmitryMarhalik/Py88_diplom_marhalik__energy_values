@@ -208,24 +208,23 @@ SPECTACULAR_SETTINGS = {
 CELERY_BROKER_URL = "redis://localhost:6379"
 # CELERY_RESULT_BACKEND = "redis://localhost:6379"
 
-CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_ACCEPT_CONTENT = ['pickle','json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
-
-# CELERY_TIMEZONE = 'Africa/Nairobi'
 
 CELERY_BEAT_SCHEDULE = {  # scheduler configuration
     'Update_Products_In_The_DB': {
         'task': 'app_evop.tasks.update_products_in_the_db',
-        'schedule': crontab(hour='1')},
+        'schedule': crontab()},
+        # 'schedule': crontab('0', '0', day_of_month='1')},
     'Update_Dishes_In_The_DB': {
         'task': 'app_evop.tasks.update_dishes_in_the_db',
-        'schedule': crontab()}
+        'schedule': crontab('0', '0', day_of_month='2')}
 }
 CELERY_RESULT_BACKEND = 'django-db'
 CELERY_CACHE_BACKEND = 'default'
 # sudo lsof -t -i tcp:8000 | xargs kill -9  --------- reset port
 
-#Py88_diplom.../celerybeat-schedule
+# Py88_diplom.../celerybeat-schedule
 # Beat необходимо хранить время последнего выполнения задач в локальном файле базы данных (по умолчанию называемом
 # celerybeat-schedule), поэтому ему необходим доступ для записи в текущий каталог,

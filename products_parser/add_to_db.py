@@ -7,6 +7,7 @@ django.setup()
 
 from app_evop.models import Food
 
+
 def add_products_to_db(lst, category_id):
     added_products = []
     for value in transformation_list(delete_string_xa0xa0(lst)):
@@ -28,7 +29,7 @@ def add_dishes_to_db(dict_dishes, category_id):
         try:
             Food.objects.create(name=name, proteins=float(value[1]), fats=float(value[2]),
                                 carbohydrates=float(value[3]), kcal=float(value[0]), category_id=category_id)
-            added_dishes.append([name]+value + [f'category:{category_id}'])
+            added_dishes.append([name] + value + [f'category:{category_id}'])
         except django.db.utils.IntegrityError:
             continue
         except Exception:

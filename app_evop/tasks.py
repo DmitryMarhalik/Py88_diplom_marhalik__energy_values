@@ -51,8 +51,6 @@ def update_products_in_the_db():
 ################################################################################################################
 @shared_task()
 def update_dishes_in_the_db():
-    # for dishes in (make_dict_dishes(names_first_dishes, evop_first_dishes),
-    #                make_dict_dishes(names_second_dishes, evop_second_dishes)):
     added_dishes = (add_dishes_to_db(make_dict_dishes(names_first_dishes, evop_first_dishes),
                              Category.objects.get(name='🍝 Dishes').id) +
                     add_dishes_to_db(make_dict_dishes(names_second_dishes, evop_second_dishes),
@@ -60,7 +58,6 @@ def update_dishes_in_the_db():
                     add_dishes_to_db(make_dict_dishes(name_salads, evop_salads),
                              Category.objects.get(name='🥗 Salads').id))
     return added_dishes
-    # return 'Dishes have been successfully updated in the database'
 # name_salads(first or second dishes)=['Винегрет', 'Винегрет из овощей', 'Винегрет из овощей и фруктов',
 #                                         'Винегрет из овощей, яблок и зелени','Винегрет из перца с картофелем', ...]
 # evop_salads(first or second dishes)=['130,1 кКал', '1,7 г', '10,3 г', '8,2 г', '176,9 кКал', '1,9 г', '13,9 г',
