@@ -4,9 +4,10 @@ from django.conf import settings
 from celery import shared_task
 
 from app_evop.models import Category
-from products_parser.add_to_db import add_products_to_db, make_dict_dishes, add_dishes_to_db
-from products_parser.get_evop_from_site import category_products, evop_first_dishes, names_first_dishes, \
+from products_parser.add_to_db import add_products_to_db, add_dishes_to_db
+from products_parser.get_evop_from_site import products_by_category, evop_first_dishes, names_first_dishes, \
     names_second_dishes, evop_second_dishes, name_salads, evop_salads
+from products_parser.transformaton_data import make_dict_dishes
 
 
 @shared_task()
@@ -30,10 +31,13 @@ def send_email_task(user_email, message):
 ################################################################################################################
 @shared_task()
 def update_products_in_the_db():
-    for category_id, list_products in category_products.items():
-        add_products_to_db(list_products, category_id)
-    return 'Products have been successfully updated in the database'
-# category_products ={'1': ['Бычок', '17,5', '2', '-', '88', 'Вобла', '18', '2,8', '-', '95', 'Горбуша', '20,5', ....],
+    # added_products =[]
+    for category_id, list_products in products_by_category.items():
+        # added_products=add_products_to_db(list_products, category_id)
+        # if new_products:
+            # added_products.append(new_products + [f'category:{category_id}'])
+        return add_products_to_db(list_products, category_id)
+# products_by_category = {'1': ['Бычок', '17,5', '2', '-', '88', 'Вобла', '18', '2,8', '-', '95', 'Горбуша', '20,5',.],
 # '2': ['Облепиха','1.2', '5.4',' 5.7', '82.0', '2']....
 
 # category= {'seafoods': '1', 'vegetables_fruits_berries': '2', 'butter_margarine_edible': '3', 'drinks':'4',

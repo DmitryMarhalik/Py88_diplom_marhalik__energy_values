@@ -47,15 +47,15 @@ def delete_string_xa0xa0(list_products):
     return refactor_list
 
 
-def transformation_evop_dishes(evop_list):
+def transformation_evop_lst_dishes(evop_list):
     res_list, finlist = [], []
     for elem in evop_list:
         off = ',г'
         push = '. '
         delete_letters = 'кКал'
-        table_trslt = str.maketrans(off, push,
-                                    delete_letters)  # The third parameter in the mapping table describes characters
-                                                     # that you want to remove from the string:
+        table_trslt = str.maketrans(off, push, delete_letters)
+        # The third parameter in the mapping table describes characters
+        # that you want to remove from the string:
         # txt = "Good night Sam!"
         # x = "mSa"
         # y = "eJo"
@@ -66,3 +66,9 @@ def transformation_evop_dishes(evop_list):
         res_list.append(elem)
     res_list = [res_list[i:i + 4] for i in range(0, len(res_list), 4)]
     return res_list
+
+
+def make_dict_dishes(names, values):
+    evop = transformation_evop_lst_dishes(values)
+    dict_dishes = dict(zip(names, evop))
+    return dict_dishes

@@ -57,7 +57,7 @@ legumes = get_products_from_category(pars_category['Бобовые'])
 name_category = [seafoods, vegetables_fruits_berries, butter_margarine_edible, drinks, eggs_milk_dairy,
                  meat_sausage_products, bakery_cereals_pasta, nuts_mushrooms, confectionery_products, legumes]
 number_category = [str(num) for num in range(1, len(name_category) + 1)]
-category_products = dict(zip(number_category, name_category))
+products_by_category = dict(zip(number_category, name_category))
 
 
 # ##################################################################################################################
@@ -73,6 +73,5 @@ names_second_dishes, evop_second_dishes = get_dishes(root_second_dishes, xpath_n
                                                      xpath_evop_second_dishes)
 name_salads, evop_salads = get_dishes(root_salads, xpath_salads_name, xpath_evop_salads)
 
-# name_salads=['Винегрет', 'Винегрет из овощей', 'Винегрет из овощей и фруктов',
-#                                         'Винегрет из овощей, яблок и зелени','Винегрет из перца с картофелем', ...]
+# name_salads=['Винегрет', 'Винегрет из овощей', 'Винегрет из овощей и фруктов','Винегрет из овощей, яблок и зелени',..]
 # evop_salads=['130,1 кКал', '1,7 г', '10,3 г', '8,2 г', '176,9 кКал', '1,9 г', '13,9 г', '11,7 г', '137,4 кКал',...]
