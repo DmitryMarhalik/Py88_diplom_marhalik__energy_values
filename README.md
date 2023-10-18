@@ -1,14 +1,14 @@
 <p align="center"><img   height="200" src="https://land.health-diet.ru/images/13/recipe-calc-mobile-2x.png" title="БЖУ" width="300"/></p>
 
 # В проекте EVOP(energy values of products) реализовано:
-    • веб-приложение EVOP (Django Framework)
+    • веб-приложение EVOP(Django Framework)
     • API приложение EVOP(Django Rest Framework)
     • БД (postgreSQL)
     • регистрация-авторизация (basicAuth, cookieAuth,jwtAuth,tokenAuth)
     • обратная связь(e-mail)
     • автоматическое отправление e-mail администратору для проверки корректности данных при 
     добавлении нового продукта в бд как из веб-приложения так и из telegram-bot.
-    • Celery, Celery Beat(обновление базы данных), Redis (во время отправки писем администратору)
+    • Celery (во время отправки писем администратору), Celery Beat(обновление базы данных), Redis 
     • captcha(math.challenge)
     • автоматическая документация API Django Rest Framework с помощью DRF Spectacular
     • возможность парсить продукты, блюда и их энергетические ценности с одного или нескольких сайтов
