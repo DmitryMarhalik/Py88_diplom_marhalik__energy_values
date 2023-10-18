@@ -1,6 +1,7 @@
 {% extends 'evop/basis.html' %}
-
 {% block page %}
+<p><img style="margin: 20px 140px" src="/static/evop/images/addfood.jpg"
+        alt="evop" width="400" height="500" title="Intake" class="rightimg"></p>
 <p class="ptitle">{{ title }}:</p>
 <form action="{% url 'add_food' %}" method="post" enctype="multipart/form-data">
     {% csrf_token %}
@@ -11,5 +12,4 @@
     {% endfor %}
     <button class="form-button" type="submit">Accept</button>
 </form>
-
 {% endblock %}

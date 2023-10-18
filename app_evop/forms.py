@@ -71,7 +71,7 @@ class CalculationIndividualKcalForm(forms.Form):
                ("EXTR", "extreme"),)
 
     gender = forms.ChoiceField(label='gender', choices=(('MALE', 'Male'), ('FEMALE', 'Female'),))
-    height = forms.IntegerField(label='height (cm)', min_value=10)
     weight = forms.IntegerField(label='weight (kg)', min_value=20)
+    height = forms.IntegerField(label='height (cm)', min_value=10)
     age = forms.IntegerField(label='full years', min_value=20)
     activity = forms.ChoiceField(label='activity', choices=choices)
