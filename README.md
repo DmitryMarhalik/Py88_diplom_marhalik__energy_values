@@ -1,6 +1,7 @@
-![](https://land.health-diet.ru/images/13/recipe-calc-mobile-2x.png) 
-# В проекте EVOP(energy values of products) (Django Framework) реализовано:
-    • веб-приложение EVOP
+<p align="center"><img   height="200" src="https://land.health-diet.ru/images/13/recipe-calc-mobile-2x.png" title="БЖУ" width="300"/></p>
+
+# В проекте EVOP(energy values of products) реализовано:
+    • веб-приложение EVOP (Django Framework)
     • API приложение EVOP(Django Rest Framework)
     • БД (postgreSQL)
     • регистрация-авторизация (basicAuth, cookieAuth,jwtAuth,tokenAuth)
