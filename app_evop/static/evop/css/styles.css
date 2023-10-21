@@ -23,8 +23,15 @@ th {
 }
 
 a {
-    color: #0059b2;
+    color: #19538b;
     text-decoration: none;
+    font-style: normal;
+}
+
+a:hover {
+    color: rgba(144, 67, 19, 0.81);
+    text-decoration: underline;
+    cursor: pointer;
 }
 
 a.all_cats {
@@ -49,12 +56,6 @@ p.ptitle {
 p.head {
     font-size: 30px;
     font-family: "DejaVu Sans"
-}
-
-a:hover {
-    color: rgba(144, 67, 19, 0.81);
-    text-decoration: underline;
-    cursor: pointer;
 }
 
 img {
@@ -219,14 +220,15 @@ ul.mainmenu li a:hover {
 }
 
 .left-chapters ul li.selected {
-    color: #0059b2;
+    color: #19538b;
+    text-decoration-line: underline;
 }
 
 .left-chapters li.all_cats {
     font-style: normal;
     font-family: Ubuntu;
     font-size: medium;
-    color: #0059b2
+    color: #19538b
 }
 
 .left-chapters ul li a {

@@ -103,8 +103,8 @@ def on_click(message):
                          "❗<The entered energy values should be no more than 9999 "
                          "and no more than one digit after the decimal point>\n"
                          "1⃣ 🆔 Select the category id of the product to be added.\n"
-                         "2⃣ 📝 And then, enter name of product, barcode, protein, fat, carbohydrate, kcal, category id\n"
-                         "per 100 grams separated by a comma.\n"
+                         "2⃣ 📝 And then, enter name of product, barcode, protein, fat, carbohydrate, kcal, "
+                         "category id per 100 grams separated by a comma.\n"
                          "3⃣ 🅾 If the barcode is unknown, then enter the digit 0. For example:\n"
                          "Куриный суп по-индийски, 16237272 (or 0), 232.4,3233, 367, 834, 4'  ⬇")
         bot.register_next_step_handler(message, add_product)
@@ -112,7 +112,8 @@ def on_click(message):
         bot.send_message(message.from_user.id, "❗<The entered energy values should be no more than 9999"
                                                " and no more than one digit after the decimal point>\n"
                                                "  Enter your product(the exact name of the product can be found "
-                                               "at 'View all product' button🔘)  and product quantity in grams separated by a comma. "
+                                               "at 'View all product' button🔘)  and product quantity in grams "
+                                               "separated by a comma. "
                                                "For example:\n'Помидоры черри, 250'  ⬇")
         bot.register_next_step_handler(message, intake)
     elif message.text == "Calculation result":
@@ -134,11 +135,12 @@ def on_click_category(message):
                        '🍄 Nuts and Mushrooms': '8', '🎂 Confectionery Products': '9',
                        '🥜 Legumes': '10', '🍝 Dishes': '11', '🥗 Salads': '12'}
             bot.send_message(message.from_user.id, f"{message.text} products: ⬇")
-            postgres_insert_query = """select name from app_evop_food where app_evop_food.category_id = %s order by name"""
+            postgres_insert_query = """select name from app_evop_food 
+                                                                where app_evop_food.category_id = %s order by name"""
             cursor.execute(postgres_insert_query, (keyword[message.text],))
-            seafoods_product = cursor.fetchall()
+            products_in_category = cursor.fetchall()
             connection.commit()
-            for name in seafoods_product:
+            for name in products_in_category:
                 bot.send_message(message.from_user.id, f"{name[0]}")
             show_menu(message)
         except Exception:
@@ -203,7 +205,7 @@ def finally_calculation(message):
     idproducts = calculation_all_idproducts(message)
     all_products, view_all_products, all_energy_values, \
         nice_count_of_product, view_all_products = [], [], [], [], []
-    if idproducts != False and idproducts != []:  # is not false
+    if idproducts != False and idproducts != []:
         for id in idproducts:
             postgres_insert_query = """select name from app_evop_food where id=%s"""
             cursor.execute(postgres_insert_query, id)
@@ -227,7 +229,6 @@ def finally_calculation(message):
         count_of_product = Counter(view_all_products)
         #  сортировка употребленных продуктов по количеству употребления
         #  count_of_product = dict(sorted(count_of_product.items(), key=lambda item: item[1]))
-
         for k, v in count_of_product.items():
             nice_count_of_product.append(f"{k}->{v} times\n")
         nice_count_of_product = sorted(nice_count_of_product)  # сортировка употребленных продуктов по алфавиту
@@ -235,7 +236,6 @@ def finally_calculation(message):
                          f"Total amount of protein:  {all_proteins} gr,\nfats: {all_fats} gr,\n" \
                          f"carbohydrates: {all_carbohydrates} gr,\nKcal: {all_kcal}"
         bot.send_message(message.from_user.id, result_message)
-
     elif idproducts == []:
         bot.send_message(message.from_user.id, "You haven't eaten anything during this time")
     else:

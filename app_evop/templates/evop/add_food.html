@@ -2,7 +2,6 @@
 {% block page %}
 <p><img style="margin: 20px 140px" src="/static/evop/images/addfood.jpg"
         alt="evop" width="400" height="500" title="Intake" class="rightimg"></p>
-<p class="ptitle">{{ title }}:</p>
 <form action="{% url 'add_food' %}" method="post" enctype="multipart/form-data">
     {% csrf_token %}
     <div class="form-error">{{ form.non_field_errors }}</div>
@@ -10,6 +9,8 @@
     <p style="font-size: 22px"><label class="form-label" for="{{ f.id_for_label }}">{{ f.name }}: </label>{{ f }}</p>
     <div class="form-error">{{ f.errors }}</div>
     {% endfor %}
-    <button class="form-button" type="submit">Accept</button>
+    <p style="font-size: small">* if the food barcode and its image are unknown, then the corresponding input
+        fields can be left empty</p>
+    <button class="form-button" type="submit">Add Food</button>
 </form>
 {% endblock %}
