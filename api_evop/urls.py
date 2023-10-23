@@ -2,14 +2,13 @@ from django.urls import path, include, re_path
 from rest_framework import routers
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView, TokenVerifyView
 
-from api_evop.views import FoodsViewSet, AddIntakeAPIList, CalculationResult  # AllFoodsAPIListCreate
+from api_evop.views import FoodsViewSet, AddIntakeAPIList, CalculationResult, UserKcalNorma  # AllFoodsAPIListCreate
 
 router = routers.DefaultRouter()  # + route *8000:api/
 router.register(r'food', FoodsViewSet)
 
 urlpatterns = [
     # path('all-foods/', AllFoodsAPIListCreate.as_view()),  # GET, POST, HEAD, OPTIONS
-
     # path('food-update/<int:pk>', FoodAPIUpdate.as_view()),  # PUT, PATCH, OPTIONS;
     # path('food-detail/<int:pk>', FoodAPIDetailView.as_view()),  # GET, PUT, PATCH, DELETE, HEAD, OPTIONS
     path('add-intake/', AddIntakeAPIList.as_view()),  # GET, POST, HEAD, OPTIONS
@@ -26,5 +25,6 @@ urlpatterns = [
     path('jwt-token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('jwt-token/verify/', TokenVerifyView.as_view(), name='token_verify'),
 
-    path('calculation/', CalculationResult.as_view(), name='calculation'),
+    path('calculation-intakes/', CalculationResult.as_view(), name='calc_intakes'),
+    path('calculation-norm-kcal/', UserKcalNorma.as_view(), name='calc_norma_kcal'),
 ]

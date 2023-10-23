@@ -11,7 +11,7 @@ from app_evop.forms import IntakeForm, AddFoodForm, CalculationResultForm, Regis
     CalculationIndividualKcalForm
 from app_evop.models import Food
 from app_evop.utils import ContextMixin,tabs
-from app_evop.calculation_user_tasks import intakes_between_days, get_individual_norm_kcal
+from app_evop.calculation_user_tasks import get_intakes_between_days, get_individual_norm_kcal
 from app_evop.tasks import send_email_task
 
 
@@ -153,7 +153,7 @@ class CalculetionIntakes(ContextMixin, FormView):
     def post(self, request, *args, **kwargs):
         context = self.get_user_context()
         days = request.POST.get('days')
-        energy_values, count_of_products, message = intakes_between_days(request, days)
+        energy_values, count_of_products, message = get_intakes_between_days(request, days)
         context = {'tabs': context['tabs'], 'categories': context['categories'],
                    'title': 'Final calculation',
                    'energy_values': energy_values,

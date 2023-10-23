@@ -5,7 +5,7 @@ from django.utils import timezone
 from app_evop.models import Intake
 
 
-def intakes_between_days(request, days):
+def get_intakes_between_days(request, days):
     days_ago = timezone.now() - timedelta(days=int(days))
     all_intake_products = Intake.objects.values('food__name', 'food__proteins', 'food__fats', 'food__carbohydrates',
                                                 'food__kcal', 'gram').filter(user_id=request.user.id,
