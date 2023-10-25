@@ -10,8 +10,10 @@ from collections import Counter
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
-load_dotenv()
-connection = psycopg2.connect(user=os.getenv('PSQL_NAME'), database="evop",
+from energy_values.settings import dotenv_path
+
+load_dotenv(dotenv_path)
+connection = psycopg2.connect(user=os.getenv('USER_PSQL'), database="evop",
                               host="127.0.0.1", port="5432", password=os.getenv('PSQL_PASSWORD'))
 cursor = connection.cursor()
 bot = telebot.TeleBot(os.getenv('TOKEN'))
