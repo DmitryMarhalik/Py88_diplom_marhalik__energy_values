@@ -42,18 +42,6 @@ def show_menu(message):
     bot.register_next_step_handler(message, on_click)
 
 
-#
-# def show_return_menu(message):
-#     markup = types.ReplyKeyboardMarkup()
-#     button_1 = types.KeyboardButton("View all products")
-#     button_2 = types.KeyboardButton("Add a product")
-#     button_3 = types.KeyboardButton("Enter intake")
-#     button_4 = types.KeyboardButton("Calculation result")
-#     markup.add(button_1, button_2, button_3, button_4, row_width=1)
-#     bot.send_message(message.from_user.id, 'Please, choice the operation  ⬇', reply_markup=markup)
-#     bot.register_next_step_handler(message, on_click)
-
-
 def authentication(message):
     try:
         global name, email, user_id
