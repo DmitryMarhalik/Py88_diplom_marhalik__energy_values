@@ -10,9 +10,9 @@ from collections import Counter
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
-from energy_values.settings import dotenv_path
 
-load_dotenv(dotenv_path)
+load_dotenv()
+
 connection = psycopg2.connect(user=os.getenv('USER_PSQL'), database="evop",
                               host="127.0.0.1", port="5432", password=os.getenv('PSQL_PASSWORD'))
 cursor = connection.cursor()
@@ -33,10 +33,10 @@ user_id = None
 
 def show_menu(message):
     markup = types.ReplyKeyboardMarkup()
-    button_1 = types.KeyboardButton("View all products")
-    button_2 = types.KeyboardButton("Add a product")
-    button_3 = types.KeyboardButton("Enter intake")
-    button_4 = types.KeyboardButton("Calculation result")
+    button_1 = types.KeyboardButton("👀 View all products")
+    button_2 = types.KeyboardButton("✅ Add a product")
+    button_3 = types.KeyboardButton("📝 Enter intake")
+    button_4 = types.KeyboardButton("📆 Calculation result")
     markup.add(button_1, button_2, button_3, button_4, row_width=1)
     bot.send_message(message.from_user.id, "Please, choice the operation  ⬇", reply_markup=markup)
     bot.register_next_step_handler(message, on_click)
@@ -232,4 +232,4 @@ def finally_calculation(message):
         bot.send_message(message.from_user.id, "Incorrect input days. Please, try again")
 
 
-bot.polling(none_stop=True)
+bot.polling(none_stop=True, interval=0)
