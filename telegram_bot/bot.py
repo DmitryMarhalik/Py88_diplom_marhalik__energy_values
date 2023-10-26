@@ -61,7 +61,7 @@ def authentication(message):
 
 @bot.message_handler()
 def on_click(message):
-    if message.text == "View all products":
+    if message.text == "👀 View all products":
         markup = types.ReplyKeyboardMarkup()
         button_1 = types.KeyboardButton("🐟 Seafoods")
         button_2 = types.KeyboardButton("🍅 Vegetables, Fruits and Berries")
@@ -81,7 +81,7 @@ def on_click(message):
         bot.send_message(message.from_user.id, "Please, select category of products  ⬇",
                          reply_markup=markup)
         bot.register_next_step_handler(message, on_click_category)
-    elif message.text == "Add a product":
+    elif message.text == "✅ Add a product":
         bot.send_message(message.from_user.id, "All categories ⬇")
         postgres_insert_query = """select id, name from app_evop_category order by name"""
         cursor.execute(postgres_insert_query, (message.from_user.id,))
@@ -98,7 +98,7 @@ def on_click(message):
                          "3⃣ 🅾 If the barcode is unknown, then enter the digit 0. For example:\n"
                          "Куриный суп по-индийски, 16237272 (or 0), 232.4,3233, 367, 834, 4'  ⬇")
         bot.register_next_step_handler(message, add_product)
-    elif message.text == "Enter intake":
+    elif message.text == "📝 Enter intake":
         bot.send_message(message.from_user.id, "❗<The entered energy values should be no more than 9999"
                                                " and no more than one digit after the decimal point>\n"
                                                "  Enter your product(the exact name of the product can be found "
@@ -106,7 +106,7 @@ def on_click(message):
                                                "separated by a comma. "
                                                "For example:\n'Помидоры черри, 250'  ⬇")
         bot.register_next_step_handler(message, intake)
-    elif message.text == "Calculation result":
+    elif message.text == "📆 Calculation result":
         bot.send_message(message.from_user.id, "📅 For what time period to calculate the result? "
                                                "Enter the number of days.  ⬇")
         bot.register_next_step_handler(message, finally_calculation)
@@ -195,7 +195,7 @@ def finally_calculation(message):
     idproducts = calculation_all_idproducts(message)
     all_products, view_all_products, all_energy_values, \
         nice_count_of_product, view_all_products = [], [], [], [], []
-    if idproducts != False and idproducts != []:
+    if bool(idproducts):
         for id in idproducts:
             postgres_insert_query = """select name from app_evop_food where id=%s"""
             cursor.execute(postgres_insert_query, id)

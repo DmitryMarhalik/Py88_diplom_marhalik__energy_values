@@ -78,5 +78,5 @@ $ source yourvenv/bin/activate
 ```sh
 (yourvenv)$ python manage.py runserver
 ```
-И перейдите к http://127.0.0.1:8000/
+➡ И перейдите к http://127.0.0.1:8000/
 

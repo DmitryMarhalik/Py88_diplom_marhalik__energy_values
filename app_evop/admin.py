@@ -13,7 +13,8 @@ class FoodAdmin(admin.ModelAdmin):
     list_filter = ('category', 'be_confirmed')
     readonly_fields = ('preview_pict',)
 
-    def preview_pict(self, instance: Food):
+    @staticmethod
+    def preview_pict(instance: Food):
         if not instance.image:
             return mark_safe(f'<b>without logo</b>')
         else:

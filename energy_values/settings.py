@@ -6,7 +6,6 @@ from pathlib import Path
 
 import django.core.cache.backends.filebased
 
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -25,7 +24,7 @@ dotenv_path = os.path.join(BASE_DIR, '.env')
 if os.path.exists(dotenv_path):
     load_dotenv(dotenv_path)
 else:
-    raise Exception ('Not file ".env" in project directory!!!')
+    raise Exception('Not file ".env" in project directory!!!')
 
 SECRET_KEY = os.getenv('SECRET_KEY')
 
@@ -244,5 +243,5 @@ CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'
 # Beat необходимо хранить время последнего выполнения задач в локальном файле базы данных (по умолчанию называемом
 # celerybeat-schedule), поэтому ему необходим доступ для записи в текущий каталог
 
-#unicode escape sequence, в которые, в соответствии со стандартом JSON, должны преобразовываться символы
-#не входящие в диапазон ASCII.
+# unicode escape sequence, в которые, в соответствии со стандартом JSON, должны преобразовываться символы
+# не входящие в диапазон ASCII.

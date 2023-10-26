@@ -166,4 +166,5 @@ class UserKcalNorma(APIView):
         activity = request.data['activity']
         norm_kcal = get_individual_norm_kcal(gender, float(height), float(weight), float(age), activity)
         result = {'norm_kcal': norm_kcal}
-        return Response({f'result for {request.user.username}': result})
+        return Response({f'result for {request.user.username}': result}
+                        )

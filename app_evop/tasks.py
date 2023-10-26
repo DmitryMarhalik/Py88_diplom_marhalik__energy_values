@@ -52,11 +52,11 @@ def update_products_in_the_db():
 @shared_task()
 def update_dishes_in_the_db():
     added_dishes = (add_dishes_to_db(make_dict_dishes(names_first_dishes, evop_first_dishes),
-                             Category.objects.get(name='🍝 Dishes').id) +
+                                     Category.objects.get(name='🍝 Dishes').id) +
                     add_dishes_to_db(make_dict_dishes(names_second_dishes, evop_second_dishes),
-                             Category.objects.get(name='🍝 Dishes').id) +
+                                     Category.objects.get(name='🍝 Dishes').id) +
                     add_dishes_to_db(make_dict_dishes(name_salads, evop_salads),
-                             Category.objects.get(name='🥗 Salads').id))
+                                     Category.objects.get(name='🥗 Salads').id))
     return added_dishes
 # name_salads(first or second dishes)=['Винегрет', 'Винегрет из овощей', 'Винегрет из овощей и фруктов',
 #                                         'Винегрет из овощей, яблок и зелени','Винегрет из перца с картофелем', ...]

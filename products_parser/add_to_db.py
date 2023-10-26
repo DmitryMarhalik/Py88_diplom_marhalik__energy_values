@@ -1,4 +1,5 @@
-import django, os
+import django
+import os
 
 from products_parser.transformaton_data import transformation_list, delete_string_xa0xa0, transformation_evop_lst_dishes
 

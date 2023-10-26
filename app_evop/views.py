@@ -10,7 +10,7 @@ from django.views.generic.base import TemplateView
 from app_evop.forms import IntakeForm, AddFoodForm, CalculationResultForm, RegisterUserForm, FeedbackForm, \
     CalculationIndividualKcalForm
 from app_evop.models import Food
-from app_evop.utils import ContextMixin,tabs
+from app_evop.utils import ContextMixin, tabs
 from app_evop.calculation_user_tasks import get_intakes_between_days, get_individual_norm_kcal
 from app_evop.tasks import send_email_task
 
@@ -69,7 +69,7 @@ class AddFood(ContextMixin, CreateView):
         form.save()
         send_email_task.delay(self.request.user.email, message)  # celery
         return render(self.request, 'evop/successful_action.html', {'tabs': context['tabs'],
-                                                          'categories': context['categories'], 'food': food})
+                                                                    'categories': context['categories'], 'food': food})
 
 
 class ShowCategory(ContextMixin, ListView):
@@ -90,7 +90,7 @@ class ShowCategory(ContextMixin, ListView):
         return Food.objects.filter(category__slug=cat_slug, be_confirmed=True).order_by('name')
 
 
-class AddIntake(ContextMixin,CreateView):
+class AddIntake(ContextMixin, CreateView):
     form_class = IntakeForm
     template_name = 'evop/intake.html'
 
@@ -106,8 +106,9 @@ class AddIntake(ContextMixin,CreateView):
         form.save()
         food = form.cleaned_data.get('food')
         return render(self.request, 'evop/successful_action.html', {'tabs': context['tabs'],
-                                                                 'title': 'Intake added',
-                                                                 'categories': context['categories'], 'intake': food})
+                                                                    'title': 'Intake added',
+                                                                    'categories': context['categories'],
+                                                                    'intake': food})
 
     # def get_success_url(self, **kwargs):
     #     context = super().get_context_data(**kwargs)
@@ -188,7 +189,6 @@ class SendEmail(ContextMixin, TemplateView):
                    'feedbackname': request.user.username
                    }
         return render(request, 'evop/successful_action.html', context=context)
-
 
 
 class SignIn(ContextMixin, LoginView):
