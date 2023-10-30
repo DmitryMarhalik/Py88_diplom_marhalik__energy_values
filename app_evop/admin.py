@@ -18,7 +18,7 @@ class FoodAdmin(admin.ModelAdmin):
         if not instance.image:
             return mark_safe(f'<b>without logo</b>')
         else:
-            return mark_safe(f'<img src="/media/{instance.image}" style ="max-width:40px">')
+            return mark_safe(f'<img src="/media/{instance.image}" style ="max-width:80px">')
 
 
 class CategoryAdmin(admin.ModelAdmin):

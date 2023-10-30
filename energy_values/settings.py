@@ -14,17 +14,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
-
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
-
 dotenv_path = os.path.join(BASE_DIR, '.env')
 if os.path.exists(dotenv_path):
     load_dotenv(dotenv_path)
 else:
-    raise Exception('Not file ".env" in project directory!!!')
+    raise Exception('There is no file ".env" in the project directory.')
 
 SECRET_KEY = os.getenv('SECRET_KEY')
 
@@ -168,7 +162,7 @@ REST_FRAMEWORK = {'DEFAULT_RENDERER_CLASSES':
                       'rest_framework.permissions.AllowAny',
                   ],
                   'DEFAULT_AUTHENTICATION_CLASSES': [
-                      'rest_framework_simplejwt.authentication.JWTAuthentication',  # # jwt-token authentication
+                      'rest_framework_simplejwt.authentication.JWTAuthentication',  # jwt-token authentication
                       'rest_framework.authentication.TokenAuthentication',  # token authentication
                       'rest_framework.authentication.BasicAuthentication',  # session authentication
                       'rest_framework.authentication.SessionAuthentication',  # session authentication
@@ -225,23 +219,3 @@ CELERY_ACCEPT_CONTENT = ['pickle', 'json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
 CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'
-############################################################################
-# Celery.pereodic task(without celery beat and admin)
-# CELERY_BEAT_SCHEDULE = {  # scheduler configuration
-#     'Update_Products_In_The_DB': {
-#         'task': 'app_evop.tasks.update_products_in_the_db',
-#         'schedule': crontab()},
-#     # 'schedule': crontab('0', '0', day_of_month='1')},
-#     'Update_Dishes_In_The_DB': {
-#         'task': 'app_evop.tasks.update_dishes_in_the_db',
-#         'schedule': crontab('0', '0', day_of_month='2')}
-# }
-############################################################################
-
-
-# Py88_diplom.../celerybeat-schedule
-# Beat необходимо хранить время последнего выполнения задач в локальном файле базы данных (по умолчанию называемом
-# celerybeat-schedule), поэтому ему необходим доступ для записи в текущий каталог
-
-# unicode escape sequence, в которые, в соответствии со стандартом JSON, должны преобразовываться символы
-# не входящие в диапазон ASCII.

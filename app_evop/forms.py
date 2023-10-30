@@ -7,7 +7,6 @@ from app_evop.tasks import send_email_task
 
 
 class AddFoodForm(forms.ModelForm):
-
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['category'].empty_label = 'category not selected'
@@ -33,10 +32,10 @@ class RegisterUserForm(UserCreationForm):
         model = User
         fields = ('username', 'email', 'password1', 'password2')
         widgets = {
-            'username': forms.TextInput(attrs={'class': 'form-input'}),
-            'email': forms.EmailInput(attrs={'class': 'form-input'}),
-            'password1': forms.PasswordInput(attrs={'class': 'form-input'}),
-            'password2': forms.PasswordInput(attrs={'class': 'form-input'})}
+            'username': forms.TextInput(),
+            'email': forms.EmailInput(),
+            'password1': forms.PasswordInput(),
+            'password2': forms.PasswordInput()}
 
 
 class FeedbackForm(forms.Form):
@@ -53,10 +52,10 @@ class FeedbackForm(forms.Form):
         send_email_task.delay(user_email, message)
         # вызываете.delay() для send_email_task() и передает отправленные данные формы, полученные из.cleaned_data в
         # качестве аргументов
-# send_feedback_email_task.apply_async(args=[user_email,message])
-# Вызов .delay() — это самый быстрый способ отправить сообщение о задаче в Celery. Этот метод является ярлыком для
-# более мощного метода .apply_async(), который дополнительно поддерживает параметры выполнения для точной настройки
-# вашего сообщения о задаче.
+        # send_feedback_email_task.apply_async(args=[user_email,message])
+        # Вызов .delay() — это самый быстрый способ отправить сообщение о задаче в Celery. Этот метод является ярлыком
+        # для более мощного метода .apply_async(), который дополнительно поддерживает параметры выполнения для
+        # точной настройки вашего сообщения о задаче.
 
 
 class CalculationResultForm(forms.Form):
@@ -69,7 +68,6 @@ class CalculationIndividualKcalForm(forms.Form):
                ("MID", "middle"),
                ("HEAVY", "heavy"),
                ("EXTR", "extreme"),)
-
     gender = forms.ChoiceField(label='gender', choices=(('MALE', 'Male'), ('FEMALE', 'Female'),))
     weight = forms.IntegerField(label='weight (kg)', min_value=20)
     height = forms.IntegerField(label='height (cm)', min_value=10)

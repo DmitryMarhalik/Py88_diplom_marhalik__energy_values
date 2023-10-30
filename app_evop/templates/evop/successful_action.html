@@ -3,16 +3,16 @@
     {% if username %}
         <h1 align="center" style="color: green">Hello, {{ username }}!</h1>
     {% elif food %}
-        <h1 align="center" style="color: green">Success added {{ food }} product!</h1>
+        <h1 align="center" style="color: green">After checking the data, your product `{{ food }}` will be added to the
+            database!</h1>
     {% elif feedbackname%}
         <h1 align="center" style="color: green">{{ feedbackname }}, the message has been send successfully.</h1>
     {% elif reg_user %}
         <h1  align="center" style="color: green">Hello, {{ reg_user }}! You have been successfully registered. </h1>
     {% elif intake %}
-<h1 align="center" style="color: green">Success added intake {{ intake }}!</h1>
+        <h1 align="center" style="color: green">Success added intake {{ intake }}!</h1>
    {%else%}
           <h1 align="center" style="color: green">Success send message</h1>
    {%endif%}
           <a style="font-size: small" href="/">⬅ Go back homepage</a>
 {% endblock %}
-

@@ -3,21 +3,21 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.views import LoginView
 from django.http import HttpResponseNotFound, HttpResponse
 from django.shortcuts import render, redirect
-from django.urls import reverse_lazy, reverse
+from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, FormView
 from django.views.generic.base import TemplateView
 
 from app_evop.forms import IntakeForm, AddFoodForm, CalculationResultForm, RegisterUserForm, FeedbackForm, \
     CalculationIndividualKcalForm
 from app_evop.models import Food
-from app_evop.utils import ContextMixin, tabs
-from app_evop.calculation_user_tasks import get_intakes_between_days, get_individual_norm_kcal
+from app_evop.utils import ContextMixin
+from app_evop.calculation_user_tasks import get_values_between_days, get_individual_norm_kcal
 from app_evop.tasks import send_email_task
 
 
 class HomePage(ContextMixin, ListView):
     model = Food  # if not ---> HomePage is missing a QuerySet. Define HomePage.model,
-    #  HomePage.queryset, or override HomePage.get_queryset().
+    # HomePage.queryset, or override HomePage.get_queryset().
     template_name = 'evop/main.html'
 
     def get_context_data(self, *, object_list=None, **kwargs):
@@ -76,7 +76,6 @@ class ShowCategory(ContextMixin, ListView):
     paginate_by = 16
     template_name = 'evop/show_category.html'
     context_object_name = 'foods'
-    allow_empty = False
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -109,11 +108,6 @@ class AddIntake(ContextMixin, CreateView):
                                                                     'title': 'Intake added',
                                                                     'categories': context['categories'],
                                                                     'intake': food})
-
-    # def get_success_url(self, **kwargs):
-    #     context = super().get_context_data(**kwargs)
-    #     intake = context.get('intake').food.name
-    #     return reverse('success', args=[f'intake {intake}'])
 
 
 class UserKcalNorma(ContextMixin, FormView):
@@ -154,7 +148,7 @@ class CalculetionIntakes(ContextMixin, FormView):
     def post(self, request, *args, **kwargs):
         context = self.get_user_context()
         days = request.POST.get('days')
-        energy_values, count_of_products, message = get_intakes_between_days(request, days)
+        energy_values, count_of_products, message = get_values_between_days(request, days)
         context = {'tabs': context['tabs'], 'categories': context['categories'],
                    'title': 'Final calculation',
                    'energy_values': energy_values,
@@ -184,7 +178,7 @@ class FeedBack(ContextMixin, FormView):
 class SendEmail(ContextMixin, TemplateView):
 
     def get(self, request, *args, **kwargs):
-        context = self.get_user_context(title='Send feedback')
+        context = self.get_user_context(title='Send message')
         context = {'tabs': context['tabs'], 'categories': context['categories'],
                    'feedbackname': request.user.username
                    }

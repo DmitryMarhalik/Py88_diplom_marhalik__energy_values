@@ -6,7 +6,7 @@
     {% csrf_token %}
     <div class="form-error">{{ form.non_field_errors }}</div>
     {% for f in form %}
-    <p style="font-size: 22px"><label class="form-label" for="{{ f.id_for_label }}">{{ f.name }}: </label>{{ f }}</p>
+    <p style="font-size: 22px"><label class="form-label">{{ f.name }}: </label>{{ f }}</p>
     <div class="form-error">{{ f.errors }}</div>
     {% endfor %}
     <p style="font-size: small">* if the food barcode and its image are unknown, then the corresponding input

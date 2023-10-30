@@ -1,5 +1,5 @@
 from rest_framework import generics, viewsets
-from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAdminUser, IsAuthenticated
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -7,20 +7,19 @@ from rest_framework.pagination import PageNumberPagination
 from drf_spectacular.views import extend_schema
 from drf_spectacular.utils import extend_schema_view
 
-from api_evop.permissions import OnlyPostAuthUser, IsAdminOrAuthPostOrReadOnly
+from api_evop.permissions import IsAdminOrAuthPostOrReadOnly
 from api_evop.serializer import FoodSerializer, IntakeSerializer, DaysSerializer, UserKcalNormaSerializer
 from app_evop.models import Food, Intake
 
-from app_evop.calculation_user_tasks import get_intakes_between_days, get_individual_norm_kcal
+from app_evop.calculation_user_tasks import get_values_between_days, get_individual_norm_kcal
 
 
 class AllFoodsAPIListPagination(PageNumberPagination):
     page_size = 5
-    page_size_query_param = 'page_size'  # for get request in browser address
+    page_size_query_param = 'page_size'  # for get request in browser address .../api/food/?page_size=2
     max_page_size = 1000
 
 
-# ----------------------------------------------------------------
 @extend_schema_view(
     retrieve=extend_schema(
         summary="Viewing a food by id"),
@@ -66,38 +65,6 @@ class FoodsViewSet(viewsets.ModelViewSet):
                                   f'[{food.kcal}], [{food.image}])' for food in foods]})
 
 
-# ----------------------------------------------------------------
-# class AllFoodsAPIListCreate(generics.ListCreateAPIView):
-#     queryset = Food.objects.all().filter(be_confirmed=True)
-#     serializer_class = FoodSerializer
-#     permission_classes = (IsAuthenticated,)
-#     pagination_class = AllFoodsAPIListPagination
-
-
-# @extend_schema_view(
-#     put=extend_schema(
-#         summary="Update an existing food",
-#     ),
-#     patch=extend_schema(
-#         summary="For a partial resource update food",
-#     ), )
-# class FoodAPIUpdate(generics.UpdateAPIView):
-#     """PUT - updating the entire object, PATCH - updating the field of the object,
-#     you can also use the PUT method to update one field, but the PUT method will go
-#     through all the fields of the object and look for what is needed, unlike PATCH,
-#     which does not bypass the entire object"""
-#     queryset = Food.objects.all()
-#     serializer_class = FoodSerializer
-#     permission_classes = (IsAdminUser,)
-
-#
-# class FoodAPIDetailView(generics.RetrieveUpdateDestroyAPIView):
-#     queryset = Food.objects.all()
-#     serializer_class = FoodSerializer
-#     permission_classes = (IsAdminUser,)
-
-
-# ----------------------------------------------------------------
 @extend_schema_view(
     get=extend_schema(
         summary="Viewing only your meals by the user"),
@@ -114,9 +81,7 @@ class AddIntakeAPIList(generics.ListCreateAPIView):
     serializer_class = IntakeSerializer
     permission_classes = (IsAuthenticated,)
 
-    # model=Intake
     def get_queryset(self):
-        # queryset = self.model.objects.filter(user_id=self.request.user.id)
         return super().get_queryset().filter(user_id=self.request.user.id)
 
 
@@ -135,7 +100,7 @@ class CalculationResult(APIView):
     @extend_schema(summary="View all the user's food consumptions")
     def post(self, request):
         days = request.data['days']
-        energy_values, count_of_products, message = get_intakes_between_days(request, days)
+        energy_values, count_of_products, message = get_values_between_days(request, days)
         if not count_of_products:
             return Response('You have not consumed anything for a given period of time.')
         result = {'energy_values': energy_values,

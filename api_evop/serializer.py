@@ -4,11 +4,10 @@ from app_evop.models import Food, Intake
 
 
 class FoodSerializer(serializers.ModelSerializer):
-    bar_code = serializers.CharField(max_length=14, default=None)  # for default = null
+    bar_code = serializers.CharField(max_length=14, default=None)  # for default in db = null
 
     class Meta:
         model = Food
-        # fields = '__all__'
         fields = ('name', 'bar_code', 'proteins', 'fats', 'carbohydrates', 'kcal', 'category', 'image')
 
 
@@ -30,7 +29,6 @@ class UserKcalNormaSerializer(serializers.Serializer):
                ("MID", "middle"),
                ("HEAVY", "heavy"),
                ("EXTR", "extreme"),)
-
     gender = serializers.ChoiceField(label='gender', choices=(('MALE', 'Male'), ('FEMALE', 'Female'),))
     weight = serializers.IntegerField(label='weight (kg)', min_value=20)
     height = serializers.IntegerField(label='height (cm)', min_value=10)

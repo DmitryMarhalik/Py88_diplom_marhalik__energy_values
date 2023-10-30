@@ -23,7 +23,7 @@ th {
 }
 
 a {
-    color: #19538b;
+    color: #04127f;
     text-decoration: none;
     font-style: normal;
 }
@@ -144,12 +144,6 @@ ul.mainmenu li a:hover {
 }
 
 
-/*.table-content {*/
-/*    width: 100%;*/
-/*    min-height: 80%;*/
-/*    height: 100%;*/
-/*}*/
-
 .left-chapters {
     margin: 0;
     background: #e2e2dc;
@@ -259,27 +253,27 @@ ul.mainmenu li a:hover {
 }
 
 
-ul.content-table {
-    margin: 0;
-    padding: 60px 0 0 30px;
-    list-style: none;
-    font-family: Sans-serif, Arial, Tahoma, serif;
-    font-size: 28px;
-}
+/*ul.content-table {*/
+/*    margin: 0;*/
+/*    padding: 60px 0 0 30px;*/
+/*    list-style: none;*/
+/*    font-family: Sans-serif, Arial, Tahoma, serif;*/
+/*    font-size: 28px;*/
+/*}*/
 
-ul.content-table li {
-    margin: 0 0 40px 0;
-}
+/*ul.content-table li {*/
+/*    margin: 0 0 40px 0;*/
+/*}*/
 
-ul.content-table li a {
-    color: #BB5715;
-    text-decoration: none;
-}
+/*ul.content-table li a {*/
+/*    color: #BB5715;*/
+/*    text-decoration: none;*/
+/*}*/
 
-ul.content-table li a:hover {
-    color: #F0711C;
-    cursor: pointer;
-}
+/*ul.content-table li a:hover {*/
+/*    color: #F0711C;*/
+/*    cursor: pointer;*/
+/*}*/
 
 .content-text {
     margin: 10px 0 0 10px;
@@ -291,64 +285,6 @@ ul.content-table li a:hover {
 .content-text h1 {
     font-size: 22px;
 }
-
-/*ul.lang-list {*/
-/*    list-style: none;*/
-/*    margin: 0;*/
-/*    padding: 14px 0 0 0;*/
-/*    background: #3F4137;*/
-/*    width: 100%;*/
-/*    height: 50px;*/
-/*    border-top: 1px solid #959A82;*/
-/*    box-sizing: border-box;*/
-/*    font-size: 18px;*/
-/*    font-family: Sans-serif, Arial, Tahoma, serif;*/
-/*}*/
-
-/*ul.lang-list li {*/
-/*    display: inline-block;*/
-/*    margin-left: 40px;*/
-/*}*/
-
-/*ul.lang-list li.selected {*/
-/*    color: #fdc073;*/
-/*    border-bottom: 1px solid #fdc073;*/
-/*}*/
-
-/*ul.lang-list li a {*/
-/*    color: #eee;*/
-/*    text-decoration: none;*/
-/*}*/
-
-/*ul.lang-list li a:hover {*/
-/*    color: #fdc073;*/
-/*    cursor: pointer;*/
-
-/*}*/
-
-
-/*.highlight {*/
-/*    max-width: 350px;*/
-/*    padding: 0 10px 0 10px;*/
-/*    margin: 0;*/
-/*    overflow: auto;*/
-/*    overflow-y: hidden;*/
-/*    background: #f0f0f0;*/
-/*}*/
-
-/*.highlight p {*/
-/*    margin: 0;*/
-/*}*/
-
-/*.highlight .block {*/
-/*    width: 100%;*/
-/*    margin: 0;*/
-/*}*/
-
-/*.highlight .block p {*/
-/*    margin: 0;*/
-/*}*/
-
 
 #footer {
     box-sizing: border-box;
@@ -372,11 +308,6 @@ ul.content-table li a:hover {
     cursor: pointer;
 }
 
-
-/*.form-input {*/
-/*    width: 300px;*/
-/*    font-size: 16px;*/
-/*}*/
 
 .form-label {
     display: inline-block;

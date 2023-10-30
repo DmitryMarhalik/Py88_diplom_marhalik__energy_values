@@ -1,15 +1,11 @@
 {% extends 'evop/basis.html' %}
 {% block page %}
 <p class="head" style="text-align: center">Select the consumed product and its quantity in grams:</p>
-<p style="text-align: center" ><img src="/static/evop/images/intake.jpeg"
-                                       alt="evop" width="450" height="450" title="Intake"></p>
-
-<!--<p class="ptitle">{{ title }}:</p>-->
-
+<p style="text-align: center"><img src="/static/evop/images/intake.jpeg"
+                                   alt="evop" width="450" height="450" title="Intake"></p>
 <form action="{% url 'intake' %}" method="post" enctype="multipart/form-data">
     {% csrf_token %}
     <div class="form-error">{{ form.non_field_errors }}</div>
-
     {% for f in form %}
     <p style="font-size: 22px"><label class="form-label" for=>{{ f.name }}: </label>{{ f }}</p>
     <div class="form-error">{{ f.errors }}</div>

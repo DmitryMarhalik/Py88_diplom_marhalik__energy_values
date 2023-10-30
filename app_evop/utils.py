@@ -2,8 +2,8 @@ from app_evop.models import Category
 
 tabs = [{'title': 'Add Food 🍟', 'url_name': 'add_food'},
         {'title': 'Intake 📅', 'url_name': 'intake'},
-        {'title': 'Calc Intakes 📝', 'url_name': 'calculation_intakes'},
-        {'title': 'Individual Norm 🏓', 'url_name': 'calculation_norma_kcal'},
+        {'title': 'My Intakes 📝', 'url_name': 'calculation_intakes'},
+        {'title': 'My Norm Kcal 🏓', 'url_name': 'calculation_norma_kcal'},
         {'title': 'Feedback 📧', 'url_name': 'feedback'},
         ]
 

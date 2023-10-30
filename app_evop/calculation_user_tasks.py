@@ -5,14 +5,14 @@ from django.utils import timezone
 from app_evop.models import Intake
 
 
-def get_intakes_between_days(request, days):
+def get_values_between_days(request, days):
     days_ago = timezone.now() - timedelta(days=int(days))
     all_intake_products = Intake.objects.values('food__name', 'food__proteins', 'food__fats', 'food__carbohydrates',
                                                 'food__kcal', 'gram').filter(user_id=request.user.id,
                                                                              time__gte=days_ago)
     message = None
     if not all_intake_products:
-        message = 'You have not consumed anything for a given period of time.'
+        message = f'{request.user.username}, you have not consumed anything for a given period of time.'
         return None, None, message
     else:
         count_of_product = dict(
