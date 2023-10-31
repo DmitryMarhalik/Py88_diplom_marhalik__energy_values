@@ -78,7 +78,7 @@ $ source yourvenv/bin/activate
 ```sh
 (yourvenv)$ python manage.py runserver
 ```
-<p style="color: khaki">6. Затем запустите telegram-bot:</p>
+<p style="color: khaki">6. Последним шагом запустите telegram-bot 👇:</p>
 
 ```sh
 (yourvenv)$ python telegram_bot/bot.py
@@ -86,3 +86,5 @@ $ source yourvenv/bin/activate
 ➡ И перейдите к http://127.0.0.1:8000/
 
 Enjoy using it!
+
+<p>🌐 https://www.linkedin.com/in/dmitry-marhalik/</p>
