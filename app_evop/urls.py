@@ -15,8 +15,7 @@ urlpatterns = [
     path('sign-up/', SignUp.as_view(), name='sign_up'),
     path('sign-in/', SignIn.as_view(), name='sign_in'),
     path('sign-out/', sign_out_user, name='sign_out'),
-    # path('category/<slug:cat_slug>/', cache_page(60 * 15)(ShowCategory.as_view()), name='category'),
-    path('category/<slug:cat_slug>/', ShowCategory.as_view(), name='category'),
+    path('category/<slug:cat_slug>/', cache_page(60 * 15)(ShowCategory.as_view()), name='category'),
     path('feedback/', FeedBack.as_view(), name='feedback'),
     path('success-send-email/', SendEmail.as_view(), name='successful_send_email'),
 ]
