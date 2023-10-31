@@ -221,7 +221,7 @@ def sign_out_user(request):
     return redirect('home')
 
 
-def pageNotFound(request, exception):
+def page_not_found(request, exception):
     return HttpResponseNotFound('<h1>404 --> Page Not Found 😔</h1>')
 
 

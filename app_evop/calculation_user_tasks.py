@@ -19,7 +19,7 @@ def get_values_between_days(request, days):
             Counter(all_intake_products.values_list('food__name')))  # {('chips',): 1,('water',):1}
         count_of_products = dict(
             sorted({k[0]: v for k, v in count_of_product.items()}.items()))  # {'chips': 1, 'water': 1}
-        proteins, fats, carbohydrates, kcal, gram = 0, 0, 0, 0, 0
+        proteins, fats, carbohydrates, kcal = 0, 0, 0, 0
         for energy_value_product in all_intake_products:
             proteins += float(energy_value_product['food__proteins']) * (float(energy_value_product['gram'] / 100))
             fats += float(energy_value_product['food__fats']) * (float(energy_value_product['gram'] / 100))

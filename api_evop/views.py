@@ -100,7 +100,7 @@ class CalculationResult(APIView):
     @extend_schema(summary="View all the user's food consumptions")
     def post(self, request):
         days = request.data['days']
-        energy_values, count_of_products, message = get_values_between_days(request, days)
+        energy_values, count_of_products, _ = get_values_between_days(request, days)
         if not count_of_products:
             return Response('You have not consumed anything for a given period of time.')
         result = {'energy_values': energy_values,

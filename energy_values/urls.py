@@ -5,7 +5,7 @@ from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView, Sp
     SpectacularJSONAPIView
 
 from energy_values import settings
-from app_evop.views import pageNotFound
+from app_evop.views import page_not_found
 
 
 urlpatterns = [
@@ -22,4 +22,4 @@ urlpatterns = [
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
-handler404 = pageNotFound
+handler404 = page_not_found
