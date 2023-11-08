@@ -83,7 +83,7 @@ $ source yourvenv/bin/activate
 ```sh
 (yourvenv)$ python telegram_bot/bot.py
 ```
-* возможно Вам нужно будет установить redis-server:
+**возможно Вам нужно будет установить redis-server:*
 ```sh
 (yourvenv)$ sudo apt-get install redis-server
 ```
