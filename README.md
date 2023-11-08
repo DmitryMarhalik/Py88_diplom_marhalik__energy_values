@@ -83,6 +83,10 @@ $ source yourvenv/bin/activate
 ```sh
 (yourvenv)$ python telegram_bot/bot.py
 ```
+* возможно Вам нужно будет установить redis-server:
+```sh
+(yourvenv)$ sudo apt-get install redis-server
+```
 ➡ И перейдите к http://127.0.0.1:8000/
 
 Enjoy using it!
