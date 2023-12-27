@@ -1,8 +1,12 @@
 <p align="center"><img   height="320" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcScxEBfu248syO-DVOIZt_-ULCqsDG3C-kZwQ&usqp=CAU" title="БЖУ" width="550"/></p>
 
-👀 Вы можете посмотреть презентацию для визуального ознакомления с проектом, открыв файл presentation.pptx 🌇
+### *Вот всего лишь несколько скриншотов из презентации:*
+<p align="center"><img alt="game window" src="screenshots/main_page.png" /></p>
+<p align="center"><img alt="game window" src="screenshots/bot_welcome.png" /></p>
+<p align="center"><img alt="game window" src="screenshots/bot_main.png" /></p>
 
-## <p style="color: #2aabd2"> В проекте EVOP(energy values of products) реализовано:
+## 👀 Вы можете посмотреть полностью презентацию для визуального ознакомления с проектом, открыв файл presentation.pptx 🌇
+<p style="color: #2aabd2"> В проекте EVOP(energy values of products) реализовано: ###
     • веб-приложение EVOP(Django Framework)
     • API приложение EVOP(Django Rest Framework)
     • БД (postgreSQL)
