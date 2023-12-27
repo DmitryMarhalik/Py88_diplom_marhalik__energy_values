@@ -6,6 +6,7 @@
 <p align="center"><img alt="game window" src="screenshots/bot_main.png" /></p>
 
 ## 👀 Вы можете посмотреть полностью презентацию для визуального ознакомления с проектом, открыв файл presentation.pptx 🌇
+
 <p style="color: #2aabd2"> В проекте EVOP(energy values of products) реализовано: ###
     • веб-приложение EVOP(Django Framework)
     • API приложение EVOP(Django Rest Framework)
