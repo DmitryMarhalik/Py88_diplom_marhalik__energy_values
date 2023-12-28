@@ -1,7 +1,7 @@
 import django
 import os
 
-from products_parser.transformaton_data import transformation_list, delete_string_xa0xa0, transformation_evop_lst_dishes
+from products_parser.transformaton_data import transformation_list, delete_string_xa0xa0
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "energy_values.settings")
 django.setup()
