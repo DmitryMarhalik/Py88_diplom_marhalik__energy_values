@@ -63,7 +63,7 @@
 $ mkdir your_project_dir
 ```
 
-<p style="color: khaki">2. Чтобы перейти в вашу директорию просто сделайте это ):</p>
+<p style="color: khaki">2. Перейдите в вашу директорию:</p>
 
 ```sh
 $ cd path/to/your_project_dir
