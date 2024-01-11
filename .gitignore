@@ -160,3 +160,4 @@ cython_debug/
 #.idea/
 /diplom_venv/
 /evop_cache/
+/evopvenv/
