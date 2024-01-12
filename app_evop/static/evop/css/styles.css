@@ -37,7 +37,7 @@ a:hover {
 a.all_cats {
     font-style: normal;
     font-family: Ubuntu;
-    font-size: medium
+    font-size: larger;
 }
 
 p.pmainpage {
@@ -172,9 +172,10 @@ ul.mainmenu li a:hover {
 }
 
 .left-chapters li.all_cats {
-    font-style: normal;
+    font-style: italic;
+    text-decoration: underline;
     font-family: Ubuntu;
-    font-size: medium;
+    font-size: larger;
     color: #19538b
 }
 
