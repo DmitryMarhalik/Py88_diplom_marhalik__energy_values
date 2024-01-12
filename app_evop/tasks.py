@@ -31,8 +31,8 @@ def send_email_task(user_email, message):
 @shared_task()
 def update_products_in_the_db():
     added_products = []
-    for category_id, list_products in products_by_category.items():
-        new_products = add_products_to_db(list_products, category_id)
+    for category_slug, list_products in products_by_category.items():
+        new_products = add_products_to_db(list_products, category_slug)
         if new_products:
             added_products.extend(new_products)
     return added_products

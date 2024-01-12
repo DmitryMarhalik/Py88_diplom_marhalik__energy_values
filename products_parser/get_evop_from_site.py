@@ -54,10 +54,23 @@ nuts_mushrooms = get_products_from_category(pars_category['Грибы']) + get_p
 confectionery_products = get_products_from_category(pars_category['Сладости, торты'])
 legumes = get_products_from_category(pars_category['Бобовые'])
 
-name_category = [seafoods, vegetables_fruits_berries, butter_margarine_edible, drinks, eggs_milk_dairy,
-                 meat_sausage_products, bakery_cereals_pasta, nuts_mushrooms, confectionery_products, legumes]
-number_category = [str(num) for num in range(1, len(name_category) + 1)]
-products_by_category = dict(zip(number_category, name_category))
+list_products_by_category = [seafoods, vegetables_fruits_berries, butter_margarine_edible, drinks, eggs_milk_dairy,
+                             meat_sausage_products, bakery_cereals_pasta, nuts_mushrooms, confectionery_products,
+                             legumes]
+categories = ["seafoods",
+              "vegetables-fruits-and-berries",
+              "butter-margarine-edible-fats",
+              "drinks",
+              "eggs-milk-and-dairy",
+              "meat-and-sausage-products",
+              "bakery-cereals-pasta",
+              "nuts-and-mushrooms",
+              "confectionery-products",
+              "legumes",
+              "dishes",
+              "salads"
+              ]
+products_by_category = dict(zip(categories, list_products_by_category))
 
 
 # ##################################################################################################################
