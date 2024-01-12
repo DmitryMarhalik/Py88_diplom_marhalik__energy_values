@@ -57,7 +57,7 @@
 
 <a style="color: #b9f7b9"> Всего лишь 12 шагов 😉❗:</a>
 
-<p style="color: khaki">1. Создайте базу данных в PosgreSQL</p>
+<p style="color: khaki">1. Создайте базу данных в PosgreSQL.</p>
 
 <p style="color: khaki">2. Создайте либо перейдите в директорию проекта. Для создания директории:</p>
 
@@ -116,13 +116,13 @@ $ source yourvenv/bin/activate
 (yourvenv)$ python manage.py shell < add_categories.py
 ```
 
-<p style="color: khaki">10. Создайте суперюзера и в админ панели Periodic tasks создайте интервалы для:<br></p>
+<p style="color: khaki">10. Создайте суперюзера и в админ панели Periodic tasks создайте интервалы для<br></p>
 
 *update_products_in_the_db*<br>
 *update_dishes_in_the_db*
 <p style="color: khaki">для наполнения бд продуктами</p>
 
-<p style="color: khaki">11. Запустите сервер, celery-worker, celery-beat</p>
+<p style="color: khaki">11. Запустите сервер, celery-worker, celery-beat.</p>
 
 ```sh
 (yourvenv)$ python manage.py runserver
