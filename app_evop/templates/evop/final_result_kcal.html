@@ -1,14 +1,15 @@
 {% extends 'evop/basis.html' %}
 {% block page %}
-<p class="head" style="text-align: center">{{user_name}}, your consumption norm of kcal per day: </p>
-<table cellpadding="5px" border="3rem solid" align="center">
-    <tr class="tr">
-        <th>kcal</th>
-        <th style="background-color: #efefef">{{user_kcal}}</th>
-    </tr>
-</table><br>
-<p style="font-size: small">*🌡Technically, one calorie is the amount of energy needed to heat one gram of water per 1
-    °C</p>
+    <p class="head" style="text-align: center">{{ user_name }}, your consumption norm of kcal per day: </p>
+    <table cellpadding="5px" border="3rem solid" align="center">
+        <tr class="tr">
+            <th>kcal</th>
+            <th style="background-color: #efefef">{{ user_kcal }}</th>
+        </tr>
+    </table><br>
+    <p style="font-size: small">*🌡Technically, one calorie is the amount of energy needed to heat one gram of water per
+        1
+        °C</p>
 {% endblock %}
 
 

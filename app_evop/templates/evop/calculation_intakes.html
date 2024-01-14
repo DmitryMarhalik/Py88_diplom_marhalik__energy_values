@@ -1,14 +1,14 @@
 {% extends 'evop/basis.html' %}
 {% block page %}
-<p class="head">Enter the number of days for which you want to calculate the result</p>
-<p><img src="/static/evop/images/calendar.png"
-        alt="evop" width="100" height="130" title="Calendar" class="leftimg"></p>
-<form method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    <div class="form-error">{{ f.errors }}</div>
-    {% for f in form %}
-    <p style="font-size: 22px"><label class="form-label">{{f.label}}: </label>{{ f }}</p>
-    {% endfor %}
-    <button class="form-button" type="submit">Calculate</button>
-</form>
+    <p class="head">Enter the number of days for which you want to calculate the result</p>
+    <p><img src="/static/evop/images/calendar.png"
+            alt="evop" width="100" height="130" title="Calendar" class="leftimg"></p>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="form-error">{{ f.errors }}</div>
+        {% for f in form %}
+            <p style="font-size: 22px"><label class="form-label">{{ f.label }}: </label>{{ f }}</p>
+        {% endfor %}
+        <button class="form-button" type="submit">Calculate</button>
+    </form>
 {% endblock %}

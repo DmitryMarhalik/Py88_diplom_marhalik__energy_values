@@ -1,30 +1,32 @@
 {% extends 'evop/basis.html' %}
 {% block page %}
-{% if request.user.is_authenticated %}
-    <p style="text-align: center"><img class="rightimgmain" src="/static/evop/images/evop.jpg"
-                                       alt="evop" width="450" height="450" title="Welcome!"></p>
-    <p style="text-align: center; font-size: 35px">Hello, {{request.user.username}}!</p>
-{%else%}
-<p style="text-align: center"><img class="rightimgmain" src="/static/evop/images/evop.jpg"
-                                   alt="evop" width="450" height="450" title="Welcome!"></p>
-<p style="text-align: center; font-size: 35px">Hello!</p>
-{% endif %}
-<p class="pmainpage">&nbsp&nbsp&nbsp&nbspOn this site you calculate your daily calorie intake,
-    can calculate the amount of proteins, fats, carbohydrates,
-    calories, as well as the number of foods consumed by you for any period of time.
-    To do this, you need to <a href="{% url 'sign_up' %}" style="font-style: normal">register 👤</a>and then
-    <a href="{% url 'sign_in' %}" style="font-style: normal">authenticate 🔑</a> the possibility of adding meals of
-    products or dishes. There is a possibility of <a href="{% url 'feedback' %}"
-                                                     style="font-style: normal">feedback 📧.</a></p>
-<p class="pmainpage">&nbsp&nbsp&nbsp&nbspYou can also add a
-    product or dish to the database yourself, after it has been checked by the administrator.
-    You also have the opportunity to use a <a style="font-style: normal" href="https://t.me/CalcEvopBot">telegram bot
-        💬.</a></p>
-<p class="pmainpage">&nbsp&nbsp&nbsp&nbspTo do this, you need to register and enter your name and
-    email (entered during registration) in the <a style="font-style: normal" href="https://t.me/CalcEvopBot">telegram
-        bot 💬.</a> All your data
-    entered on the website and the telegram
-    bot are synchronized.</p>
-<p style="font-style: normal;font-family: 'Comic Sans MS', 'Helvetica'; font-size: x-large ;color: #2b542c">Enjoy using
-    it!</p>
+    {% if request.user.is_authenticated %}
+        <p style="text-align: center"><img class="rightimgmain" src="/static/evop/images/evop.jpg"
+                                           alt="evop" width="450" height="450" title="Welcome!"></p>
+        <p style="text-align: center; font-size: 35px">Hello, {{ request.user.username }}!</p>
+    {% else %}
+        <p style="text-align: center"><img class="rightimgmain" src="/static/evop/images/evop.jpg"
+                                           alt="evop" width="450" height="450" title="Welcome!"></p>
+        <p style="text-align: center; font-size: 35px">Hello!</p>
+    {% endif %}
+    <p class="pmainpage">&nbsp&nbsp&nbsp&nbspOn this site you calculate your daily calorie intake,
+        can calculate the amount of proteins, fats, carbohydrates,
+        calories, as well as the number of foods consumed by you for any period of time.
+        To do this, you need to <a href="{% url 'sign_up' %}" style="font-style: normal">register 👤</a>and then
+        <a href="{% url 'sign_in' %}" style="font-style: normal">authenticate 🔑</a> the possibility of adding meals of
+        products or dishes. There is a possibility of <a href="{% url 'feedback' %}"
+                                                         style="font-style: normal">feedback 📧.</a></p>
+    <p class="pmainpage">&nbsp&nbsp&nbsp&nbspYou can also add a
+        product or dish to the database yourself, after it has been checked by the administrator.
+        You also have the opportunity to use a <a style="font-style: normal" href="https://t.me/CalcEvopBot">telegram
+            bot
+            💬.</a></p>
+    <p class="pmainpage">&nbsp&nbsp&nbsp&nbspTo do this, you need to register and enter your name and
+        email (entered during registration) in the <a style="font-style: normal" href="https://t.me/CalcEvopBot">telegram
+            bot 💬.</a> All your data
+        entered on the website and the telegram
+        bot are synchronized.</p>
+    <p style="font-style: normal;font-family: 'Comic Sans MS', 'Helvetica'; font-size: x-large ;color: #2b542c">Enjoy
+        using
+        it!</p>
 {% endblock %}
