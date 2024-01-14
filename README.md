@@ -3,6 +3,8 @@
 ### *Вот всего лишь несколько скриншотов из презентации:*
 
 <p align="center"><img alt="game window" src="screenshots/main_page.png" /></p>
+<p align="center"><img alt="game window" src="screenshots/main_page_with_tabs.png" /></p>
+<p align="center"><img alt="game window" src="screenshots/calc_intakes.png" /></p>
 <p align="center"><img alt="game window" src="screenshots/bot_welcome.png" /></p>
 <p align="center"><img alt="game window" src="screenshots/bot_main.png" /></p>
 
@@ -116,25 +118,28 @@ $ source yourvenv/bin/activate
 (yourvenv)$ python manage.py shell < add_categories.py
 ```
 
-<p style="color: khaki">10. Создайте суперюзера и в админ панели Periodic tasks создайте интервалы для<br></p>
+<p style="color: khaki">10. Создайте суперюзера и в админ панели во вкладке "Periodic tasks" создайте интервалы для<br></p>
 
 *update_products_in_the_db*<br>
 *update_dishes_in_the_db*
-<p style="color: khaki">для наполнения бд продуктами</p>
+<p style="color: khaki">для наполнения бд спарсерными продуктами</p>
 
 <p style="color: khaki">11. Запустите сервер, celery-worker, celery-beat.</p>
 
 ```sh
 (yourvenv)$ python manage.py runserver
 ```
+
 ```sh
 (yourvenv)$ celery -A energy_values worker -l info
 
 ```
+
 ```sh
 (yourvenv)$ celery -A energy_values beat -l info
 
 ```
+
 <p style="color: khaki">12. Последним шагом запустите telegram-bot 👇:</p>
 
 ```sh
